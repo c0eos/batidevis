@@ -2,3 +2,5 @@
 **/*.lock
 **/volumes/
 **/.env
+**/*.log
+.vscode/
