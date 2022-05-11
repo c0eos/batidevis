@@ -42,3 +42,4 @@ rules:
         - ".jsx"
         - ".json"
         - ".node"
+  no-process-exit: off
