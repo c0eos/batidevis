@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // authentication
 const auth = require("./utils/auth");
 
-app.use(auth);
+// app.use(auth);
 
 // utilise les routes
 app.get("/", (req, res) => {

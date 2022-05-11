@@ -1,59 +1,96 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 
+const User = require("./userModel");
+const { AppError } = require("../utils/errors");
+
 const secret = process.env.SECRET;
 
 const router = express.Router();
-const User = require("./userModel");
-
-const { AppError } = require("../utils/errors");
 
 router.route("/")
-  .get((req, res) => {
+  .get((req, res, next) => {
     User.getAll()
       .then((users) => {
         res.json(users);
+      })
+      .catch((err) => {
+        next(err);
       });
   })
-  .post((req, res) => {
-    const { email, password } = req.body;
-    User.register(email, password)
-      .then((user) => {
-        res.json(user);
-      });
-  });
-
-router.route("/:id")
-  .get((req, res) => {
-    User.findById(req.params.id)
-      .then((user) => {
-        res.json(user);
-      });
-  });
-
-router.route("/login")
-  .post((req, res) => {
+  .post((req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
       throw new AppError("Email et mot de passe requis", 400, true);
     }
+
+    User.register(email, password)
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
+
+// route non protégée
+router.route("/login")
+  .post((req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      throw new AppError("Email et mot de passe requis", 400, true);
+    }
+
     User.login(email, password)
       .then((user) => {
+        const payload = {
+          id: user.id,
+          email: user.email,
+          date: new Date().toISOString(),
+        };
+        const token = jwt.sign(payload, secret);
+        res.json({ token });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
+
+router.route("/:id")
+  .get((req, res, next) => {
+    User.findById(req.params.id)
+      .then((user) => {
         if (user) {
-          const payload = {
-            id: user.id,
-            email: user.email,
-            date: new Date().toISOString(),
-          };
-          const token = jwt.sign(payload, secret);
-          res.json({
-            token,
-          });
+          res.json(user);
         } else {
-          res.status(401).json({
-            message: "Email ou mot de passe incorrect",
-          });
+          throw new AppError("Utilisateur introuvable", 404, true);
         }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  })
+  .put((req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      throw new AppError("Email et mot de passe requis", 400, true);
+    }
+
+    User.update(req.params.id, email, password)
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  })
+  .delete((req, res, next) => {
+    User.delete(req.params.id)
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        next(err);
       });
   });
 
