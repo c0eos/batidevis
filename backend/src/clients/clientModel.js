@@ -15,10 +15,6 @@ class Client {
       },
     });
 
-    if (!client) {
-      throw new AppError("Client introuvable", 404, true);
-    }
-
     return client;
   }
 
