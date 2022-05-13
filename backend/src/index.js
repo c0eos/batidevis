@@ -26,8 +26,10 @@ app.get("/", (req, res) => {
 });
 
 const usersRoutes = require("./users/userRoutes");
+const clientsRoutes = require("./clients/clientRoutes");
 
 app.use("/api/v1/users", usersRoutes);
+app.use("/api/v1/clients", clientsRoutes);
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {

@@ -21,11 +21,11 @@
 
 - Clients
 
-  - [ ] ajouter
-  - [ ] supprimer
-  - [ ] modifier
-  - [ ] lister tous
-  - [ ] lister 1
+  - [.] ajouter
+  - [x] supprimer
+  - [.] modifier
+  - [x] lister tous
+  - [x] lister 1
 
 - Devis
 
