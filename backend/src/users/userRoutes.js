@@ -24,7 +24,7 @@ router.route("/")
       throw new AppError("Email et mot de passe requis", 400, true);
     }
 
-    User.register(email, password)
+    User.create(email, password)
       .then((user) => {
         res.json(user);
       })
@@ -58,7 +58,7 @@ router.route("/login")
 
 router.route("/:id")
   .get((req, res, next) => {
-    User.findById(req.params.id)
+    User.getOneById(req.params.id)
       .then((user) => {
         if (user) {
           res.json(user);

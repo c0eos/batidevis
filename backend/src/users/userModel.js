@@ -5,8 +5,44 @@ const { AppError } = require("../utils/errors");
 const saltRounds = 10;
 
 class User {
-  static async register(email, password) {
-    const userExists = await this.findByEmail(email);
+  static async getAll() {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+    return users;
+  }
+
+  static async getOneByEmail(email) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+    return user;
+  }
+
+  static async getOneById(id) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+    return user;
+  }
+
+  static async create(email, password) {
+    const userExists = await this.getOneByEmail(email);
     if (userExists) {
       throw new AppError("Email déjà utilisé", 400, true);
     }
@@ -24,54 +60,6 @@ class User {
       },
     });
 
-    return user;
-  }
-
-  static async login(email, password) {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (user && bcrypt.compareSync(password, user.password)) {
-      return user;
-    }
-    throw new AppError("Email ou mot de passe incorrect", 400, true);
-  }
-
-  static async getAll() {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-      },
-    });
-    return users;
-  }
-
-  static async findByEmail(email) {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-      },
-    });
-    return user;
-  }
-
-  static async findById(id) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-      select: {
-        id: true,
-        email: true,
-      },
-    });
     return user;
   }
 
@@ -104,6 +92,18 @@ class User {
       },
     });
     return user;
+  }
+
+  static async login(email, password) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (user && bcrypt.compareSync(password, user.password)) {
+      return user;
+    }
+    throw new AppError("Email ou mot de passe incorrect", 400, true);
   }
 }
 
