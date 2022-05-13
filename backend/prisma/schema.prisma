@@ -4,670 +4,88 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:../Entrep.sqlite"
-}
-
-model Acompte {
-  Code             String?
-  Date             DateTime?
-  CodeClient       String?
-  Civilite         String?
-  Nom              String?
-  Interloc         String?
-  Adr              String?
-  AdrSuite         String?
-  CP               String?
-  Ville            String?
-  Tel              String?
-  Portable         String?
-  Fax              String?
-  EMail            String?
-  Sujet            String?
-  ModReg           String?
-  TotalHT          Float?
-  TotalTVA         Float?
-  TotalTTC         Float?
-  Taux1            Float?
-  Taux2            Float?
-  Taux3            Float?
-  Taux4            Float?
-  Taux5            Float?
-  HT0              Float?
-  HT1              Float?
-  HT2              Float?
-  HT3              Float?
-  HT4              Float?
-  HT5              Float?
-  TVA0             Float?
-  TVA1             Float?
-  TVA2             Float?
-  TVA3             Float?
-  TVA4             Float?
-  TVA5             Float?
-  Note             String?
-  TransCompta      Int?
-  TVAEnc           Int?
-  CalculEuro       Int?
-  IdentDGI         Int?
-  DateCreat        DateTime?
-  PostePhysiqCreat String?
-  UtilDroitCreat   String?
-  id               Int       @id @default(autoincrement())
-}
-
-model AcompteDocAsso {
-  CodeAcompte String?
-  TypeDoc     String?
-  CodeDoc     String?
-  id          Int     @id @default(autoincrement())
-}
-
-model Client {
-  Code            String?
-  Nom             String?
-  Civilite        String?
-  Interloc        String?
-  Adr             String?
-  SuiteAdr        String?
-  CP              String?
-  Ville           String?
-  Pays            String?
-  Tel             String?
-  Portable        String?
-  Fax             String?
-  EMail           String?
-  Compte          String?
-  CompteAcompte   String?
-  ModeReg         String?
-  CalculEuro      Int?
-  Info            String?
-  SuiteInfo       String?
-  Domiciliation   String?
-  CodeBanque      String?
-  Guichet         String?
-  CompteBanque    String?
-  CleRIB          String?
-  TvaIntracom     String?
-  PlafondEncours  Float?
-  CA              Float?
-  Solde           Float?
-  Note            String?
-  NumParamDev     Int?
-  NbExemplaireDev Int?
-  NumParamFac     Int?
-  NbExemplaireFac Int?
-  NumParamCde     Int?
-  NbExemplaireCde Int?
-  NumParamBl      Int?
-  NbExemplaireBl  Int?
-  DateDernMAJ     DateTime?
-  CompteRG        String?
-  DocExternes     String?
-  CompteBloque    Int?
-  id              Int       @id @default(autoincrement())
-}
-
-model DefSte {
-  RS            String?
-  Adr           String?
-  SuiteAdr      String?
-  CP            String?
-  Ville         String?
-  Tel           String?
-  Portable      String?
-  Fax           String?
-  EMail         String?
-  Siret         String?
-  APE           String?
-  RegCom        String?
-  TvaIntracom   String?
-  Statut        String?
-  FgF           Float?
-  FgMO          Float?
-  FgMat         Float?
-  Ben           Float?
-  ValeurEuro    Float?
-  RG            Float?
-  Escompte      Float?
-  Retard        Float?
-  ModeCalcPVOuv String?
-  TempsMat      Int?
-  NHJ           Float?
-  DecQte        Int?
-  DecPU         Int?
-  DecPTot       Int?
-  VisuFamArbo   Int?
-  SortieEdt     String?
-  RechOuvDefaut Int?
-  EtatDevis0    String?
-  EtatDevis1    String?
-  EtatDevis2    String?
-  EtatDevis3    String?
-  EtatDevis4    String?
-  EtatDevis5    String?
-  EtatDevis6    String?
-  EtatDevis7    String?
-  EtatDevis8    String?
-  EtatDevis9    String?
-  DateDernSvg   DateTime?
-  Note          String?
-  EdtMono       Int?
-  DossierEuro   Int?
-  Logo          String?
-  TVAEnc        Int?
-  CheminContrat String?
-  StockSortie   String?
-  CTIEntrante   Int?
-  LienPlanning  Int?
-  SocPlanning   String?
-  id            Int       @id @default(autoincrement())
-}
-
-model Devis {
-  Code            String?
-  Etat            Int?
-  Date            DateTime?
-  CodeClient      String?
-  Civilite        String?
-  Nom             String?
-  Interloc        String?
-  Adr             String?
-  AdrSuite        String?
-  CP              String?
-  Ville           String?
-  Tel             String?
-  Portable        String?
-  Fax             String?
-  EMail           String?
-  Sujet           String?
-  AdrTrav         String?
-  AdrSuiteTrav    String?
-  CPTrav          String?
-  VilleTrav       String?
-  DateTrav        DateTime?
-  Info            String?
-  InfoSuite       String?
-  CodeTvaElement  String?
-  LettreEntete    String?
-  LettreEnteteCom String?
-  Note            String?
-  LettrePied      String?
-  LettrePiedCom   String?
-  CalculEuro      Int?
-  TotalDeb        Float?
-  TotalPR         Float?
-  TotalPV         Float?
-  Actua           Float?
-  TotalHT         Float?
-  TotalHTNet      Float?
-  CalculEscompte  Int?
-  MtEscompte      Float?
-  PcEscompte      Float?
-  FlagPcEscompte  Int?
-  HTNetFin        Float?
-  TotalTVA        Float?
-  TVAReelle       Float?
-  TotalTTC        Float?
-  Acompte         Float?
-  NetAPayer       Float?
-  Variante        Float?
-  Taux1           Float?
-  Taux2           Float?
-  Taux3           Float?
-  Taux4           Float?
-  Taux5           Float?
-  HT0             Float?
-  HT1             Float?
-  HT2             Float?
-  HT3             Float?
-  HT4             Float?
-  HT5             Float?
-  HTNet0          Float?
-  HTNet1          Float?
-  HTNet2          Float?
-  HTNet3          Float?
-  HTNet4          Float?
-  HTNet5          Float?
-  TVA0            Float?
-  TVA1            Float?
-  TVA2            Float?
-  TVA3            Float?
-  TVA4            Float?
-  TVA5            Float?
-  ModReg          String?
-  Temps           Float?
-  Effectif        Float?
-  TransFac        Int?
-  Locked          Int?
-  DossierEuro     Int?
-  TransCde        Int?
-  TransBl         Int?
-  FlagAcompte     Int?
-  TransAchat      Int?
-  Polices         String?
-  TVAEnc          Int?
-  id              Int       @id @default(autoincrement())
-}
-
-model DevisLigne {
-  Code          String?
-  NumLig        Int?
-  NumBuf        Int?
-  IdTranche     String?
-  IdSsTotal     String?
-  NivTr         Int?
-  NivOuv        Int?
-  Type          String?
-  Numerotation  String?
-  CodeElem      String?
-  Libelle       String?
-  LibelleCom    String?
-  Deb           Float?
-  FgF           Float?
-  FgMo          Float?
-  FgMat         Float?
-  Fg            Float?
-  Pr            Float?
-  Ben           Float?
-  Coef          Float?
-  Pv            Float?
-  PvEuro        Float?
-  PvNet         Float?
-  PvNetEuro     Float?
-  Qte           Float?
-  Tva           Int?
-  Compte        String?
-  Info          String?
-  Unite         String?
-  FormuleMetre  String?
-  ResultatMetre String?
-  FourSsTrait   String?
-  Temps         Float?
-  NonEdit       Int?
-  SautLigne     Int?
-  SautPage      Int?
-  Variante      Int?
-  FicImage      String?
-  id            Int     @id @default(autoincrement())
-}
-
-model DevisPoste {
-  Code     String?
-  NumLig   Int?
-  Libelle  String?
-  Montant  Float?
-  PourCent Float?
-  ChoixPC  Int?
-  id       Int     @id @default(autoincrement())
-}
-
-model ElementArt {
-  Code            String?
-  Libelle         String?
-  LibelleStd      String?
-  LibelleTec      String?
-  Type            String?
-  Unite           String?
-  Famille         String?
-  MotCle          String?
-  NumPa           Int?
-  PA              Float?
-  Fg              Float?
-  PR              Float?
-  Ben             Float?
-  Coef            Float?
-  PV              Float?
-  CodeTVA         Int?
-  CompteAchat     String?
-  CompteAchatTva0 String?
-  CompteAchatTva1 String?
-  CompteAchatTva2 String?
-  CompteAchatTva3 String?
-  CompteAchatTva4 String?
-  CompteAchatTva5 String?
-  CompteVente     String?
-  CompteVenteTva0 String?
-  CompteVenteTva1 String?
-  CompteVenteTva2 String?
-  CompteVenteTva3 String?
-  CompteVenteTva4 String?
-  CompteVenteTva5 String?
-  CodeFour        String?
-  Info            String?
-  SuiteInfo       String?
-  Note            String?
-  DateDernMAJ     DateTime?
-  MotifMAJ        String?
-  Biblio          String?
-  CleBTP          String?
-  CleBiblio       String?
-  Sommeil         Int?
-  ActionSommeil   String?
-  DocExternes     String?
-  id              Int       @id @default(autoincrement())
-}
-
-model ElementCompo {
-  CodeOuv   String?
-  CodeCompo String?
-  NumLig    Int?
-  Quantite  Float?
-  id        Int     @id @default(autoincrement())
-}
-
-model ElementOuv {
-  Code          String?
-  Libelle       String?
-  LibelleStd    String?
-  LibelleTec    String?
-  Unite         String?
-  Famille       String?
-  MotCle        String?
-  PA            Float?
-  FgF           Float?
-  FgMO          Float?
-  FgMat         Float?
-  PR            Float?
-  Ben           Float?
-  PV            Float?
-  CodeTVA       Int?
-  SsTrait       String?
-  Info          String?
-  SuiteInfo     String?
-  Note          String?
-  DateDernMAJ   DateTime?
-  MotifMAJ      String?
-  Biblio        String?
-  CleBTP        String?
-  CleBiblio     String?
-  Sommeil       Int?
-  ActionSommeil String?
-  DocExternes   String?
-  id            Int       @id @default(autoincrement())
-}
-
-model ElementPrixAchat {
-  CodeElem      String?
-  NumPA         Int?
-  CodeFour      String?
-  RefElemFour   String?
-  PAPublic      Float?
-  RemiseFour    Float?
-  PANet         Float?
-  GardePAPublic Int?
-  id            Int     @id @default(autoincrement())
-}
-
-model Facture {
-  Code                   String?
-  Date                   DateTime?
-  Avoir                  Int?
-  CodeClient             String?
-  Civilite               String?
-  Nom                    String?
-  Interloc               String?
-  Adr                    String?
-  AdrSuite               String?
-  CP                     String?
-  Ville                  String?
-  Tel                    String?
-  Portable               String?
-  Fax                    String?
-  EMail                  String?
-  Sujet                  String?
-  AdrTrav                String?
-  AdrSuiteTrav           String?
-  CPTrav                 String?
-  VilleTrav              String?
-  DateTrav               DateTime?
-  Info                   String?
-  InfoSuite              String?
-  CodeTvaElement         String?
-  LettreEntete           String?
-  LettreEnteteCom        String?
-  Note                   String?
-  LettrePied             String?
-  LettrePiedCom          String?
-  CalculEuro             Int?
-  TotalDeb               Float?
-  TotalPR                Float?
-  TotalPV                Float?
-  Actua                  Float?
-  TotalHT                Float?
-  TotalHTNet             Float?
-  CalculEscompte         Int?
-  MtEscompte             Float?
-  PcEscompte             Float?
-  FlagPcEscompte         Int?
-  HtNetFin               Float?
-  TotalTVA               Float?
-  TVAReelle              Float?
-  TotalTTC               Float?
-  Acompte                Float?
-  NetAPayer              Float?
-  Variante               Float?
-  Taux1                  Float?
-  Taux2                  Float?
-  Taux3                  Float?
-  Taux4                  Float?
-  Taux5                  Float?
-  HT0                    Float?
-  HT1                    Float?
-  HT2                    Float?
-  HT3                    Float?
-  HT4                    Float?
-  HT5                    Float?
-  HTNet0                 Float?
-  HTNet1                 Float?
-  HTNet2                 Float?
-  HTNet3                 Float?
-  HTNet4                 Float?
-  HTNet5                 Float?
-  TVA0                   Float?
-  TVA1                   Float?
-  TVA2                   Float?
-  TVA3                   Float?
-  TVA4                   Float?
-  TVA5                   Float?
-  RG                     Float?
-  DateRG                 DateTime?
-  ModReg                 String?
-  EcheanceCreeDansFinanc Int?
-  Temps                  Float?
-  DevOrig                String?
-  NumOrdre               Int?
-  FacPrec                String?
-  FacSuiv                String?
-  TransCompta            Int?
-  Locked                 Int?
-  DossierEuro            Int?
-  TVAEnc                 Int?
-  Polices                String?
-  FlagAcompte            Int?
-  DevOrigType            String?
-  PieceEdit              Int?
-  IdentDGI               Int?
-  DateCreat              DateTime?
-  PostePhysiqCreat       String?
-  UtilDroitCreat         String?
-  id                     Int       @id @default(autoincrement())
-}
-
-model FactureLigne {
-  Code          String?
-  NumLig        Int?
-  NumBuf        Int?
-  IdTranche     String?
-  IdSsTotal     String?
-  NivTr         Int?
-  NivOuv        Int?
-  Type          String?
-  Numerotation  String?
-  CodeElem      String?
-  Libelle       String?
-  LibelleCom    String?
-  Deb           Float?
-  FgF           Float?
-  FgMo          Float?
-  FgMat         Float?
-  Fg            Float?
-  Pr            Float?
-  Ben           Float?
-  Coef          Float?
-  Pv            Float?
-  PvEuro        Float?
-  PvNet         Float?
-  PvNetEuro     Float?
-  Qte           Float?
-  Tva           Int?
-  Compte        String?
-  Info          String?
-  Unite         String?
-  FormuleMetre  String?
-  ResultatMetre String?
-  FourSsTrait   String?
-  Temps         Float?
-  NonEdit       Int?
-  SautLigne     Int?
-  SautPage      Int?
-  Variante      Int?
-  Avt           Float?
-  QteOrig       Float?
-  PvOrig        Float?
-  FicImage      String?
-  id            Int     @id @default(autoincrement())
-}
-
-model FacturePoste {
-  Code     String?
-  NumLig   Int?
-  Libelle  String?
-  Montant  Float?
-  PourCent Float?
-  ChoixPC  Int?
-  id       Int     @id @default(autoincrement())
-}
-
-model FamilleArticle {
-  Code    String?
-  Libelle String?
-  Niveau  Int?
-  Note    String?
-  id      Int     @id @default(autoincrement())
-}
-
-model FamilleOuvrage {
-  Code    String?
-  Libelle String?
-  Niveau  Int?
-  Note    String?
-  id      Int     @id @default(autoincrement())
-}
-
-model FinancEcheancier {
-  TypeDoc             String?
-  NumeroDoc           String?
-  CodeTiers           String?
-  NLigne              Int?
-  PourcentageEcheance Float?
-  MontantEcheance     Float?
-  CodeDevise          String?
-  DateEcheance        DateTime?
-  LibelleEcheance     String?
-  ModeDeReglement     String?
-  EcheanceManuelle    Int?
-  NBJour              Int?
-  TypeEffet           String?
-  Le                  Int?
-  MoisEntier          Int?
-  FlRG                Int?
-  Ech_NumeroEcheance  Int?
-  Ech_DateP           DateTime?
-  Ech_MontantRegle    Float?
-  Ech_Lien            Int?
-  Ech_Relance         Int?
-  id                  Int       @id @default(autoincrement())
-}
-
-model ImportChamp {
-  Modele      Int?
-  Ordre       Int?
-  Nom         String?
-  Table       String?
-  Format      String?
-  Obligatoire Int?
-  id          Int     @id @default(autoincrement())
-}
-
-model ImportModele {
-  Code           Int?
-  Nom            String?
-  TableAccess    String?
-  IndexRecherche String?
-  NumChampCode   String?
-  id             Int     @id @default(autoincrement())
-}
-
-model OuvrageRecalcul {
-  Code      String?
-  SSOuvrage Int?
-  id        Int     @id @default(autoincrement())
-}
-
-model SysBibliLien {
-  CodeOuvrage String?
-  CodeArticle String?
-  Qte         Float?
-  Autre       String?
-  id          Int     @id @default(autoincrement())
-}
-
-model SysVues {
-  TypeVue        String?
-  Table          String?
-  Nom            String?
-  ID             Int     @id @default(autoincrement())
-  Modifiable     Int?
-  Largeurs       String?
-  Titres         String?
-  Formats        String?
-  Couleurs       String?
-  D_faut         Int?    @map("Défaut")
-  Sql            String?
-  ColFixe        Int?
-  ParamType      String?
-  ParamNum       Int?
-  nLigParEnreg   Int?
-  ModeSortie     String?
-  TotalisableCol String?
-  TitresCourts   String?
-  PoliceName     String?
-  PoliceBold     Int?
-  PoliceItalic   Int?
-  PoliceSize     Int?
-  CouleurFond    Int?
-  NumFiltrePerm  Int?
-  CouleurFiltre  String?
-  Exemplaires    Int?
-}
-
-model Tva {
-  Code            Int?
-  Taux            Float?
-  CompteTvaCol    String?
-  CompteTvaDed    String?
-  CompteTvaEncCol String?
-  CompteTvaEncDed String?
-  CompteVenteF    String?
-  CompteAchatF    String?
-  CompteMO        String?
-  CompteMat       String?
-  Note            String?
-  id              Int     @id @default(autoincrement())
+  url      = "file:../Entrep.db"
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String? @unique(map: "sqlite_autoindex_User_1")
-  password String?
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+}
+
+model Client {
+  id            Int      @id @default(autoincrement())
+  code          String   @unique
+  nom           String
+  civilite      String?
+  interlocuteur String?
+  adresse       String?
+  adresse2      String?
+  codePostal    String?
+  ville         String?
+  pays          String?  @default("France")
+  telephone     String?
+  portable      String?
+  fax           String?
+  email         String?
+  compte        String
+  info          String?
+  ca            Float    @default(0.0)
+  solde         Float    @default(0.0)
+  updated       DateTime @default(now())
+  Devis         Devis[]
+}
+
+model Devis {
+  id              Int      @id @default(autoincrement())
+  code            String   @unique
+  etat            Int      @default(0)
+  date            DateTime @default(now())
+  codeClient      String
+  client          Client   @relation(fields: [codeClient], references: [code])
+  sujet           String?
+  adresseTravaux  String?
+  adresseTravaux2 String?
+  cpTravaux       String?
+  villeTravaux    String?
+  info            String?
+  totalDeb        Float    @default(0.0)
+  totalPR         Float    @default(0.0)
+  totalPV         Float    @default(0.0)
+  totalHT         Float    @default(0.0)
+  totalHTNet      Float    @default(0.0)
+  flagEscompte    Boolean  @default(false)
+  HTNetFin        Float    @default(0.0)
+  totalTVA        Float    @default(0.0)
+  TVAReelle       Float    @default(0.0)
+  totalTTC        Float    @default(0.0)
+  acompte         Float    @default(0.0)
+  netAPayer       Float    @default(0.0)
+  variante        Float    @default(0.0)
+  taux1           Float    @default(0.0)
+  taux2           Float    @default(0.0)
+  taux3           Float    @default(0.0)
+  taux4           Float    @default(0.0)
+  taux5           Float    @default(0.0)
+  ht0             Float    @default(0.0)
+  ht1             Float    @default(0.0)
+  ht2             Float    @default(0.0)
+  ht3             Float    @default(0.0)
+  ht4             Float    @default(0.0)
+  ht5             Float    @default(0.0)
+  htnet0          Float    @default(0.0)
+  htnet1          Float    @default(0.0)
+  htnet2          Float    @default(0.0)
+  htnet3          Float    @default(0.0)
+  htnet4          Float    @default(0.0)
+  htnet5          Float    @default(0.0)
+  tva0            Float    @default(0.0)
+  tva1            Float    @default(0.0)
+  tva2            Float    @default(0.0)
+  tva3            Float    @default(0.0)
+  tva4            Float    @default(0.0)
+  tva5            Float    @default(0.0)
+  temps           Float    @default(0.0)
+  transFacture    Boolean  @default(false)
+  flagAcompte     Boolean  @default(false)
 }

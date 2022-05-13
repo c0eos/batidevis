@@ -27,9 +27,11 @@ app.get("/", (req, res) => {
 
 const usersRoutes = require("./users/userRoutes");
 const clientsRoutes = require("./clients/clientRoutes");
+const devisRoutes = require("./devis/devisRoutes");
 
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/clients", clientsRoutes);
+app.use("/api/v1/devis", devisRoutes);
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
