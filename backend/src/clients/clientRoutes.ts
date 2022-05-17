@@ -15,37 +15,7 @@ router.route("/")
       });
   })
   .post((req, res, next) => {
-    const {
-      nom,
-      interlocuteur,
-      adresse,
-      zip,
-      ville,
-      telephone,
-      portable,
-      email,
-      compte,
-      commentaire,
-    } = req.body;
-
-    Client.create({
-      nom,
-      interlocuteur,
-      adresse,
-      zip,
-      ville,
-      telephone,
-      portable,
-      email,
-      compte,
-      commentaire,
-    })
-      .then((client) => {
-        res.json(client);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    throw new AppError("Not implemented", 501, true);
   });
 
 router.route("/:id")
@@ -63,36 +33,7 @@ router.route("/:id")
       });
   })
   .put((req, res, next) => {
-    const {
-      nom,
-      interlocuteur,
-      adresse,
-      zip,
-      ville,
-      telephone,
-      portable,
-      email,
-      compte,
-      commentaire,
-    } = req.body;
-    Client.update(req.params.id, {
-      nom,
-      interlocuteur,
-      adresse,
-      zip,
-      ville,
-      telephone,
-      portable,
-      email,
-      compte,
-      commentaire,
-    })
-      .then((client) => {
-        res.json(client);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    throw new AppError("Not implemented", 501, true);
   })
   .delete((req, res, next) => {
     Client.delete(req.params.id)
