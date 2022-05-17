@@ -11,6 +11,7 @@ import auth from "./utils/auth";
 import usersRoutes from "./users/userRoutes";
 import clientsRoutes from "./clients/clientRoutes";
 import devisRoutes from "./devis/devisRoutes";
+import facturesRoutes from "./factures/factureRoutes";
 
 // erreurs
 import { handler, AppError } from "./utils/errors";
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/clients", clientsRoutes);
 app.use("/api/v1/devis", devisRoutes);
+app.use("/api/v1/factures", facturesRoutes);
 
 // route 404
 app.use((req, res) => {

@@ -5,6 +5,7 @@
 - db avec prisma
 - erreurs centralisées
 - routes protégées par défaut
+- typescript + eslint
 
 ## Backend
 
@@ -39,11 +40,11 @@
 - Factures
 
   - [ ] ajouter
-  - [ ] supprimer (foreign?)
+  - [x] supprimer (foreign?)
   - [ ] modifier
-  - [ ] lister tous
-  - [ ] lister 1
-  - [ ] lister details
+  - [x] lister tous
+  - [x] lister 1
+  - [x] lister details
 
 - Acomptes
   - [ ] ajouter
