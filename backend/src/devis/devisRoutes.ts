@@ -1,6 +1,6 @@
-const express = require("express");
-const Devis = require("./devisModel");
-const { AppError } = require("../utils/errors");
+import express from "express";
+import Devis from "./devisModel";
+import { AppError } from "../utils/errors";
 
 const router = express.Router();
 
@@ -65,4 +65,4 @@ router.route("/:id/details")
     throw new AppError("Not implemented", 501, true);
   });
 
-module.exports = router;
+export default router;

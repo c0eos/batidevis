@@ -1,6 +1,6 @@
-const express = require("express");
-const Client = require("./clientModel");
-const { AppError } = require("../utils/errors");
+import express from "express";
+import Client from "./clientModel";
+import { AppError } from "../utils/errors";
 
 const router = express.Router();
 
@@ -104,4 +104,4 @@ router.route("/:id")
       });
   });
 
-module.exports = router;
+export default router;

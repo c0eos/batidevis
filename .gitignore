@@ -6,3 +6,4 @@
 .vscode/
 **/*.sqlite
 **/*.db
+**/dist

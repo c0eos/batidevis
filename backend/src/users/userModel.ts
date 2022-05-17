@@ -1,6 +1,6 @@
-const bcrypt = require("bcrypt");
-const prisma = require("../utils/prisma");
-const { AppError } = require("../utils/errors");
+import bcrypt from "bcrypt";
+import prisma  from "../utils/prisma";
+import { AppError } from "../utils/errors";
 
 const saltRounds = 10;
 
@@ -15,7 +15,7 @@ class User {
     return users;
   }
 
-  static async getOneByEmail(email) {
+  static async getOneByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -28,7 +28,7 @@ class User {
     return user;
   }
 
-  static async getOneById(id) {
+  static async getOneById(id: string) {
     const user = await prisma.user.findUnique({
       where: {
         id: parseInt(id),
@@ -41,7 +41,7 @@ class User {
     return user;
   }
 
-  static async create(email, password) {
+  static async create(email: string, password: string) {
     const userExists = await this.getOneByEmail(email);
     if (userExists) {
       throw new AppError("Email déjà utilisé", 400, true);
@@ -63,7 +63,7 @@ class User {
     return user;
   }
 
-  static async update(id, email, password) {
+  static async update(id: string, email: string, password: string) {
     const hash = await bcrypt.hash(password, saltRounds);
     const user = await prisma.user.update({
       where: {
@@ -81,7 +81,7 @@ class User {
     return user;
   }
 
-  static async delete(id) {
+  static async delete(id: string) {
     const user = await prisma.user.delete({
       where: {
         id: parseInt(id),
@@ -94,7 +94,7 @@ class User {
     return user;
   }
 
-  static async login(email, password) {
+  static async login(email: string, password: string) {
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -107,4 +107,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

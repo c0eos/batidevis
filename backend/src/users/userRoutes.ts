@@ -1,12 +1,17 @@
-const express = require("express");
-const jwt = require("jsonwebtoken");
+import express from "express";
+import jwt from "jsonwebtoken";
+import User from "./userModel";
+import { AppError } from "../utils/errors";
 
-const User = require("./userModel");
-const { AppError } = require("../utils/errors");
-
-const secret = process.env.SECRET;
+const secret = process.env.SECRET || "secret";
 
 const router = express.Router();
+
+interface TokenPayload {
+  id: string;
+  email: string;
+  date: string
+}
 
 router.route("/")
   .get((req, res, next) => {
@@ -43,8 +48,8 @@ router.route("/login")
 
     User.login(email, password)
       .then((user) => {
-        const payload = {
-          id: user.id,
+        const payload: TokenPayload = {
+          id: user.id.toString(),
           email: user.email,
           date: new Date().toISOString(),
         };
@@ -94,4 +99,4 @@ router.route("/:id")
       });
   });
 
-module.exports = router;
+export default router;

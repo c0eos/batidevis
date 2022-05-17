@@ -1,12 +1,12 @@
 require("dotenv").config();
 
 // express import
-const express = require("express");
-const cors = require("cors");
-const compression = require("compression");
+import express from "express";
+import cors from "cors";
+import compression from "compression";
 
 // logging
-const logger = require("./utils/logger");
+import logger from "./utils/logger"
 
 // express app setup
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // authentication
-const auth = require("./utils/auth");
+import auth from "./utils/auth";
 
 // app.use(auth);
 
@@ -25,28 +25,28 @@ app.get("/", (req, res) => {
   res.json({ message: "Bienvenue sur le backend" });
 });
 
-const usersRoutes = require("./users/userRoutes");
-const clientsRoutes = require("./clients/clientRoutes");
-const devisRoutes = require("./devis/devisRoutes");
+import usersRoutes from "./users/userRoutes";
+import clientsRoutes from "./clients/clientRoutes";
+import devisRoutes from "./devis/devisRoutes";
 
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/clients", clientsRoutes);
 app.use("/api/v1/devis", devisRoutes);
 
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || "9000";
 app.listen(PORT, () => {
   logger.info(`Backend démarré sur le port ${PORT}`);
 });
 
 // erreurs
-const { handler, AppError } = require("./utils/errors");
+import {handler, AppError} from "./utils/errors";
 
 // route 404
 app.use((req, res) => {
   throw new AppError(`${req.url} est introuvable`, 404, true);
 });
 
-app.use(async (err, req, res, next) => {
+app.use(async (err: Error | AppError, req: express.Request, res: express.Response, next: express.NextFunction) => {
   await handler.handle(err, res);
   next();
 });
