@@ -12,6 +12,7 @@ import usersRoutes from "./users/userRoutes";
 import clientsRoutes from "./clients/clientRoutes";
 import devisRoutes from "./devis/devisRoutes";
 import facturesRoutes from "./factures/factureRoutes";
+import acomptesRoutes from "./acomptes/acompteRoutes";
 
 // erreurs
 import { handler, AppError } from "./utils/errors";
@@ -38,6 +39,7 @@ app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/clients", clientsRoutes);
 app.use("/api/v1/devis", devisRoutes);
 app.use("/api/v1/factures", facturesRoutes);
+app.use("/api/v1/acomptes", acomptesRoutes);
 
 // route 404
 app.use((req, res) => {

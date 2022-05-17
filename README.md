@@ -48,7 +48,7 @@
 
 - Acomptes
   - [ ] ajouter
-  - [ ] supprimer
+  - [x] supprimer
   - [ ] modifier
-  - [ ] lister tous
-  - [ ] lister 1
+  - [x] lister tous
+  - [x] lister 1
