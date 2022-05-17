@@ -21,27 +21,29 @@
 
 - Clients
 
-  - [.] ajouter
-  - [x] supprimer
-  - [.] modifier
+  - [ ] ajouter
+  - [x] supprimer (foreign?)
+  - [ ] modifier
   - [x] lister tous
   - [x] lister 1
 
 - Devis
 
   - [ ] ajouter
-  - [ ] supprimer
+  - [x] supprimer (foreign?)
   - [ ] modifier
-  - [ ] lister tous
-  - [ ] lister 1
+  - [x] lister tous
+  - [x] lister 1
+  - [x] lister details
 
 - Factures
 
   - [ ] ajouter
-  - [ ] supprimer
+  - [ ] supprimer (foreign?)
   - [ ] modifier
   - [ ] lister tous
   - [ ] lister 1
+  - [ ] lister details
 
 - Acomptes
   - [ ] ajouter

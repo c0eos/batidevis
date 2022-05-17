@@ -14,8 +14,8 @@ model User {
 }
 
 model Client {
-  id            Int      @id @default(autoincrement())
-  code          String   @unique
+  id            Int       @id @default(autoincrement())
+  code          String    @unique
   nom           String
   civilite      String?
   interlocuteur String?
@@ -23,69 +23,239 @@ model Client {
   adresse2      String?
   codePostal    String?
   ville         String?
-  pays          String?  @default("France")
+  pays          String?   @default("France")
   telephone     String?
   portable      String?
   fax           String?
   email         String?
   compte        String
   info          String?
-  ca            Float    @default(0.0)
-  solde         Float    @default(0.0)
-  updated       DateTime @default(now())
+  ca            Float     @default(0.0)
+  solde         Float     @default(0.0)
+  updated       DateTime  @default(now())
   Devis         Devis[]
+  Facture       Facture[]
+  Acompte       Acompte[]
 }
 
 model Devis {
-  id              Int      @id @default(autoincrement())
-  code            String   @unique
-  etat            Int      @default(0)
-  date            DateTime @default(now())
+  id              Int          @id @default(autoincrement())
+  code            String       @unique
+  etat            Int          @default(0)
+  date            DateTime     @default(now())
   codeClient      String
-  client          Client   @relation(fields: [codeClient], references: [code])
+  client          Client       @relation(fields: [codeClient], references: [code])
   sujet           String?
   adresseTravaux  String?
   adresseTravaux2 String?
   cpTravaux       String?
   villeTravaux    String?
   info            String?
-  totalDeb        Float    @default(0.0)
-  totalPR         Float    @default(0.0)
-  totalPV         Float    @default(0.0)
-  totalHT         Float    @default(0.0)
-  totalHTNet      Float    @default(0.0)
-  flagEscompte    Boolean  @default(false)
-  HTNetFin        Float    @default(0.0)
-  totalTVA        Float    @default(0.0)
-  TVAReelle       Float    @default(0.0)
-  totalTTC        Float    @default(0.0)
-  acompte         Float    @default(0.0)
-  netAPayer       Float    @default(0.0)
-  variante        Float    @default(0.0)
-  taux1           Float    @default(0.0)
-  taux2           Float    @default(0.0)
-  taux3           Float    @default(0.0)
-  taux4           Float    @default(0.0)
-  taux5           Float    @default(0.0)
-  ht0             Float    @default(0.0)
-  ht1             Float    @default(0.0)
-  ht2             Float    @default(0.0)
-  ht3             Float    @default(0.0)
-  ht4             Float    @default(0.0)
-  ht5             Float    @default(0.0)
-  htnet0          Float    @default(0.0)
-  htnet1          Float    @default(0.0)
-  htnet2          Float    @default(0.0)
-  htnet3          Float    @default(0.0)
-  htnet4          Float    @default(0.0)
-  htnet5          Float    @default(0.0)
-  tva0            Float    @default(0.0)
-  tva1            Float    @default(0.0)
-  tva2            Float    @default(0.0)
-  tva3            Float    @default(0.0)
-  tva4            Float    @default(0.0)
-  tva5            Float    @default(0.0)
-  temps           Float    @default(0.0)
-  transFacture    Boolean  @default(false)
-  flagAcompte     Boolean  @default(false)
+  totalDeb        Float        @default(0.0)
+  totalPR         Float        @default(0.0)
+  totalPV         Float        @default(0.0)
+  totalHT         Float        @default(0.0)
+  totalHTNet      Float        @default(0.0)
+  flagEscompte    Boolean      @default(false)
+  HTNetFin        Float        @default(0.0)
+  totalTVA        Float        @default(0.0)
+  TVAReelle       Float        @default(0.0)
+  totalTTC        Float        @default(0.0)
+  acompte         Float        @default(0.0)
+  netAPayer       Float        @default(0.0)
+  variante        Float        @default(0.0)
+  taux1           Float        @default(0.0)
+  taux2           Float        @default(0.0)
+  taux3           Float        @default(0.0)
+  taux4           Float        @default(0.0)
+  taux5           Float        @default(0.0)
+  ht0             Float        @default(0.0)
+  ht1             Float        @default(0.0)
+  ht2             Float        @default(0.0)
+  ht3             Float        @default(0.0)
+  ht4             Float        @default(0.0)
+  ht5             Float        @default(0.0)
+  htnet0          Float        @default(0.0)
+  htnet1          Float        @default(0.0)
+  htnet2          Float        @default(0.0)
+  htnet3          Float        @default(0.0)
+  htnet4          Float        @default(0.0)
+  htnet5          Float        @default(0.0)
+  tva0            Float        @default(0.0)
+  tva1            Float        @default(0.0)
+  tva2            Float        @default(0.0)
+  tva3            Float        @default(0.0)
+  tva4            Float        @default(0.0)
+  tva5            Float        @default(0.0)
+  temps           Float        @default(0.0)
+  transFacture    Boolean      @default(false)
+  flagAcompte     Boolean      @default(false)
+  DevisLigne      DevisLigne[]
+  Facture         Facture[]
+  Acompte         Acompte[]
+}
+
+model DevisLigne {
+  id           Int     @id @default(autoincrement())
+  codeDevis    String
+  Devis        Devis   @relation(fields: [codeDevis], references: [code], onDelete: Cascade)
+  numLigne     Int
+  numBuf       Int
+  idSousTotal  Int?
+  nivTr        Int     @default(0)
+  nivOuv       Int     @default(0)
+  type         String?
+  numerotation Int?
+  codeElement  String?
+  libelle      String?
+  deb          Float   @default(0.0)
+  fgF          Float   @default(0.0)
+  fgMo         Float   @default(0.0)
+  fgMat        Float   @default(0.0)
+  fg           Float   @default(0.0)
+  pr           Float   @default(0.0)
+  ben          Float   @default(0.0)
+  coef         Float   @default(0.0)
+  pv           Float   @default(0.0)
+  pvEuro       Float   @default(0.0)
+  pvNet        Float   @default(0.0)
+  pvNetEuro    Float   @default(0.0)
+  qte          Float   @default(0.0)
+  tva          Int     @default(0)
+  compte       String?
+  unite        String?
+  temps        Float   @default(0.0)
+  nonEdit      Int     @default(0)
+  variante     Int     @default(0)
+}
+
+model Facture {
+  id              Int       @id @default(autoincrement())
+  code            String    @unique
+  date            DateTime  @default(now())
+  codeClient      String
+  client          Client    @relation(fields: [codeClient], references: [code])
+  sujet           String?
+  adresseTravaux  String?
+  adresseTravaux2 String?
+  cpTravaux       String?
+  villeTravaux    String?
+  info            String?
+  totalDeb        Float     @default(0.0)
+  totalPR         Float     @default(0.0)
+  totalPV         Float     @default(0.0)
+  totalHT         Float     @default(0.0)
+  totalHTNet      Float     @default(0.0)
+  flagEscompte    Boolean   @default(false)
+  HTNetFin        Float     @default(0.0)
+  totalTVA        Float     @default(0.0)
+  TVAReelle       Float     @default(0.0)
+  totalTTC        Float     @default(0.0)
+  acompte         Float     @default(0.0)
+  netAPayer       Float     @default(0.0)
+  taux1           Float     @default(0.0)
+  taux2           Float     @default(0.0)
+  taux3           Float     @default(0.0)
+  taux4           Float     @default(0.0)
+  taux5           Float     @default(0.0)
+  ht0             Float     @default(0.0)
+  ht1             Float     @default(0.0)
+  ht2             Float     @default(0.0)
+  ht3             Float     @default(0.0)
+  ht4             Float     @default(0.0)
+  ht5             Float     @default(0.0)
+  htnet0          Float     @default(0.0)
+  htnet1          Float     @default(0.0)
+  htnet2          Float     @default(0.0)
+  htnet3          Float     @default(0.0)
+  htnet4          Float     @default(0.0)
+  htnet5          Float     @default(0.0)
+  tva0            Float     @default(0.0)
+  tva1            Float     @default(0.0)
+  tva2            Float     @default(0.0)
+  tva3            Float     @default(0.0)
+  tva4            Float     @default(0.0)
+  tva5            Float     @default(0.0)
+  dateRG          DateTime?
+  temps           Float     @default(0.0)
+  codeDevis       String
+  devis           Devis     @relation(fields: [codeDevis], references: [code])
+  numOrdre        Int
+  flagAcompte     Boolean   @default(false)
+  dateCreation    DateTime  @default(now())
+
+  FactureLigne FactureLigne[]
+  Acompte      Acompte[]
+}
+
+model FactureLigne {
+  id           Int     @id @default(autoincrement())
+  codeFacture  String
+  Facture      Facture @relation(fields: [codeFacture], references: [code], onDelete: Cascade)
+  numLigne     Int
+  numBuf       Int
+  idSousTotal  Int?
+  nivTr        Int     @default(0)
+  nivOuv       Int     @default(0)
+  type         String?
+  numerotation Int?
+  codeElement  String?
+  libelle      String?
+  deb          Float   @default(0.0)
+  fgF          Float   @default(0.0)
+  fgMo         Float   @default(0.0)
+  fgMat        Float   @default(0.0)
+  fg           Float   @default(0.0)
+  pr           Float   @default(0.0)
+  ben          Float   @default(0.0)
+  coef         Float   @default(0.0)
+  pv           Float   @default(0.0)
+  pvEuro       Float   @default(0.0)
+  pvNet        Float   @default(0.0)
+  pvNetEuro    Float   @default(0.0)
+  qte          Float   @default(0.0)
+  tva          Int     @default(0)
+  compte       String?
+  unite        String?
+  temps        Float   @default(0.0)
+  nonEdit      Int     @default(0)
+  variante     Int     @default(0)
+  avt          Float   @default(100.0)
+  qteOrigine   Float   @default(0.0)
+  pvOrigine    Float   @default(0.0)
+
+}
+
+model Acompte {
+  id           Int      @id @default(autoincrement())
+  codeAcompte  String   @unique
+  date         DateTime @default(now())
+  codeClient   String
+  client       Client   @relation(fields: [codeClient], references: [code])
+  sujet        String?
+  totalHT      Float    @default(0.0)
+  totalTVA     Float    @default(0.0)
+  totalTTC     Float    @default(0.0)
+  taux1        Float    @default(0.0)
+  taux2        Float    @default(0.0)
+  taux3        Float    @default(0.0)
+  taux4        Float    @default(0.0)
+  taux5        Float    @default(0.0)
+  ht0          Float    @default(0.0)
+  ht1          Float    @default(0.0)
+  ht2          Float    @default(0.0)
+  ht3          Float    @default(0.0)
+  ht4          Float    @default(0.0)
+  ht5          Float    @default(0.0)
+  tva0         Float    @default(0.0)
+  tva1         Float    @default(0.0)
+  tva2         Float    @default(0.0)
+  tva3         Float    @default(0.0)
+  tva4         Float    @default(0.0)
+  tva5         Float    @default(0.0)
+  dateCreation DateTime @default(now())
+  codeDevis    String?
+  devis        Devis?   @relation(fields: [codeDevis], references: [code])
+  codeFacture  String?
+  facture      Facture? @relation(fields: [codeFacture], references: [code])
 }

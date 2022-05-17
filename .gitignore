@@ -4,4 +4,5 @@
 **/.env
 **/*.log
 .vscode/
-Entrep.sqlite
+**/*.sqlite
+**/*.db
