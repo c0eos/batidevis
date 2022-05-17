@@ -8,6 +8,8 @@ extends:
   - airbnb
   - plugin:node/recommended
   - plugin:react/recommended
+  - plugin:import/typescript
+parser: "@typescript-eslint/parser"
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -40,6 +42,6 @@ rules:
     - tryExtensions:
         - ".js"
         - ".jsx"
-        - ".json"
-        - ".node"
+        - ".ts"
+        - ".tsx"
   no-process-exit: off

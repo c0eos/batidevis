@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import prisma  from "../utils/prisma";
+import prisma from "../utils/prisma";
 import { AppError } from "../utils/errors";
 
 const saltRounds = 10;

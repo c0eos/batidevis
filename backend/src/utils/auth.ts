@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { AppError } from "./errors";
 import express from "express";
+import { AppError } from "./errors";
 
 const secret = process.env.SECRET || "secret";
 

@@ -1,4 +1,17 @@
+/* eslint-disable max-classes-per-file */
 import logger from "./logger";
+
+class AppError extends Error {
+  statusCode: number;
+
+  isOperational: boolean;
+
+  constructor(message: string, statusCode = 400, isOperational = false) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+  }
+}
 
 class ErrorHandler {
   handle = async (error: AppError | Error, res?: any) => {
@@ -13,22 +26,11 @@ class ErrorHandler {
   isTrustedError = (error: AppError | Error) => {
     if (error instanceof AppError) {
       return error.isOperational;
-  }
-  return false;
-}
-}
-
-class AppError extends Error {
-  statusCode: number;
-  isOperational: boolean;
-
-  constructor(message: string, statusCode = 400, isOperational = false) {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
-  }
+    }
+    return false;
+  };
 }
 
 const handler = new ErrorHandler();
 
-export {handler, AppError}
+export { handler, AppError };
