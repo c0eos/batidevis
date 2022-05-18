@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 // express import
 import express from "express";
 import cors from "cors";
@@ -17,8 +16,10 @@ import acomptesRoutes from "./acomptes/acompteRoutes";
 // erreurs
 import { handler, AppError } from "./utils/errors";
 
-dotenv.config();
-const PORT = process.env.PORT || "9000";
+// config
+import config from "./config";
+
+const PORT = config.port;
 
 // express setup
 const app = express();
@@ -28,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // authentication
-// app.use(auth);
+app.use(auth);
 
 // utilise les routes
 app.get("/", (req, res) => {

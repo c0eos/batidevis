@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import express from "express";
 import { AppError } from "./errors";
 
-const secret = process.env.SECRET || "secret";
+import config from "../config";
 
 interface TokenPayload {
   id: string;
@@ -24,7 +24,7 @@ const auth = (req: express.Request, res: express.Response, next: express.NextFun
   }
   if (token) {
     try {
-      const decoded = jwt.verify(token, secret) as TokenPayload;
+      const decoded = jwt.verify(token, config.secret) as TokenPayload;
       res.locals.userId = decoded.id;
       return next();
     } catch (err) {

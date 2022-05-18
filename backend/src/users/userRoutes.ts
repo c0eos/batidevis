@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "./userModel";
 import { AppError } from "../utils/errors";
 
-const secret = process.env.SECRET || "secret";
+import config from "../config";
 
 const router = express.Router();
 
@@ -53,8 +53,23 @@ router.route("/login")
           email: user.email,
           date: new Date().toISOString(),
         };
-        const token = jwt.sign(payload, secret);
+        const token = jwt.sign(payload, config.secret);
         res.json({ token });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
+
+router.route("/checkToken")
+  .get((req, res, next) => {
+    User.getOneById(res.locals.userId)
+      .then((user) => {
+        if (user) {
+          res.json(user);
+        } else {
+          throw new AppError("Utilisateur inconnu", 400, true);
+        }
       })
       .catch((err) => {
         next(err);
