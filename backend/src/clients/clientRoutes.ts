@@ -8,7 +8,7 @@ router.route("/")
   .get((req, res, next) => {
     Client.getAll()
       .then((clients) => {
-        res.json(clients);
+        res.json({ results: clients });
       })
       .catch((err) => {
         next(err);
@@ -23,7 +23,7 @@ router.route("/:id")
     Client.getOneById(req.params.id)
       .then((client) => {
         if (client) {
-          res.json(client);
+          res.json({ results: client });
         } else {
           throw new AppError("Client introuvable", 401, true);
         }
@@ -38,7 +38,7 @@ router.route("/:id")
   .delete((req, res, next) => {
     Client.delete(req.params.id)
       .then((client) => {
-        res.json(client);
+        res.json({ results: client });
       })
       .catch((err) => {
         next(err);

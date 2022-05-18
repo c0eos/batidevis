@@ -8,7 +8,7 @@ router.route("/")
   .get((req, res, next) => {
     Devis.getAll()
       .then((devis) => {
-        res.json(devis);
+        res.json({ results: devis });
       })
       .catch((err) => {
         next(err);
@@ -23,7 +23,7 @@ router.route("/:id")
     Devis.getOneById(req.params.id)
       .then((devis) => {
         if (devis) {
-          res.json(devis);
+          res.json({ results: devis });
         } else {
           throw new AppError("Devis introuvable", 401, true);
         }
@@ -38,7 +38,7 @@ router.route("/:id")
   .delete((req, res, next) => {
     Devis.delete(req.params.id)
       .then((devis) => {
-        res.json(devis);
+        res.json({ results: devis });
       })
       .catch((err) => {
         next(err);
@@ -49,7 +49,7 @@ router.route("/:id/details")
   .get((req, res, next) => {
     Devis.getDetails(req.params.id)
       .then((lignes) => {
-        res.json(lignes);
+        res.json({ results: lignes });
       })
       .catch((err) => {
         next(err);

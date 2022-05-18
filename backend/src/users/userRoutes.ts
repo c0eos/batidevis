@@ -17,7 +17,7 @@ router.route("/")
   .get((req, res, next) => {
     User.getAll()
       .then((users) => {
-        res.json(users);
+        res.json({ results: users });
       })
       .catch((err) => {
         next(err);
@@ -31,7 +31,7 @@ router.route("/")
 
     User.create(email, password)
       .then((user) => {
-        res.json(user);
+        res.json({ results: user });
       })
       .catch((err) => {
         next(err);
@@ -54,7 +54,7 @@ router.route("/login")
           date: new Date().toISOString(),
         };
         const token = jwt.sign(payload, config.secret);
-        res.json({ token });
+        res.json({ results: token });
       })
       .catch((err) => {
         next(err);
@@ -66,7 +66,7 @@ router.route("/checkToken")
     User.getOneById(res.locals.userId)
       .then((user) => {
         if (user) {
-          res.json(user);
+          res.json({ results: user });
         } else {
           throw new AppError("Utilisateur inconnu", 400, true);
         }
@@ -81,7 +81,7 @@ router.route("/:id")
     User.getOneById(req.params.id)
       .then((user) => {
         if (user) {
-          res.json(user);
+          res.json({ results: user });
         } else {
           throw new AppError("Utilisateur introuvable", 404, true);
         }
@@ -98,7 +98,7 @@ router.route("/:id")
 
     User.update(req.params.id, email, password)
       .then((user) => {
-        res.json(user);
+        res.json({ results: user });
       })
       .catch((err) => {
         next(err);
@@ -107,7 +107,7 @@ router.route("/:id")
   .delete((req, res, next) => {
     User.delete(req.params.id)
       .then((user) => {
-        res.json(user);
+        res.json({ results: user });
       })
       .catch((err) => {
         next(err);

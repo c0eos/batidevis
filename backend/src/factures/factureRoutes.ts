@@ -8,7 +8,7 @@ router.route("/")
   .get((req, res, next) => {
     Facture.getAll()
       .then((factures) => {
-        res.json(factures);
+        res.json({ results: factures });
       })
       .catch((err) => {
         next(err);
@@ -23,7 +23,7 @@ router.route("/:id")
     Facture.getOneById(req.params.id)
       .then((facture) => {
         if (facture) {
-          res.json(facture);
+          res.json({ results: facture });
         } else {
           throw new AppError("Facture introuvable", 401, true);
         }
@@ -38,7 +38,7 @@ router.route("/:id")
   .delete((req, res, next) => {
     Facture.delete(req.params.id)
       .then((facture) => {
-        res.json(facture);
+        res.json({ results: facture });
       })
       .catch((err) => {
         next(err);
@@ -49,7 +49,7 @@ router.route("/:id/details")
   .get((req, res, next) => {
     Facture.getDetails(req.params.id)
       .then((lignes) => {
-        res.json(lignes);
+        res.json({ results: lignes });
       })
       .catch((err) => {
         next(err);

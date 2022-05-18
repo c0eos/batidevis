@@ -8,7 +8,7 @@ router.route("/")
   .get((req, res, next) => {
     Acompte.getAll()
       .then((acomptes) => {
-        res.json(acomptes);
+        res.json({ results: acomptes });
       })
       .catch((err) => {
         next(err);
@@ -23,7 +23,7 @@ router.route("/:id")
     Acompte.getOneById(req.params.id)
       .then((acompte) => {
         if (acompte) {
-          res.json(acompte);
+          res.json({ results: acompte });
         } else {
           throw new AppError("Acompte introuvable", 401, true);
         }
@@ -38,7 +38,7 @@ router.route("/:id")
   .delete((req, res, next) => {
     Acompte.delete(req.params.id)
       .then((acompte) => {
-        res.json(acompte);
+        res.json({ results: acompte });
       })
       .catch((err) => {
         next(err);
