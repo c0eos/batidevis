@@ -35,6 +35,13 @@ rules:
   react/prefer-stateless-function: warn
   react/destructuring-assignment: warn
   react/react-in-jsx-scope: off
+  react/jsx-filename-extension:
+    - 1
+    - extensions:
+        - .js
+        - .jsx
+        - .ts
+        - .tsx
   class-methods-use-this: warn
   node/no-unsupported-features/es-syntax: off
   node/no-missing-import:

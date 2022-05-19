@@ -52,3 +52,8 @@
   - [ ] modifier
   - [x] lister tous
   - [x] lister 1
+
+## Frontend
+
+- toutes les routes sont protégées, sauf login
+- affichage tableaux avec `react-table`, afin de trier, filtrer facilement + pagination

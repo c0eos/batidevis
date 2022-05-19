@@ -7,7 +7,7 @@ export default function ReactTable({ tableInstance }: any) {
   } = tableInstance;
 
   return (
-    <table {...getTableProps()}>
+    <table {...getTableProps()} className="max-w-full mx-auto">
       <thead>
         {
           // Loop over the header rows
@@ -39,7 +39,7 @@ export default function ReactTable({ tableInstance }: any) {
             prepareRow(row);
             return (
               // Apply the row props
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} className="even:bg-white odd:bg-slate-100">
                 {
                   // Loop over the rows cells
                   row.cells.map((cell: any) => (

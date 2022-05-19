@@ -26,7 +26,7 @@ export default function RequireDataAuth(props: any) {
       const token = window.localStorage.getItem("token");
       console.log(token, auth, !token && auth);
 
-      if (!token && props.auth) {
+      if (!token && auth) {
         console.log("no token and need auth");
         setRedirect(true);
       } else {
@@ -34,13 +34,13 @@ export default function RequireDataAuth(props: any) {
           .then((userdata) => dispatch(login(userdata)))
           .catch((error) => {
             console.log(error);
-            if (props.auth) {
+            if (auth) {
               setRedirect(true);
             }
           });
       }
     }
-  }, [props]);
+  }, [Child, auth]);
 
   if (redirect === null) {
     return (<div />);

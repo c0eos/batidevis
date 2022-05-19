@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { MouseEvent } from "react";
 import { useAppDispatch } from "../../utils/reduxHooks";
 import { logout } from "../../slices/userSlice";
 
@@ -6,7 +7,7 @@ export default function Logout() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     window.localStorage.removeItem("token");
     dispatch(logout());

@@ -3,7 +3,7 @@ import { useTable } from "react-table";
 import { getClients } from "../../api/clients";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { loadClients } from "../../slices/clientsSlice";
-import ReactTable from "../../components/ReactTable";
+import { ReactTable } from "../../components";
 
 export default function ClientsList() {
   const clients = useAppSelector((state) => state.clients);
@@ -27,8 +27,8 @@ export default function ClientsList() {
   }, [user.isLoggedIn]);
 
   return (
-    <div className="container max-w-lg mx-auto">
-      <h1 className="font-bold text-2xl">Liste des clients</h1>
+    <div className="container max-w-7xl mx-auto">
+      <h1 className="font-bold text-2xl text-center">Liste des clients</h1>
       <ReactTable tableInstance={tableInstance} />
 
     </div>

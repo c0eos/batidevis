@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../../api/user";
 
-export default function Login(props: any) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(email, password);
 

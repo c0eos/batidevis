@@ -1,10 +1,9 @@
 import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Header from "./containers/Header";
-import Home from "./containers/Home";
 import { Login, Logout } from "./containers/user";
 import { ClientsList, ClientDetail } from "./containers/clients";
-import RequireAuth from "./components/AuthProvider";
+import { RequireAuth } from "./components";
 
 function App() {
   return (

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../utils/reduxHooks";
 
-export default function Header(props: any) {
+export default function Header() {
   const user = useAppSelector((state) => state.user);
 
   return (
