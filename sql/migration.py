@@ -70,6 +70,7 @@ def clients():
     ]
 
     print(df.head(20))
+    print(df.shape)
 
     cur.execute("DELETE FROM Client")
     db_out.commit()
@@ -181,7 +182,7 @@ def devis():
     ]
 
     print(df.head(20))
-    print(df.columns)
+    print(df.shape)
 
     cur.execute("DELETE FROM Devis")
     db_out.commit()
@@ -239,7 +240,7 @@ def devis_ligne():
     ]
 
     print(df.head(20))
-    print(df.columns)
+    print(df.shape)
 
     cur.execute("DELETE FROM DevisLigne")
     db_out.commit()
@@ -356,7 +357,7 @@ def factures():
     ]
 
     print(df.head(20))
-    print(df.columns)
+    print(df.shape)
 
     cur.execute("DELETE FROM Facture")
     db_out.commit()
@@ -417,7 +418,7 @@ def factures_ligne():
     ]
 
     print(df.head(20))
-    print(df.columns)
+    print(df.shape)
 
     cur.execute("DELETE FROM FactureLigne")
     db_out.commit()
@@ -469,8 +470,6 @@ def acomptes():
             elif code[0] == "FACCLI":
                 codeFacture = code[1]
 
-        print(row[0], codeDevis, codeFacture)
-
         return pd.Series([codeDevis, codeFacture])
 
     df[["codeDevis", "codeFacture"]] = df.apply(map_acompte, axis=1)
@@ -508,7 +507,7 @@ def acomptes():
     ]
 
     print(df.head(20))
-    print(df.columns)
+    print(df.shape)
 
     cur.execute("DELETE FROM Acompte")
     db_out.commit()

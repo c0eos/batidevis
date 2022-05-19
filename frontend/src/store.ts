@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
 import clientsReducer from "./slices/clientsSlice";
+import devisReducer from "./slices/devisSlice";
+import facturesReducer from "./slices/facturesSlice";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     clients: clientsReducer,
+    devis: devisReducer,
+    factures: facturesReducer,
   },
 });
 export default store;

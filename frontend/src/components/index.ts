@@ -1,5 +1,8 @@
 import RequireAuth from "./AuthProvider";
-import ReactTable from "./ReactTable";
+import Table from "./Table";
 import RequireDataAuth from "./RequireDataAuth";
+import { DefaultColumnFilter, SelectColumnFilter } from "./TableFilters";
 
-export { RequireAuth, ReactTable, RequireDataAuth };
+export {
+  RequireAuth, Table, RequireDataAuth, DefaultColumnFilter, SelectColumnFilter,
+};
