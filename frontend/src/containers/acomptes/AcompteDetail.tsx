@@ -1,25 +1,25 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getOneFactureById } from "../../api/factures";
+import { getOneAcompteById } from "../../api/acomptes";
 import { useAppSelector } from "../../utils/reduxHooks";
-import { FactureForm } from "../../components";
+import { AcompteForm } from "../../components";
 
-export default function FactureDetail() {
+export default function ClientDetail() {
   const params = useParams();
   const user = useAppSelector((state) => state.user);
-  const [facture, setFacture] = useState<any>({});
+  const [acompte, setAcompte] = useState<any>({});
 
   useEffect(() => {
     if (user.isLoggedIn) {
-      getOneFactureById(params.factureId, user.token)
-        .then((facturedata) => setFacture(facturedata))
+      getOneAcompteById(params.acompteId, user.token)
+        .then((acomptedata) => setAcompte(acomptedata))
         .catch((err) => console.log(err));
     }
   }, [user]);
 
   return (
     <div>
-      <FactureForm facture={facture} />
+      <AcompteForm acompte={acompte} />
     </div>
   );
 }

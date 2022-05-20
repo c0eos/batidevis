@@ -3,6 +3,7 @@ import userReducer from "./slices/userSlice";
 import clientsReducer from "./slices/clientsSlice";
 import devisReducer from "./slices/devisSlice";
 import facturesReducer from "./slices/facturesSlice";
+import acomptesReducer from "./slices/acomptesSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     clients: clientsReducer,
     devis: devisReducer,
     factures: facturesReducer,
+    acomptes: acomptesReducer,
   },
 });
 export default store;

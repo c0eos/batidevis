@@ -6,6 +6,7 @@ import { ClientsList, ClientDetail } from "./containers/clients";
 import { RequireAuth } from "./components";
 import { DevisList, DevisDetail } from "./containers/devis";
 import { FacturesList, FactureDetail } from "./containers/factures";
+import { AcomptesList, AcompteDetail } from "./containers/acomptes";
 
 function App() {
   return (
@@ -30,17 +31,17 @@ function App() {
 
           <Route path="devis/">
             <Route index element={<DevisList />} />
-            <Route path=":clientId" element={<DevisDetail />} />
+            <Route path=":devisId" element={<DevisDetail />} />
           </Route>
 
           <Route path="factures/">
             <Route index element={<FacturesList />} />
-            <Route path=":clientId" element={<FactureDetail />} />
+            <Route path=":factureId" element={<FactureDetail />} />
           </Route>
 
-          <Route path="devis/">
-            <Route index element={<DevisList />} />
-            <Route path=":clientId" element={<DevisDetail />} />
+          <Route path="acomptes/">
+            <Route index element={<AcomptesList />} />
+            <Route path=":acompteId" element={<AcompteDetail />} />
           </Route>
 
           <Route path="logout/" element={<Logout />} />

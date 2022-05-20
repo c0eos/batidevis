@@ -3,9 +3,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useMemo } from "react";
 import { useTable, usePagination, useFilters } from "react-table";
+import { useNavigate } from "react-router-dom";
 import { DefaultColumnFilter } from "./TableFilters";
 
 export default function Table({ columns, data }: any) {
+  const navigate = useNavigate();
+
   const filterTypes = useMemo(() => ({
     text: (rows, id, filterValue) => rows.filter((row) => {
       const rowValue = row.values[id];
@@ -59,9 +62,19 @@ export default function Table({ columns, data }: any) {
             {page.map((row: any, i: Number) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} className="even:bg-white odd:bg-slate-100" onDoubleClick={(e) => console.log(row.original)}>
+                <tr
+                  {...row.getRowProps()}
+                  className="even:bg-white odd:bg-slate-100 hover:bg-slate-200 hover:cursor-pointer"
+                  onDoubleClick={(e) => {
+                    console.log(row.original);
+                    navigate(`${row.original.id}`);
+                  }}
+                >
                   {row.cells.map((cell: any) => (
-                    <td {...cell.getCellProps()} className="overflow-hidden whitespace-nowrap">
+                    <td
+                      {...cell.getCellProps()}
+                      className="overflow-hidden whitespace-nowrap"
+                    >
                       { cell.render("Cell")}
                     </td>
                   ))}

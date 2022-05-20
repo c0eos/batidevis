@@ -9,7 +9,7 @@ const initialState: facturesState = {
 };
 
 export const facturesSlice = createSlice({
-  name: "devis",
+  name: "factures",
   initialState,
   reducers: {
     loadFactures: (state, action) => {

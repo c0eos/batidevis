@@ -1,4 +1,4 @@
-import DevisList from "./DevisList";
-import DevisDetail from "./DevisDetail";
+import AcomptesList from "./AcomptesList";
+import AcompteDetail from "./AcompteDetail";
 
-export { DevisList, DevisDetail };
+export { AcomptesList, AcompteDetail };

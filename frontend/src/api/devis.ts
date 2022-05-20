@@ -11,7 +11,7 @@ export function getAllDevis(token: string | null) {
     .catch((err) => { throw err.response.data.error_message ?? err.message; });
 }
 
-export function getOneDevisById(id: string, token: string | null) {
+export function getOneDevisById(id: string|undefined, token: string | null) {
   return axios.get(
     `${API_URL}/devis/${id}`,
     { headers: { Authorization: `Bearer ${token}` } },

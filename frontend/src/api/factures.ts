@@ -11,7 +11,7 @@ export function getAllFactures(token: string | null) {
     .catch((err) => { throw err.response.data.error_message ?? err.message; });
 }
 
-export function getOneFactureById(id: string, token: string | null) {
+export function getOneFactureById(id: string|undefined, token: string | null) {
   return axios.get(
     `${API_URL}/factures/${id}`,
     { headers: { Authorization: `Bearer ${token}` } },

@@ -1,3 +1,8 @@
+## TODO
+
+- backend devis+facture -> ajout interlocuteur
+- drop htX, tvaX, tauxX
+
 ## Structure du projet
 
 - backend by components
