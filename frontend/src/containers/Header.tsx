@@ -1,8 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../utils/reduxHooks";
 
 export default function Header() {
   const user = useAppSelector((state) => state.user);
+
+  const activeStyle = ({ isActive } : {isActive:boolean}) => {
+    const basestyle = "px-2";
+    if (isActive) {
+      return `${basestyle} text-red-600`;
+    }
+    return basestyle;
+  };
 
   return (
     <nav className="flex flex-row py-4 bg-slate-100">
@@ -10,10 +18,12 @@ export default function Header() {
 
       <span className="grow" />
 
-      {user.isLoggedIn && <Link to="/clients" className="">Clients</Link>}
-      {user.isLoggedIn && <Link to="/devis" className="pl-8">Devis</Link>}
-      {user.isLoggedIn && <Link to="/factures" className="pl-8">Factures</Link>}
-      {user.isLoggedIn && <Link to="/acomptes" className="pl-8">Acomptes</Link>}
+      <div className="flex flex-row justify-evenly grow">
+        {user.isLoggedIn && <NavLink to="/clients" className={activeStyle}>Clients</NavLink>}
+        {user.isLoggedIn && <NavLink to="/devis" className={activeStyle}>Devis</NavLink>}
+        {user.isLoggedIn && <NavLink to="/factures" className={activeStyle}>Factures</NavLink>}
+        {user.isLoggedIn && <NavLink to="/acomptes" className={activeStyle}>Acomptes</NavLink>}
+      </div>
 
       <span className="grow" />
 
