@@ -23,10 +23,8 @@ model Client {
   adresse2      String?
   codePostal    String?
   ville         String?
-  pays          String?   @default("France")
   telephone     String?
   portable      String?
-  fax           String?
   email         String?
   compte        String
   info          String?
@@ -39,37 +37,38 @@ model Client {
 }
 
 model Devis {
-  id              Int          @id @default(autoincrement())
-  code            String       @unique
-  etat            Int          @default(0)
-  date            DateTime     @default(now())
-  codeClient      String
-  client          Client       @relation(fields: [codeClient], references: [code])
-  sujet           String?
-  adresseTravaux  String?
-  adresseTravaux2 String?
-  cpTravaux       String?
-  villeTravaux    String?
-  info            String?
-  totalDeb        Float        @default(0.0)
-  totalPR         Float        @default(0.0)
-  totalPV         Float        @default(0.0)
-  totalHT         Float        @default(0.0)
-  totalHTNet      Float        @default(0.0)
-  flagEscompte    Boolean      @default(false)
-  HTNetFin        Float        @default(0.0)
-  totalTVA        Float        @default(0.0)
-  TVAReelle       Float        @default(0.0)
-  totalTTC        Float        @default(0.0)
-  acompte         Float        @default(0.0)
-  netAPayer       Float        @default(0.0)
-  variante        Float        @default(0.0)
-  temps           Float        @default(0.0)
-  transFacture    Boolean      @default(false)
-  flagAcompte     Boolean      @default(false)
-  DevisLigne      DevisLigne[]
-  Facture         Facture[]
-  Acompte         Acompte[]
+  id                Int          @id @default(autoincrement())
+  code              String       @unique
+  etat              Int          @default(0)
+  date              DateTime     @default(now())
+  codeClient        String
+  client            Client       @relation(fields: [codeClient], references: [code])
+  interlocuteur     String?
+  sujet             String?
+  adresseTravaux    String?
+  adresseTravaux2   String?
+  codePostalTravaux String?
+  villeTravaux      String?
+  info              String?
+  totalDeb          Float        @default(0.0)
+  totalPR           Float        @default(0.0)
+  totalPV           Float        @default(0.0)
+  totalHT           Float        @default(0.0)
+  totalHTNet        Float        @default(0.0)
+  flagEscompte      Boolean      @default(false)
+  HTNetFin          Float        @default(0.0)
+  totalTVA          Float        @default(0.0)
+  TVAReelle         Float        @default(0.0)
+  totalTTC          Float        @default(0.0)
+  acompte           Float        @default(0.0)
+  netAPayer         Float        @default(0.0)
+  variante          Float        @default(0.0)
+  temps             Float        @default(0.0)
+  transFacture      Boolean      @default(false)
+  flagAcompte       Boolean      @default(false)
+  DevisLigne        DevisLigne[]
+  Facture           Facture[]
+  Acompte           Acompte[]
 }
 
 model DevisLigne {
@@ -107,36 +106,37 @@ model DevisLigne {
 }
 
 model Facture {
-  id              Int       @id @default(autoincrement())
-  code            String    @unique
-  date            DateTime  @default(now())
-  codeClient      String
-  client          Client    @relation(fields: [codeClient], references: [code])
-  sujet           String?
-  adresseTravaux  String?
-  adresseTravaux2 String?
-  cpTravaux       String?
-  villeTravaux    String?
-  info            String?
-  totalDeb        Float     @default(0.0)
-  totalPR         Float     @default(0.0)
-  totalPV         Float     @default(0.0)
-  totalHT         Float     @default(0.0)
-  totalHTNet      Float     @default(0.0)
-  flagEscompte    Boolean   @default(false)
-  HTNetFin        Float     @default(0.0)
-  totalTVA        Float     @default(0.0)
-  TVAReelle       Float     @default(0.0)
-  totalTTC        Float     @default(0.0)
-  acompte         Float     @default(0.0)
-  netAPayer       Float     @default(0.0)
-  dateRG          DateTime?
-  temps           Float     @default(0.0)
-  codeDevis       String
-  devis           Devis     @relation(fields: [codeDevis], references: [code])
-  numOrdre        Int
-  flagAcompte     Boolean   @default(false)
-  dateCreation    DateTime  @default(now())
+  id                Int       @id @default(autoincrement())
+  code              String    @unique
+  date              DateTime  @default(now())
+  codeClient        String
+  client            Client    @relation(fields: [codeClient], references: [code])
+  interlocuteur     String?
+  sujet             String?
+  adresseTravaux    String?
+  adresseTravaux2   String?
+  codePostalTravaux String?
+  villeTravaux      String?
+  info              String?
+  totalDeb          Float     @default(0.0)
+  totalPR           Float     @default(0.0)
+  totalPV           Float     @default(0.0)
+  totalHT           Float     @default(0.0)
+  totalHTNet        Float     @default(0.0)
+  flagEscompte      Boolean   @default(false)
+  HTNetFin          Float     @default(0.0)
+  totalTVA          Float     @default(0.0)
+  TVAReelle         Float     @default(0.0)
+  totalTTC          Float     @default(0.0)
+  acompte           Float     @default(0.0)
+  netAPayer         Float     @default(0.0)
+  dateRG            DateTime?
+  temps             Float     @default(0.0)
+  codeDevis         String
+  devis             Devis     @relation(fields: [codeDevis], references: [code])
+  numOrdre          Int
+  flagAcompte       Boolean   @default(false)
+  dateCreation      DateTime  @default(now())
 
   FactureLigne FactureLigne[]
   Acompte      Acompte[]
@@ -182,7 +182,7 @@ model FactureLigne {
 
 model Acompte {
   id           Int      @id @default(autoincrement())
-  codeAcompte  String   @unique
+  code         String   @unique
   date         DateTime @default(now())
   codeClient   String
   client       Client   @relation(fields: [codeClient], references: [code])
