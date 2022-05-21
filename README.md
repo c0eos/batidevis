@@ -11,6 +11,7 @@
 - erreurs centralisées
 - routes protégées par défaut
 - typescript + eslint
+- validation schema avec yup
 
 ## Backend
 
