@@ -6,7 +6,7 @@ class Facture {
     const factures = await prisma.facture.findMany({
       orderBy: [
         {
-          date: "desc",
+          dateEdition: "desc",
         },
       ],
     });

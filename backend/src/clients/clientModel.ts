@@ -46,6 +46,15 @@ class Client {
 
     return client;
   }
+
+  static async getAllCodes() {
+    const codes = await prisma.client.findMany({
+      select: {
+        code: true,
+      },
+    });
+    return codes;
+  }
 }
 
 export default Client;

@@ -5,7 +5,7 @@ class Acompte {
   static async getAll() {
     const acomptes = await prisma.acompte.findMany({
       orderBy: {
-        date: "desc",
+        dateEdition: "desc",
       },
     });
 

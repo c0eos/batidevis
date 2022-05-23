@@ -6,7 +6,7 @@ class Devis {
     const devis = await prisma.devis.findMany({
       orderBy: [
         {
-          date: "desc",
+          dateEdition: "desc",
         },
       ],
     });

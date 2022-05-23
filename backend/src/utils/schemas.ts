@@ -1,137 +1,79 @@
+/* eslint-disable no-template-curly-in-string */
 import * as yup from "yup";
 
-const UserSchema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
+// messages
+yup.setLocale({
+  mixed: {
+    default: "Donnée invalide",
+    required: "Donnée requise",
+    notType: "Donnée invalide",
+  },
+  string: {
+    email: "Adresse email invalide",
+    min: "Doit contenir au moins ${min} caractères",
+  },
 });
 
-const ClientSchema = yup.object().shape({
-  id: yup.number().integer().positive(),
-  code: yup.string().required(),
-  nom: yup.string().required(),
-  civilite: yup.string(),
-  interlocuteur: yup.string(),
-  adresse: yup.string(),
-  adresse2: yup.string(),
-  codePostal: yup.string().length(5),
-  ville: yup.string(),
-  telephone: yup.string().length(10),
-  portable: yup.string().length(10),
-  email: yup.string().email(),
-  compte: yup.string(),
-  info: yup.string(),
-  ca: yup.number(),
-  solde: yup.number(),
-  updated: yup.date().default(() => new Date()),
+// schema communs
+
+const string = yup.string().trim();
+const optionalString = string.optional().nullable();
+const phone = yup.string().transform((value) => {
+  const cleaned = value.replace(/\D/g, "");
+  const match = cleaned.match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/);
+  if (match) {
+    return `${match[1]} ${match[2]} ${match[3]} ${match[4]} ${match[5]}`;
+  }
+  return value;
 });
 
-const DevisSchema = yup.object().shape({
+const BaseSchema = yup.object().shape({
   id: yup.number().integer().positive(),
-  code: yup.string().required(),
-  etat: yup.number().required(),
-  date: yup.date(),
-  codeClient: yup.string().required(),
-  sujet: yup.string(),
-  adresseTravaux: yup.string(),
-  adresseTravaux2: yup.string(),
-  codePostalTravaux: yup.string().length(5),
-  villeTravaux: yup.string(),
-  info: yup.string(),
-  totalDeb: yup.number(),
-  totalPR: yup.number(),
-  totalPV: yup.number(),
-  totalHT: yup.number(),
-  totalHTNet: yup.number(),
-  flagEscompte: yup.boolean(),
-  HTNetFin: yup.number(),
-  totalTVA: yup.number(),
-  TVAReelle: yup.number(),
-  totalTTC: yup.number(),
-  acompte: yup.number(),
-  netAPayer: yup.number(),
-  variante: yup.number(),
-  temps: yup.number(),
-  transFacture: yup.boolean(),
-  flagAcompte: yup.boolean(),
-});
-
-const DevisLigneSchema = yup.object().shape({
-  id: yup.number().integer().positive(),
-  codeDevis: yup.string().required(),
-  numLigne: yup.number().integer().required(),
-  numBuf: yup.number().integer().required(),
-  idSousTotal: yup.number().integer(),
-  nivTr: yup.number().integer(),
-  nivOuv: yup.number().integer(),
-  type: yup.string(),
-  numerotation: yup.number().integer(),
-  codeElement: yup.string(),
-  libelle: yup.string(),
-  deb: yup.number(),
-  fgF: yup.number(),
-  fgMo: yup.number(),
-  fgMat: yup.number(),
-  fg: yup.number(),
-  pr: yup.number(),
-  ben: yup.number(),
-  coef: yup.number(),
-  pv: yup.number(),
-  pvEuro: yup.number(),
-  pvNet: yup.number(),
-  pvNetEuro: yup.number(),
-  qte: yup.number(),
-  tva: yup.number(),
-  compte: yup.string(),
-  unite: yup.string(),
-  temps: yup.number(),
-  nonEdit: yup.number(),
-  variante: yup.number(),
-});
-
-const FactureSchema = yup.object().shape({
-  id: yup.number().integer().positive(),
-  code: yup.string().required(),
-  date: yup.date(),
-  codeClient: yup.string().required(),
-  interlocuteur: yup.string(),
-  sujet: yup.string(),
-  adresseTravaux: yup.string(),
-  adresseTravaux2: yup.string(),
-  codePostalTravaux: yup.string().length(5),
-  villeTravaux: yup.string(),
-  info: yup.string(),
-  totalDeb: yup.number(),
-  totalPR: yup.number(),
-  totalPV: yup.number(),
-  totalHT: yup.number(),
-  totalHTNet: yup.number(),
-  flagEscompte: yup.boolean(),
-  HTNetFin: yup.number(),
-  totalTVA: yup.number(),
-  TVAReelle: yup.number(),
-  totalTTC: yup.number(),
-  acompte: yup.number(),
-  netAPayer: yup.number(),
-  dateRG: yup.date(),
-  temps: yup.number(),
-  codeDevis: yup.string().required(),
-  numOrdre: yup.number().integer().required(),
-  flagAcompte: yup.boolean(),
+  code: optionalString,
   dateCreation: yup.date(),
 });
 
-const FactureLigneSchema = yup.object().shape({
+const AdresseSchema = yup.object().shape({
+  adresse: string.required(),
+  adresseSuite: optionalString,
+  codePostal: string.required().matches(/^[0-9]{5}$/, "Code postal invalide"),
+  ville: string.uppercase().required().min(2).matches(/^[a-zA-Z- ]+$/, "Ville invalide"),
+});
+
+const DocumentSchema = BaseSchema
+  .concat(AdresseSchema)
+  .shape({
+    codeClient: string.required(),
+    sujet: string.required(),
+    interlocuteur: string.required(),
+    info: optionalString,
+    totalDeb: yup.number(),
+    totalPR: yup.number(),
+    totalPV: yup.number(),
+    totalHT: yup.number(),
+    totalHTNet: yup.number(),
+    HTNetFin: yup.number(),
+    totalTVA: yup.number(),
+    TVAReelle: yup.number(),
+    totalTTC: yup.number(),
+    acompte: yup.number(),
+    netAPayer: yup.number(),
+    temps: yup.number(),
+    flagEscompte: yup.boolean(),
+    flagAcompte: yup.boolean(),
+  });
+
+const LigneSchema = yup.object().shape({
   id: yup.number().integer().positive(),
-  codeFacture: yup.string().required(),
   numLigne: yup.number().integer().required(),
   numBuf: yup.number().integer().required(),
   idSousTotal: yup.number().integer(),
   nivTr: yup.number().integer(),
   nivOuv: yup.number().integer(),
-  type: yup.string(),
+  type: optionalString,
   numerotation: yup.number().integer(),
-  codeElement: yup.string(),
-  libelle: yup.string(),
+  codeElement: optionalString,
+  libelle: optionalString,
   deb: yup.number(),
   fgF: yup.number(),
   fgMo: yup.number(),
@@ -151,23 +93,58 @@ const FactureLigneSchema = yup.object().shape({
   temps: yup.number(),
   nonEdit: yup.number(),
   variante: yup.number(),
+});
+
+// schema utilisés
+
+const UserSchema = yup.object().shape({
+  id: yup.number().integer().positive(),
+  email: string.email().required(),
+  password: string.required(),
+});
+
+const ClientSchema = BaseSchema
+  .concat(AdresseSchema)
+  .shape({
+    nom: string.required().min(2),
+    civilite: optionalString,
+    interlocuteur: optionalString,
+    telephone: phone.matches(/^0[1234589]( \d\d){4}$/, { excludeEmptyString: true, message: "Numéro téléphone fixe invalide" }),
+    portable: phone.matches(/^0[67]( \d\d){4}$/, { excludeEmptyString: true, message: "Numéro portable invalide" }),
+    email: optionalString.email(),
+    info: optionalString,
+  });
+
+const DevisSchema = DocumentSchema.shape({
+  etat: yup.number().required(),
+  transFacture: yup.boolean(),
+});
+
+const FactureSchema = DocumentSchema.shape({
+  dateRG: yup.date(),
+  codeDevis: string.required(),
+  numOrdre: yup.number().integer().required(),
+});
+
+const AcompteSchema = BaseSchema.shape({
+  codeDevis: optionalString,
+  codeFacture: optionalString,
+  codeClient: string.required(),
+  sujet: string.required(),
+  totalHT: yup.number(),
+  totalTVA: yup.number(),
+  totalTTC: yup.number(),
+});
+
+const DevisLigneSchema = LigneSchema.shape({
+  codeDevis: string.required(),
+});
+
+const FactureLigneSchema = LigneSchema.shape({
+  codeFacture: string.required(),
   avt: yup.number(),
   qteOrigine: yup.number(),
   pvOrigine: yup.number(),
-});
-
-const AcompteSchema = yup.object().shape({
-  id: yup.number().integer().positive(),
-  code: yup.string().required(),
-  date: yup.date(),
-  codeClient: yup.string().required(),
-  sujet: yup.string(),
-  totalHT: yup.number(),
-  totalTVA: yup.number(),
-  totalTTC: yup.number(),
-  dateCreation: yup.date(),
-  codeDevis: yup.string(),
-  codeFacture: yup.string(),
 });
 
 const TVASchema = yup.object().shape({
@@ -176,30 +153,34 @@ const TVASchema = yup.object().shape({
 });
 
 // interfaces a partir des schemas yup
-interface User extends yup.InferType<typeof UserSchema> {}
-interface Client extends yup.InferType<typeof ClientSchema> {}
-interface Devis extends yup.InferType<typeof DevisSchema> {}
-interface DevisLigne extends yup.InferType<typeof DevisLigneSchema> {}
-interface Facture extends yup.InferType<typeof FactureSchema> {}
-interface FactureLigne extends yup.InferType<typeof FactureLigneSchema> {}
-interface Acompte extends yup.InferType<typeof AcompteSchema> {}
-interface TVA extends yup.InferType<typeof TVASchema> {}
+
+interface IUser extends yup.InferType<typeof UserSchema> {}
+interface IClient extends yup.InferType<typeof ClientSchema> {}
+interface IDevis extends yup.InferType<typeof DevisSchema> {}
+interface IDevisLigne extends yup.InferType<typeof DevisLigneSchema> {}
+interface IFacture extends yup.InferType<typeof FactureSchema> {}
+interface IFactureLigne extends yup.InferType<typeof FactureLigneSchema> {}
+interface IAcompte extends yup.InferType<typeof AcompteSchema> {}
+interface ITVA extends yup.InferType<typeof TVASchema> {}
 
 export {
   UserSchema,
-  User,
   ClientSchema,
-  Client,
   DevisSchema,
-  Devis,
   DevisLigneSchema,
-  DevisLigne,
   FactureSchema,
-  Facture,
   FactureLigneSchema,
-  FactureLigne,
   AcompteSchema,
-  Acompte,
   TVASchema,
-  TVA,
+};
+
+export type {
+  IUser,
+  IClient,
+  IDevis,
+  IDevisLigne,
+  IFacture,
+  IFactureLigne,
+  IAcompte,
+  ITVA,
 };
