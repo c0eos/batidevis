@@ -1,7 +1,6 @@
 ## TODO
 
-- backend devis+facture -> ajout interlocuteur
-- drop htX, tvaX, tauxX
+- tva
 
 ## Structure du projet
 
@@ -28,9 +27,9 @@
 
 - Clients
 
-  - [ ] ajouter
+  - [x] ajouter
   - [x] supprimer (foreign?)
-  - [ ] modifier
+  - [x] modifier
   - [x] lister tous
   - [x] lister 1
 
@@ -63,3 +62,47 @@
 
 - toutes les routes sont protégées, sauf login
 - affichage tableaux avec `react-table`, afin de trier, filtrer facilement + pagination
+
+### tâches
+
+- Utilisateurs
+
+  - [x] se connecter
+  - [ ] ajouter
+  - [x] supprimer
+  - [ ] modifier
+  - [ ] lister tous
+  - [ ] lister 1
+
+- Clients
+
+  - [x] ajouter
+  - [ ] supprimer (foreign?)
+  - [x] modifier
+  - [x] lister tous
+  - [x] lister 1
+
+- Devis
+
+  - [ ] ajouter
+  - [ ] supprimer (foreign?)
+  - [ ] modifier
+  - [x] lister tous
+  - [x] lister 1
+  - [ ] lister details
+
+- Factures
+
+  - [ ] ajouter
+  - [ ] supprimer (foreign?)
+  - [ ] modifier
+  - [x] lister tous
+  - [x] lister 1
+  - [ ] lister details
+
+- Acomptes
+  - [ ] ajouter
+  - [ ] supprimer
+  - [ ] modifier
+  - [x] lister tous
+  - [x] lister 1
