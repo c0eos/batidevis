@@ -6,6 +6,10 @@ db_out = sqlite3.connect("../backend/Entrep.db")
 cur = db_out.cursor()
 
 
+def format_date(column):
+    return (pd.to_datetime(column) - pd.Timestamp("1970-01-01")) // pd.Timedelta("1ms")
+
+
 def clients():
     df = pd.read_sql("SELECT * FROM Client", db_in)
     df.drop(
@@ -34,13 +38,17 @@ def clients():
             "CompteBloque",
             "Pays",
             "Fax",
+            "Compte",
+            "CA",
+            "Solde",
         ],
         inplace=True,
         axis=1,
     )
 
-    df["DateDernMAJ"] = pd.to_datetime(df["DateDernMAJ"])
+    df["DateDernMAJ"] = format_date(df["DateDernMAJ"])
     df["Info"] = df["Info"] + "\n" + df["SuiteInfo"]
+    df["dateCreation"] = df["DateDernMAJ"]
 
     df.drop(
         [
@@ -56,17 +64,15 @@ def clients():
         "Civilite",
         "Interlocuteur",
         "Adresse",
-        "Adresse2",
+        "AdresseSuite",
         "codePostal",
         "Ville",
         "Telephone",
         "Portable",
         "EMail",
-        "Compte",
         "Info",
-        "CA",
-        "Solde",
-        "Updated",
+        "dateEdition",
+        "dateCreation",
     ]
 
     print(df.head(20))
@@ -140,7 +146,8 @@ def devis():
         axis=1,
     )
 
-    df["Date"] = pd.to_datetime(df["Date"])
+    df["Date"] = format_date(df["Date"])
+    df["dateEdition"] = df["Date"]
     df["Info"] = df["Info"] + "\n" + df["InfoSuite"]
 
     df.drop(
@@ -154,14 +161,14 @@ def devis():
     df.columns = [
         "Code",
         "Etat",
-        "Date",
+        "DateEdition",
         "CodeClient",
         "Interlocuteur",
         "Sujet",
-        "adresseTravaux",
-        "adresseTravaux2",
-        "codePostalTravaux",
-        "VilleTravaux",
+        "adresse",
+        "adresseSuite",
+        "codePostal",
+        "Ville",
         "Info",
         "TotalDeb",
         "TotalPR",
@@ -179,6 +186,7 @@ def devis():
         "Temps",
         "transFacture",
         "FlagAcompte",
+        "dateCreation",
     ]
 
     print(df.head(20))
@@ -318,23 +326,23 @@ def factures():
         axis=1,
     )
 
-    df["Date"] = pd.to_datetime(df["Date"])
-    df["DateRG"] = pd.to_datetime(df["DateRG"])
-    df["DateCreat"] = pd.to_datetime(df["DateCreat"])
+    df["Date"] = format_date(df["Date"])
+    df["DateRG"] = format_date(df["DateRG"])
+    df["DateCreat"] = format_date(df["DateCreat"])
     df["Info"] = df["Info"] + "\n" + df["InfoSuite"]
 
     df.drop(["InfoSuite"], inplace=True, axis=1)
 
     df.columns = [
         "Code",
-        "Date",
+        "DateEdition",
         "CodeClient",
         "Interlocuteur",
         "Sujet",
-        "adresseTravaux",
-        "adresseTravaux2",
-        "codePostalTravaux",
-        "VilleTravaux",
+        "adresse",
+        "adresseSuite",
+        "codePostal",
+        "Ville",
         "Info",
         "TotalDeb",
         "TotalPR",
@@ -470,8 +478,8 @@ def acomptes():
         axis=1,
     )
 
-    df["Date"] = pd.to_datetime(df["Date"])
-    df["DateCreat"] = pd.to_datetime(df["DateCreat"])
+    df["Date"] = format_date(df["Date"])
+    df["DateCreat"] = format_date(df["DateCreat"])
 
     def map_acompte(row):
         codes = pd.read_sql(
