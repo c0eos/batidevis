@@ -1,6 +1,8 @@
 import express from "express";
 import Client from "./clientModel";
 import { AppError } from "../utils/errors";
+import { ClientSchema } from "../utils/schemas";
+import { generateClientCode } from "../utils/codesGenerator";
 
 const router = express.Router();
 
@@ -14,8 +16,20 @@ router.route("/")
         next(err);
       });
   })
-  .post((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .post(async (req, res, next) => {
+    try {
+      const clientdata = await ClientSchema.validate(req.body, { stripUnknown: true });
+      const codes = await Client.getAllCodes();
+
+      const code = generateClientCode(clientdata.nom, codes);
+      clientdata.code = code;
+
+      const client = await Client.create(clientdata);
+
+      res.json({ results: client });
+    } catch (error) {
+      next(error);
+    }
   });
 
 router.route("/:id")
@@ -32,8 +46,14 @@ router.route("/:id")
         next(err);
       });
   })
-  .put((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .put(async (req, res, next) => {
+    try {
+      const clientdata = await ClientSchema.validate(req.body, { stripUnknown: true });
+      const client = await Client.update(req.params.id, clientdata);
+      res.json({ results: client });
+    } catch (error) {
+      next(error);
+    }
   })
   .delete((req, res, next) => {
     Client.delete(req.params.id)

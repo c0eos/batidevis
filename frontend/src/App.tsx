@@ -2,8 +2,8 @@ import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Header from "./containers/Header";
 import { Login, Logout } from "./containers/user";
-import { ClientsList, ClientDetail } from "./containers/clients";
 import { RequireAuth } from "./components";
+import { ClientsList, ClientDetail, ClientAjout } from "./containers/clients";
 import { DevisList, DevisDetail } from "./containers/devis";
 import { FacturesList, FactureDetail } from "./containers/factures";
 import { AcomptesList, AcompteDetail } from "./containers/acomptes";
@@ -42,6 +42,10 @@ function App() {
           <Route path="acomptes/">
             <Route index element={<AcomptesList />} />
             <Route path=":acompteId" element={<AcompteDetail />} />
+          </Route>
+
+          <Route path="creation/">
+            <Route path="client" element={<ClientAjout />} />
           </Route>
 
           <Route path="logout/" element={<Logout />} />
