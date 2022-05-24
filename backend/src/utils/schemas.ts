@@ -19,6 +19,9 @@ yup.setLocale({
 const string = yup.string().trim();
 const optionalString = string.optional().nullable();
 const phone = yup.string().transform((value) => {
+  if (!value) {
+    return "";
+  }
   const cleaned = value.replace(/\D/g, "");
   const match = cleaned.match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/);
   if (match) {
@@ -36,8 +39,8 @@ const BaseSchema = yup.object().shape({
 const AdresseSchema = yup.object().shape({
   adresse: string.required(),
   adresseSuite: optionalString,
-  codePostal: string.required().matches(/^[0-9]{5}$/, "Code postal invalide"),
-  ville: string.uppercase().required().min(2).matches(/^[a-zA-Z- ]+$/, "Ville invalide"),
+  codePostal: string.required().transform((value) => value.replace(/\D/g, "")).matches(/^[0-9]{5}$/, "Code postal invalide"),
+  ville: string.uppercase().required().min(2).matches(/^[a-zA-Z0-9- ]+$/, "Ville invalide"),
 });
 
 const DocumentSchema = BaseSchema
@@ -109,7 +112,7 @@ const ClientSchema = BaseSchema
     nom: string.required().min(2),
     civilite: optionalString,
     interlocuteur: optionalString,
-    telephone: phone.matches(/^0[1234589]( \d\d){4}$/, { excludeEmptyString: true, message: "Numéro téléphone fixe invalide" }),
+    telephone: phone.matches(/^0[1-589]( \d\d){4}$/, { excludeEmptyString: true, message: "Numéro téléphone fixe invalide" }),
     portable: phone.matches(/^0[67]( \d\d){4}$/, { excludeEmptyString: true, message: "Numéro portable invalide" }),
     email: optionalString.email(),
     info: optionalString,

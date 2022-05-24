@@ -39,8 +39,8 @@ const BaseSchema = yup.object().shape({
 const AdresseSchema = yup.object().shape({
   adresse: string.required(),
   adresseSuite: optionalString,
-  codePostal: string.required().matches(/^[0-9]{5}$/, "Code postal invalide"),
-  ville: string.uppercase().required().min(2).matches(/^[a-zA-Z- ]+$/, "Ville invalide"),
+  codePostal: string.required().transform((value) => value.replace(/\D/g, "")).matches(/^[0-9]{5}$/, "Code postal invalide"),
+  ville: string.uppercase().required().min(2).matches(/^[a-zA-Z0-9- ]+$/, "Ville invalide"),
 });
 
 const DocumentSchema = BaseSchema
