@@ -1,10 +1,25 @@
 import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../utils/reduxHooks";
 import { checkToken } from "../api/user";
 import { login } from "../slices/userSlice";
+import { getAllClients } from "../api/clients";
+import { loadClients } from "../slices/clientsSlice";
+import { getAllDevis } from "../api/devis";
+import { loadDevis } from "../slices/devisSlice";
+import { getAllAcomptes } from "../api/acomptes";
+import { loadAcomptes } from "../slices/acomptesSlice";
+import { getAllFactures } from "../api/factures";
+import { loadFactures } from "../slices/facturesSlice";
 
 function RequireAuth({ children }: {children: JSX.Element}) {
+  // charges les données
   const user = useAppSelector((state) => state.user);
+  const clients = useAppSelector((state) => state.clients);
+  const devis = useAppSelector((state) => state.devis);
+  const factures = useAppSelector((state) => state.factures);
+  const acomptes = useAppSelector((state) => state.acomptes);
+
   const dispatch = useAppDispatch();
 
   if (!user.isLoggedIn) {
@@ -16,6 +31,28 @@ function RequireAuth({ children }: {children: JSX.Element}) {
       .then((userdata) => dispatch(login({ info: userdata, token })))
       .catch((error) => console.log(error));
   }
+
+  useEffect(() => {
+    if (user.isLoggedIn && clients.items.length === 0) {
+      getAllClients(user.token)
+        .then((clientsdata) => dispatch(loadClients(clientsdata)));
+    }
+
+    if (user.isLoggedIn && devis.items.length === 0) {
+      getAllDevis(user.token)
+        .then((devisdata) => dispatch(loadDevis(devisdata)));
+    }
+
+    if (user.isLoggedIn && factures.items.length === 0) {
+      getAllFactures(user.token)
+        .then((facturedata) => dispatch(loadFactures(facturedata)));
+    }
+
+    if (user.isLoggedIn && acomptes.items.length === 0) {
+      getAllAcomptes(user.token)
+        .then((acomptesdata) => dispatch(loadAcomptes(acomptesdata)));
+    }
+  }, [user.isLoggedIn]);
 
   return children;
 }

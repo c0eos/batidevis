@@ -1,14 +1,10 @@
-import { useEffect, useMemo } from "react";
-import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
-import { Table, SelectColumnFilter } from "../../components";
-import { loadFactures } from "../../slices/facturesSlice";
-import { getAllFactures } from "../../api/factures";
+import { useMemo } from "react";
+import { useAppSelector } from "../../utils/reduxHooks";
+import { Table } from "../../components";
 import { priceFormat, dateFormat } from "../../utils/cellFormaters";
 
 export default function FacturesList() {
   const factures = useAppSelector((state) => state.factures);
-  const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
 
   const columns = useMemo(() => [
     { Header: "Code", accessor: "code" },
@@ -31,12 +27,6 @@ export default function FacturesList() {
     { Header: "Total HT", accessor: "totalHT", Cell: priceFormat },
     { Header: "Total TTC", accessor: "totalTTC", Cell: priceFormat },
   ], []);
-
-  useEffect(() => {
-    if (factures.items.length === 0 && user.isLoggedIn) {
-      getAllFactures(user.token).then((facturedata) => dispatch(loadFactures(facturedata)));
-    }
-  }, [user.isLoggedIn]);
 
   return (
     <div className="container max-w-7xl mx-auto">
