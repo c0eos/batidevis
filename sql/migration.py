@@ -141,6 +141,7 @@ def devis():
             "TVA3",
             "TVA4",
             "TVA5",
+            "Etat",
         ],
         inplace=True,
         axis=1,
@@ -160,7 +161,6 @@ def devis():
 
     df.columns = [
         "Code",
-        "Etat",
         "DateEdition",
         "CodeClient",
         "Interlocuteur",

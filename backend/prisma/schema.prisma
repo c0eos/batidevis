@@ -37,7 +37,6 @@ model Client {
 model Devis {
   id            Int          @id @default(autoincrement())
   code          String       @unique
-  etat          Int          @default(0)
   dateEdition   DateTime     @updatedAt
   codeClient    String
   client        Client       @relation(fields: [codeClient], references: [code])

@@ -68,15 +68,15 @@ const DocumentSchema = BaseSchema
 
 const LigneSchema = yup.object().shape({
   id: yup.number().integer().positive(),
-  numLigne: yup.number().integer().required(),
-  numBuf: yup.number().integer().required(),
-  idSousTotal: yup.number().integer(),
+  numLigne: yup.number().integer(),
+  numBuf: yup.number().integer(),
+  idSousTotal: yup.number().integer().nullable(),
   nivTr: yup.number().integer(),
   nivOuv: yup.number().integer(),
   type: optionalString,
-  numerotation: yup.number().integer(),
+  numerotation: yup.number().integer().nullable(),
   codeElement: optionalString,
-  libelle: optionalString,
+  libelle: string.required(),
   deb: yup.number(),
   fgF: yup.number(),
   fgMo: yup.number(),
@@ -86,13 +86,13 @@ const LigneSchema = yup.object().shape({
   ben: yup.number(),
   coef: yup.number(),
   pv: yup.number(),
-  pvEuro: yup.number(),
+  pvEuro: yup.number().required(),
   pvNet: yup.number(),
   pvNetEuro: yup.number(),
-  qte: yup.number(),
+  qte: yup.number().required(),
   tva: yup.number(),
-  compte: yup.string(),
-  unite: yup.string(),
+  compte: optionalString,
+  unite: optionalString,
   temps: yup.number(),
   nonEdit: yup.number(),
   variante: yup.number(),
@@ -119,7 +119,6 @@ const ClientSchema = BaseSchema
   });
 
 const DevisSchema = DocumentSchema.shape({
-  etat: yup.number().required(),
   transFacture: yup.boolean(),
 });
 
