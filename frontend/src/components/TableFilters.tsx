@@ -2,6 +2,7 @@
 // A great library for fuzzy filtering/sorting items
 // import matchSorter from "match-sorter";
 import { useMemo } from "react";
+import Fuse from "fuse.js";
 
 // Define a default UI for filtering
 function DefaultColumnFilter({
@@ -62,6 +63,20 @@ function SelectColumnFilter({
 // Let the table remove the filter if the string is empty
 // fuzzyTextFilterFn.autoRemove = (val) => !val;
 
+function fuzzyTextFilterFn(rows, id, filterValue) {
+  const options = rows.map((row) => row.values);
+  const fuse = new Fuse(rows, {
+    useExtendedSearch: true,
+    minMatchCharLength: 2,
+    findAllMatches: true,
+    keys: [`values.${id[0]}`],
+  });
+  const result = fuse.search(filterValue);
+
+  return result.map((row) => row.item);
+}
+fuzzyTextFilterFn.autoRemove = (val) => !val;
+
 // Define a custom filter filter function!
 function filterGreaterThan(rows, id, filterValue) {
   return rows.filter((row) => {
@@ -76,4 +91,6 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = (val) => typeof val !== "number";
 
-export { DefaultColumnFilter, SelectColumnFilter };
+export {
+  DefaultColumnFilter, SelectColumnFilter, fuzzyTextFilterFn,
+};

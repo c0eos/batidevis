@@ -4,7 +4,7 @@
 import { useMemo } from "react";
 import { useTable, usePagination, useFilters } from "react-table";
 import { useNavigate } from "react-router-dom";
-import { DefaultColumnFilter } from "./TableFilters";
+import { DefaultColumnFilter, fuzzyTextFilterFn } from "./TableFilters";
 
 export default function Table({ columns, data }: any) {
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ export default function Table({ columns, data }: any) {
 
   const defaultColumn = useMemo(() => ({
     Filter: DefaultColumnFilter,
+    filter: fuzzyTextFilterFn,
   }), []);
 
   const {
