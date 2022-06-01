@@ -1,4 +1,7 @@
-import FacturesList from "./FacturesList";
+import FacturesListe from "./FacturesListe";
 import FactureDetail from "./FactureDetail";
 
-export { FacturesList, FactureDetail };
+export {
+  FacturesListe,
+  FactureDetail,
+};

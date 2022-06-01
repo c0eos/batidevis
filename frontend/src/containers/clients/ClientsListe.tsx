@@ -1,8 +1,8 @@
 import { useMemo } from "react";
+import { SelectColumnFilter, Table } from "../../components";
 import { useAppSelector } from "../../utils/reduxHooks";
-import { Table, SelectColumnFilter } from "../../components";
 
-export default function ClientsList() {
+export default function ClientsListe() {
   const clients = useAppSelector((state) => state.clients);
 
   const columns = useMemo(() => [
@@ -16,8 +16,8 @@ export default function ClientsList() {
   ], []);
 
   return (
-    <div className="container max-w-7xl mx-auto">
-      <h1 className="font-bold text-2xl text-center">Liste des clients</h1>
+    <div className="container mx-auto max-w-7xl">
+      <h1 className="text-2xl font-bold text-center">Liste des clients</h1>
       <Table columns={columns} data={clients.items} />
 
     </div>

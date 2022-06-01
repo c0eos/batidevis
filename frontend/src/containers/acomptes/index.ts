@@ -1,4 +1,7 @@
-import AcomptesList from "./AcomptesList";
 import AcompteDetail from "./AcompteDetail";
+import AcomptesListe from "./AcomptesListe";
 
-export { AcomptesList, AcompteDetail };
+export {
+  AcompteDetail,
+  AcomptesListe,
+};

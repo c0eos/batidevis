@@ -1,6 +1,8 @@
 ## TODO
 
 - tva
+- total HT + remises/avoirs -> total HT Net + TVAs -> totalTTC - acomptes -> reste a payer
+- remises inserer dans devis
 
 ## Structure du projet
 
@@ -69,7 +71,7 @@
 
   - [x] se connecter
   - [ ] ajouter
-  - [x] supprimer
+  - [ ] supprimer
   - [ ] modifier
   - [ ] lister tous
   - [ ] lister 1

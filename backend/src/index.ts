@@ -14,7 +14,7 @@ import facturesRoutes from "./factures/factureRoutes";
 import acomptesRoutes from "./acomptes/acompteRoutes";
 
 // erreurs
-import { handler, AppError } from "./utils/errors";
+import { AppError, handler } from "./utils/errors";
 
 // config
 import config from "./config";

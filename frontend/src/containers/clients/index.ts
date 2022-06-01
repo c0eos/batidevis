@@ -1,5 +1,9 @@
-import ClientsList from "./ClientsList";
-import ClientDetail from "./ClientDetail";
 import ClientAjout from "./ClientAjout";
+import ClientDetail from "./ClientDetail";
+import ClientsListe from "./ClientsListe";
 
-export { ClientsList, ClientDetail, ClientAjout };
+export {
+  ClientAjout,
+  ClientDetail,
+  ClientsListe,
+};

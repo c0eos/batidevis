@@ -39,9 +39,7 @@ rules:
   react/jsx-filename-extension:
     - 1
     - extensions:
-        - .js
         - .jsx
-        - .ts
         - .tsx
   class-methods-use-this: warn
   node/no-unsupported-features/es-syntax: off

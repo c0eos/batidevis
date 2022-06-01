@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { useAppSelector } from "../../utils/reduxHooks";
-import { Table, SelectColumnFilter } from "../../components";
+import { SelectColumnFilter, Table } from "../../components";
 import { dateFormat } from "../../utils/cellFormaters";
+import { useAppSelector } from "../../utils/reduxHooks";
 
-export default function DevisList() {
+export default function DevisListe() {
   const devis = useAppSelector((state) => state.devis);
 
   const columns = useMemo(() => [
@@ -31,8 +31,8 @@ export default function DevisList() {
   ], []);
 
   return (
-    <div className="container max-w-7xl mx-auto">
-      <h1 className="font-bold text-2xl text-center">Liste des devis</h1>
+    <div className="container mx-auto max-w-7xl">
+      <h1 className="text-2xl font-bold text-center">Liste des devis</h1>
       <Table columns={columns} data={devis.items} />
 
     </div>

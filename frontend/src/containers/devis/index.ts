@@ -1,4 +1,11 @@
-import DevisList from "./DevisList";
+import DevisAjout from "./DevisAjout";
 import DevisDetail from "./DevisDetail";
+import DevisLignes from "./DevisLignes";
+import DevisListe from "./DevisListe";
 
-export { DevisList, DevisDetail };
+export {
+  DevisAjout,
+  DevisDetail,
+  DevisLignes,
+  DevisListe,
+};

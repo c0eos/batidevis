@@ -3,10 +3,12 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import Header from "./containers/Header";
 import { Login, Logout } from "./containers/user";
 import { RequireAuth } from "./components";
-import { ClientsList, ClientDetail, ClientAjout } from "./containers/clients";
-import { DevisList, DevisDetail } from "./containers/devis";
-import { FacturesList, FactureDetail } from "./containers/factures";
-import { AcomptesList, AcompteDetail } from "./containers/acomptes";
+import { ClientsListe, ClientDetail, ClientAjout } from "./containers/clients";
+import {
+  DevisListe, DevisDetail, DevisAjout, DevisLignes,
+} from "./containers/devis";
+import { FacturesListe, FactureDetail } from "./containers/factures";
+import { AcomptesListe, AcompteDetail } from "./containers/acomptes";
 
 function App() {
   return (
@@ -25,27 +27,31 @@ function App() {
           )}
         >
           <Route path="clients/">
-            <Route index element={<ClientsList />} />
+            <Route index element={<ClientsListe />} />
             <Route path=":clientId" element={<ClientDetail />} />
           </Route>
 
           <Route path="devis/">
-            <Route index element={<DevisList />} />
-            <Route path=":devisId" element={<DevisDetail />} />
+            <Route index element={<DevisListe />} />
+            <Route path=":devisId">
+              <Route index element={<DevisDetail />} />
+              <Route path="lignes" element={<DevisLignes />} />
+            </Route>
           </Route>
 
           <Route path="factures/">
-            <Route index element={<FacturesList />} />
+            <Route index element={<FacturesListe />} />
             <Route path=":factureId" element={<FactureDetail />} />
           </Route>
 
           <Route path="acomptes/">
-            <Route index element={<AcomptesList />} />
+            <Route index element={<AcomptesListe />} />
             <Route path=":acompteId" element={<AcompteDetail />} />
           </Route>
 
           <Route path="creation/">
             <Route path="client" element={<ClientAjout />} />
+            <Route path="devis" element={<DevisAjout />} />
           </Route>
 
           <Route path="logout/" element={<Logout />} />

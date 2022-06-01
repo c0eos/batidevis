@@ -3,7 +3,7 @@ import { useAppSelector } from "../../utils/reduxHooks";
 import { Table } from "../../components";
 import { priceFormat } from "../../utils/cellFormaters";
 
-export default function AcomptesList() {
+export default function AcomptesListe() {
   const acomptes = useAppSelector((state) => state.acomptes);
 
   const columns = useMemo(() => [
@@ -27,8 +27,8 @@ export default function AcomptesList() {
   ], []);
 
   return (
-    <div className="container max-w-7xl mx-auto">
-      <h1 className="font-bold text-2xl text-center">Liste des acomptes</h1>
+    <div className="container mx-auto max-w-7xl">
+      <h1 className="text-2xl font-bold text-center">Liste des acomptes</h1>
       <Table columns={columns} data={acomptes.items} />
 
     </div>
