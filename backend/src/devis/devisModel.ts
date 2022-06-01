@@ -25,11 +25,22 @@ class Devis {
   }
 
   static async create(data: any) {
-    throw new AppError("Not implemented", 501, true);
+    const devis = await prisma.devis.create({
+      data,
+    });
+
+    return devis;
   }
 
   static async update(id: string, data: any) {
-    throw new AppError("Not implemented", 501, true);
+    const devis = await prisma.devis.update({
+      where: {
+        id: parseInt(id),
+      },
+      data,
+    });
+
+    return devis;
   }
 
   static async delete(id: string) {
@@ -59,9 +70,24 @@ class Devis {
           equals: devis.code,
         },
       },
+      orderBy: [
+        {
+          numLigne: "asc",
+        },
+      ],
     });
 
     return lignes;
+  }
+
+  static async getAllCodes() {
+    const codes = await prisma.devis.findMany({
+      select: {
+        code: true,
+      },
+    });
+
+    return codes;
   }
 }
 

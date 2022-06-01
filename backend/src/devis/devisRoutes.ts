@@ -1,6 +1,8 @@
 import express from "express";
 import Devis from "./devisModel";
 import { AppError } from "../utils/errors";
+import { DevisSchema } from "../utils/schemas";
+import { generateDocumentCode } from "../utils/codesGenerator";
 
 const router = express.Router();
 
@@ -14,8 +16,20 @@ router.route("/")
         next(err);
       });
   })
-  .post((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .post(async (req, res, next) => {
+    try {
+      const devisdata = await DevisSchema.validate(req.body, { stripUnknown: true });
+      const codes = await Devis.getAllCodes();
+
+      const code = generateDocumentCode("D", codes);
+      devisdata.code = code;
+
+      const devis = await Devis.create(devisdata);
+
+      res.json({ results: devis });
+    } catch (error) {
+      next(error);
+    }
   });
 
 router.route("/:id")
@@ -32,8 +46,14 @@ router.route("/:id")
         next(err);
       });
   })
-  .put((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .put(async (req, res, next) => {
+    try {
+      const devisdata = await DevisSchema.validate(req.body, { stripUnknown: true });
+      const devis = await Devis.update(req.params.id, devisdata);
+      res.json({ results: devis });
+    } catch (error) {
+      next(error);
+    }
   })
   .delete((req, res, next) => {
     Devis.delete(req.params.id)
@@ -45,7 +65,7 @@ router.route("/:id")
       });
   });
 
-router.route("/:id/details")
+router.route("/:id/lignes")
   .get((req, res, next) => {
     Devis.getDetails(req.params.id)
       .then((lignes) => {
