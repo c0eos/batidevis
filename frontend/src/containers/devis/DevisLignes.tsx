@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getAllDevisLignesById, getOneDevisById } from "../../api/devis";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAllDevisLignesById, getOneDevisById, updateAllDevisLignesById } from "../../api/devis";
 import { useAppSelector } from "../../utils/reduxHooks";
 import { IDevis, IDevisLigne } from "../../utils/schemas";
-import { DocumentLigne, DocumentLigneForm } from "../../components";
+import { DocumentLigneForm } from "../../components";
 
 export default function DevisLignes() {
   const params = useParams();
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.user);
   const devis = useAppSelector((state) => state.devis);
@@ -16,7 +17,6 @@ export default function DevisLignes() {
 
   useEffect(() => {
     if (params.devisId && !currentDevis) {
-      console.log(params.devisId, devis.items.find((devisdata) => devisdata.id == params.devisId));
       setCurrentDevis(devis.items.find((devisdata) => devisdata.id == params.devisId));
     }
   }, [devis]);
@@ -30,13 +30,22 @@ export default function DevisLignes() {
   }, [currentDevis, user]);
 
   const onSubmit = (lignesdata: IDevisLigne[]) => {
-    console.log(lignesdata);
-    console.log(lignes);
+    // update ligne order
+    for (let i = 0; i < lignesdata.length; i++) {
+      lignesdata[i].numLigne = i;
+    }
+
+    updateAllDevisLignesById(params.devisId, lignesdata, user.token)
+      .then((lignesdata) => {
+        setLignes(lignesdata);
+        navigate(`/devis/${params.devisId}`);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <div>
-      <DocumentLigneForm lignes={lignes} onSubmit={onSubmit} />
+      <DocumentLigneForm lignes={lignes} devis={currentDevis} onSubmit={onSubmit} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { IDevisLigne, IFactureLigne } from "../utils/schemas";
-import { priceFormat } from "../utils/cellFormaters";
+import { priceFormat } from "../utils/formatters";
 
 interface Props {
     register: any;
@@ -21,12 +21,12 @@ export default function DocumentLigne({
 
   return (
     <tr className="">
-      <td className="">
+      <th scope="row" className="">
         <input
           {...register(`lignes.${index}.libelle`)}
           className={`${alertIfError(errors, index, "libelle")}`}
         />
-      </td>
+      </th>
       <td>
         <input
           {...register(`lignes.${index}.unite`)}
@@ -54,14 +54,14 @@ export default function DocumentLigne({
       </td>
       <td>
         <input
-          value={priceFormat({ value: field.pvEuro * field.qte })}
-          readOnly
-        />
-      </td>
-      <td>
-        <input
           {...register(`lignes.${index}.tva`)}
           className={alertIfError(errors, index, "tva")}
+        />
+      </td>
+      <td width={40}>
+        <input
+          value={priceFormat(field.pvEuro * field.qte)}
+          disabled
         />
       </td>
     </tr>

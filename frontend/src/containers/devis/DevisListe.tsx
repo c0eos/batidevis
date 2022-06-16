@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { SelectColumnFilter, SelectBooleanColumnFilter, Table } from "../../components";
-import { dateFormat } from "../../utils/cellFormaters";
+import { SelectBooleanColumnFilter, Table, ButtonAjout } from "../../components";
+import { dateFormat, priceFormat } from "../../utils/formatters";
 import { useAppSelector } from "../../utils/reduxHooks";
 
 export default function DevisListe() {
@@ -52,10 +52,23 @@ export default function DevisListe() {
       hideOnMobile: true,
     },
     {
-      Header: "Date",
+      Header: "Total TTC",
+      accessor: "totalTTC",
+      width: 125,
+      Cell: (props: any) => (
+        <p className="text-right">
+          {priceFormat(props.value)}
+          {" "}
+          €
+        </p>
+      ),
+      hideOnMobile: true,
+    },
+    {
+      Header: "Édité le",
       accessor: "dateEdition",
       width: 125,
-      Cell: dateFormat,
+      Cell: (props: any) => dateFormat(props.value),
       hideOnMobile: true,
     },
   ], []);
@@ -64,6 +77,8 @@ export default function DevisListe() {
     <div className="mx-4 lg:mx-8">
       <h1 className="text-2xl font-bold text-center">Liste des devis</h1>
       <Table columns={columns} data={devis.items} />
+
+      <ButtonAjout type="devis" />
 
     </div>
   );

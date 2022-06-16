@@ -1,22 +1,25 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { priceFormat } from "../utils/cellFormaters";
+import { useNavigate } from "react-router-dom";
+import { priceFormat } from "../utils/formatters";
 import { useAppSelector } from "../utils/reduxHooks";
 import { DevisSchema, IClient, IDevis } from "../utils/schemas";
 import Input from "./Input";
 import Textarea from "./Textarea";
 import Search from "./Search";
+import { deleteOneDevisById } from "../api/devis";
 
 interface DevisProps {
   devis?: IDevis,
   titre: string,
   mode: "add" | "edit",
   onSubmit: (devisdata: IDevis) => void,
+  onDelete?: () => void,
 }
 
 export default function DevisForm({
-  devis, titre, mode, onSubmit,
+  devis, titre, mode, onSubmit, onDelete,
 } : DevisProps) {
   const {
     register, handleSubmit, reset, setValue, control, formState: { errors },
@@ -27,6 +30,8 @@ export default function DevisForm({
   });
 
   const clients = useAppSelector((state) => state.clients);
+  const user = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     reset(devis);
@@ -37,11 +42,8 @@ export default function DevisForm({
   };
 
   const onSelect = (item: IClient) => {
-    console.log(item);
     // @ts-ignore
     setValue("codeClient", item.code);
-    // @ts-ignore
-    setValue("nom", item.nom);
     // @ts-ignore
     setValue("interlocuteur", item.interlocuteur || item.nom);
     // @ts-ignore
@@ -54,30 +56,60 @@ export default function DevisForm({
     setValue("ville", item.ville);
   };
 
-  const formatResult = (item: any) => (
-    <>
-      <span style={{ display: "block", textAlign: "left" }}>
-        code:
-        {item.code}
-      </span>
-      <span style={{ display: "block", textAlign: "left" }}>
-        nom:
-        {item.nom}
-      </span>
-    </>
-  );
+  const onEdit = () => {
+    navigate("lignes");
+  };
+
+  const onTransfert = () => {
+    console.log("transfert");
+    if (devis?.transFacture === true) {
+      console.log("redirect to facture");
+    } else {
+      console.log("create facture");
+    }
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="max-w-md mx-auto lg:max-w-2xl bg-slate-100 px-8 py-4"
+      className="max-w-md px-8 py-4 mx-auto lg:max-w-2xl bg-slate-100"
     >
-      <h1 className="text-center text-xl">{titre}</h1>
+      <h1 className="text-xl text-center">{titre}</h1>
 
-      <div className="mt-8 pt-2 border-t-2 grid grid-cols-1 lg:grid-cols-3">
+      <div className="flex justify-around pt-2 mt-2 text-2xl border-t-2">
+        {!devis?.transFacture === true && (
+        <button type="submit" className="" title="Sauvegarder">
+          <i className="fa-solid fa-floppy-disk" />
+        </button>
+        )}
+
+        {mode === "edit" && !devis?.transFacture === true && (
+        <button type="button" title="Éditer le contenu" onClick={onEdit}>
+          <i className="fa-solid fa-pen-to-square" />
+        </button>
+        )}
+
+        {mode === "edit" && (
+        <button
+          type="button"
+          title={devis?.transFacture ? "Accéder à la facture" : "Tranférer en facture"}
+          onClick={onTransfert}
+        >
+          <i className="fa-solid fa-share" />
+        </button>
+        )}
+
+        {mode === "edit" && !devis?.transFacture === true && (
+          <button type="button" title="Supprimer" onClick={onDelete}>
+            <i className="hover:text-red-600 fa-solid fa-trash-can" />
+          </button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 pt-2 mt-2 border-t-2 lg:grid-cols-3">
         <div className="mb-6">
           <h2 className="text-slate-800">Données client</h2>
-          <p className="text-sm text-slate-600 mt-2 italic">Personne physique ou entreprise</p>
+          <p className="mt-2 text-sm italic text-slate-600">Personne physique ou entreprise</p>
         </div>
         <div className="col-span-2 lg:ml-4">
 
@@ -90,15 +122,14 @@ export default function DevisForm({
           <Input label="Code devis" accessor="code" register={register} data={devis} errors={errors} disabled />
           )}
           <Input id="code-client" label="Code client" accessor="codeClient" register={register} data={devis} errors={errors} disabled />
-          <Input label="Nom client" accessor="nom" register={register} data={devis} errors={errors} disabled />
           <Input label="Interlocuteur" register={register} data={devis} errors={errors} />
         </div>
       </div>
 
-      <div className="mt-8 pt-2 border-t-2 grid grid-cols-1 lg:grid-cols-3">
+      <div className="grid grid-cols-1 pt-2 mt-8 border-t-2 lg:grid-cols-3">
         <div className="mb-6">
           <h2 className="text-slate-800">Travaux</h2>
-          <p className="text-sm text-slate-600 mt-2 italic">bla bla</p>
+          <p className="mt-2 text-sm italic text-slate-600">Adresse et informations complémentaires</p>
         </div>
         <div className="col-span-2 lg:ml-4">
           <Textarea label="Sujet" register={register} data={devis} errors={errors} />
@@ -110,12 +141,13 @@ export default function DevisForm({
         </div>
       </div>
 
-      <div className="mt-8 pt-2 border-t-2 grid grid-cols-1 lg:grid-cols-3">
+      <div className="grid grid-cols-1 pt-2 mt-8 border-t-2 lg:grid-cols-3">
         <div className="mb-6">
           <h2 className="text-slate-800">Aspect financier</h2>
-          <p className="text-sm text-slate-600 mt-2 italic">Totaux, remises et acomptes</p>
+          {/* <p className="mt-2 text-sm italic text-slate-600">Totaux, remises et acomptes</p> */}
+          <p className="mt-2 text-sm italic text-slate-600">Totaux et TVA</p>
         </div>
-        <div className="col-span-2  lg:ml-4">
+        <div className="col-span-2 lg:ml-4">
 
           {/* <Input label="Acompte" register={register} data={devis} disabled /> */}
           {/* <Input label="Etat" register={register} data={devis} disabled /> */}
@@ -125,40 +157,40 @@ export default function DevisForm({
           <div className="">
             <div className="grid grid-cols-2">
               <div className="font-bold">Total HT</div>
-              <div className="text-right">{`${priceFormat({ value: devis?.totalHT })} €`}</div>
+              <div className="text-right">{`${priceFormat(devis?.totalHT)} €`}</div>
             </div>
 
-            <div className="grid grid-cols-2">
+            {/* <div className="grid grid-cols-2">
               <div className="font-bold">Total HT Net</div>
               <div className="text-right">{`${priceFormat({ value: devis?.totalHTNet })} €`}</div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-2">
               <div className="font-bold">Total TVA</div>
-              <div className="text-right">{`${priceFormat({ value: devis?.totalTVA })} €`}</div>
+              <div className="text-right">{`${priceFormat(devis?.totalTVA)} €`}</div>
             </div>
 
             <div className="grid grid-cols-2">
               <div className="font-bold">Total TTC</div>
-              <div className="text-right">{`${priceFormat({ value: devis?.totalTTC })} €`}</div>
+              <div className="text-right">{`${priceFormat(devis?.totalTTC)} €`}</div>
             </div>
 
-            <div className="grid grid-cols-2 mt-4 bg-red-100">
+            {/* <div className="grid grid-cols-2 mt-4 bg-red-100">
               <div className="font-bold">Net à payer</div>
-              <div className="text-right">{`${priceFormat({ value: devis?.netAPayer })} €`}</div>
-            </div>
+              <div className="text-right">{`${priceFormat( devis?.netAPayer )} €`}</div>
+            </div> */}
           </div>
 
         </div>
       </div>
 
-      <p>ajouter acompte</p>
-      <p>ajouter remise</p>
-      <p>transformer en facture</p>
+      {/* <p>//TODO ajouter acompte</p> */}
+      {/* <p>//TODO ajouter remise</p> */}
+      {/* <p>//TODO transformer en facture</p> */}
 
       {errors?.[""] && (
       <p
-        className="text-red-600 text-center mt-4"
+        className="mt-4 text-center text-red-600"
       >
         {
         // @ts-ignore
@@ -167,7 +199,6 @@ export default function DevisForm({
       </p>
       )}
 
-      <input type="submit" value="Sauvegarder" className="block w-full lg:w-1/2 mx-auto mt-8 py-2 bg-slate-600 text-white hover:cursor-pointer" />
     </form>
   );
 }

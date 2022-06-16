@@ -68,8 +68,8 @@ const DocumentSchema = BaseSchema
 
 const LigneSchema = yup.object().shape({
   id: yup.number().integer().positive(),
-  numLigne: yup.number().integer(),
-  numBuf: yup.number().integer(),
+  numLigne: yup.number().integer().required(),
+  numBuf: yup.number().integer().required(),
   idSousTotal: yup.number().integer().nullable(),
   nivTr: yup.number().integer(),
   nivOuv: yup.number().integer(),

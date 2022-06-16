@@ -1,4 +1,4 @@
-export function priceFormat({ value }: {value:number | undefined}): string {
+export function priceFormat(value: number | undefined): string {
   if (value === undefined) {
     return "0.00";
   }
@@ -8,6 +8,6 @@ export function priceFormat({ value }: {value:number | undefined}): string {
   });
 }
 
-export function dateFormat({ value }: {value:string | number | Date}): string {
+export function dateFormat(value : string | number | Date): string {
   return new Date(value).toLocaleDateString();
 }

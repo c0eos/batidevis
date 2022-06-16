@@ -67,7 +67,7 @@ router.route("/:id")
 
 router.route("/:id/lignes")
   .get((req, res, next) => {
-    Devis.getDetails(req.params.id)
+    Devis.getLignes(req.params.id)
       .then((lignes) => {
         res.json({ results: lignes });
       })
@@ -78,8 +78,19 @@ router.route("/:id/lignes")
   .post((req, res, next) => {
     throw new AppError("Not implemented", 501, true);
   })
-  .put((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .put(async (req, res, next) => {
+    try {
+      let devis = await Devis.getOneById(req.params.id);
+      const lignesdata = req.body;
+
+      const newLignes = await Devis.updateLignes(req.params.id, lignesdata);
+
+      devis = await Devis.updateTotaux(devis?.code);
+
+      res.json({ results: newLignes });
+    } catch (error) {
+      next(error);
+    }
   })
   .delete((req, res, next) => {
     throw new AppError("Not implemented", 501, true);

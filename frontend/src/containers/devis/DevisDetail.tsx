@@ -1,6 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getAllDevis, getOneDevisById, updateOneDevisById } from "../../api/devis";
+import {
+  deleteOneDevisById, getAllDevis, getOneDevisById, updateOneDevisById,
+} from "../../api/devis";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { DevisForm } from "../../components";
 import { IClient, IDevis } from "../../utils/schemas";
@@ -22,22 +24,32 @@ export default function DevisDetail() {
         .then((devisdata) => {
           const clientdata = clients.items.find((client) => client.code === devisdata.codeClient);
           setClient(clientdata);
-          console.log(devisdata, clientdata);
         })
         .catch((err) => console.log(err));
     }
   }, [user]);
 
   const onSubmit = async (devisdata: IDevis) => {
-    console.log(devisdata);
-    console.log(devis);
     try {
       const data = await updateOneDevisById(params.devisId, devisdata, user.token);
       setDevis(data);
       // mettre à jour la liste des devis
       const alldevisdata = await getAllDevis(user.token);
       dispatch(loadDevis(alldevisdata));
-      // navigate("/devis/");
+      navigate("/devis/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      const data = await deleteOneDevisById(params.devisId, user.token);
+
+      // mettre à jour la liste des devis
+      const alldevisdata = await getAllDevis(user.token);
+      dispatch(loadDevis(alldevisdata));
+      navigate("/devis/");
     } catch (error) {
       console.log(error);
     }
@@ -45,10 +57,7 @@ export default function DevisDetail() {
 
   return (
     <div>
-      <div className="text-center mx-auto w-fit font-bold">
-        <Link to="lignes">Contenu</Link>
-      </div>
-      <DevisForm devis={devis} titre="Modification d'un devis" mode="edit" onSubmit={onSubmit} />
+      <DevisForm devis={devis} titre="Modification d'un devis" mode="edit" onSubmit={onSubmit} onDelete={onDelete} />
     </div>
   );
 }

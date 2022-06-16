@@ -16,15 +16,13 @@ export default function DevisAjout() {
   const navigate = useNavigate();
 
   const onSubmit = async (devisdata: IDevis) => {
-    console.log(devisdata);
-    console.log(devis);
     try {
       const data = await createOneDevis(devisdata, user.token);
       setDevis(data);
       // mettre à jour la liste des devis
       const alldevisdata = await getAllDevis(user.token);
       dispatch(loadDevis(alldevisdata));
-      // navigate("/devis/");
+      navigate(`/devis/${data.id}`);
     } catch (error) {
       console.log(error);
     }
