@@ -9,7 +9,6 @@ export default function Login() {
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(email, password);
 
     getToken(email, password)
       .then((token: string) => {
@@ -22,9 +21,9 @@ export default function Login() {
   };
 
   return (
-    <div className="container mx-auto max-w-sm bg-slate-100">
-      <h1 className="font-bold text-2xl text-center py-4">Se Connecter</h1>
-      <form onSubmit={handleSubmit} className="mx-auto px-4 pb-4">
+    <div className="container max-w-sm mx-auto bg-slate-100">
+      <h1 className="py-4 text-2xl font-bold text-center">Se Connecter</h1>
+      <form onSubmit={handleSubmit} className="px-4 pb-4 mx-auto">
         <input
           type="email"
           name="email"
