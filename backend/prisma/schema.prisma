@@ -71,8 +71,8 @@ model Devis {
 
 model DevisLigne {
   id           Int     @id @default(autoincrement())
-  codeDevis    String
-  Devis        Devis   @relation(fields: [codeDevis], references: [code], onDelete: Cascade)
+  codeDocument String
+  Devis        Devis   @relation(fields: [codeDocument], references: [code], onDelete: Cascade)
   numLigne     Int
   numBuf       Int
   idSousTotal  Int?
@@ -142,8 +142,8 @@ model Facture {
 
 model FactureLigne {
   id           Int     @id @default(autoincrement())
-  codeFacture  String
-  Facture      Facture @relation(fields: [codeFacture], references: [code], onDelete: Cascade)
+  codeDocument String
+  Facture      Facture @relation(fields: [codeDocument], references: [code], onDelete: Cascade)
   numLigne     Int
   numBuf       Int
   idSousTotal  Int?

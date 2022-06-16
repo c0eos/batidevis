@@ -67,6 +67,7 @@ const DocumentSchema = BaseSchema
   });
 
 const LigneSchema = yup.object().shape({
+  codeDocument: string.required(),
   id: yup.number().integer().positive(),
   numLigne: yup.number().integer().required(),
   numBuf: yup.number().integer().required(),
@@ -123,7 +124,6 @@ const DevisSchema = DocumentSchema.shape({
 });
 
 const FactureSchema = DocumentSchema.shape({
-  dateRG: yup.date(),
   codeDevis: string.required(),
   numOrdre: yup.number().integer().required(),
 });
@@ -139,11 +139,9 @@ const AcompteSchema = BaseSchema.shape({
 });
 
 const DevisLigneSchema = LigneSchema.shape({
-  codeDevis: string.required(),
 });
 
 const FactureLigneSchema = LigneSchema.shape({
-  codeFacture: string.required(),
   avt: yup.number(),
   qteOrigine: yup.number(),
   pvOrigine: yup.number(),

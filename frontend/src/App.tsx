@@ -7,7 +7,7 @@ import { ClientsListe, ClientDetail, ClientAjout } from "./containers/clients";
 import {
   DevisListe, DevisDetail, DevisAjout, DevisLignes,
 } from "./containers/devis";
-import { FacturesListe, FactureDetail } from "./containers/factures";
+import { FacturesListe, FactureDetail, FactureLignes } from "./containers/factures";
 import { AcomptesListe, AcompteDetail } from "./containers/acomptes";
 
 function App() {
@@ -41,7 +41,10 @@ function App() {
 
           <Route path="factures/">
             <Route index element={<FacturesListe />} />
-            <Route path=":factureId" element={<FactureDetail />} />
+            <Route path=":factureId">
+              <Route index element={<FactureDetail />} />
+              <Route path="lignes" element={<FactureLignes />} />
+            </Route>
           </Route>
 
           <Route path="acomptes/">

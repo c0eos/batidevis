@@ -45,7 +45,7 @@ export default function DevisLignes() {
 
   return (
     <div>
-      <DocumentLigneForm lignes={lignes} devis={currentDevis} onSubmit={onSubmit} />
+      <DocumentLigneForm lignes={lignes} document={currentDevis} onSubmit={onSubmit} />
     </div>
   );
 }

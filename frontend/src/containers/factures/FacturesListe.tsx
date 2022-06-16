@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Table } from "../../components";
 import { useAppSelector } from "../../utils/reduxHooks";
-import { dateFormat, priceFormat } from "../../utils/cellFormaters";
+import { dateFormat, priceFormat } from "../../utils/formatters";
 
 export default function FacturesListe() {
   const factures = useAppSelector((state) => state.factures);
@@ -41,24 +41,23 @@ export default function FacturesListe() {
       hideOnMobile: true,
     },
     {
-      Header: "Total HT",
-      accessor: "totalHT",
-      width: 125,
-      Cell: priceFormat,
-      hideOnMobile: true,
-    },
-    {
       Header: "Total TTC",
       accessor: "totalTTC",
       width: 125,
-      Cell: priceFormat,
+      Cell: (props: any) => (
+        <p className="text-right">
+          {priceFormat(props.value)}
+          {" "}
+          €
+        </p>
+      ),
       hideOnMobile: true,
     },
     {
-      Header: "Date",
+      Header: "Édité le",
       accessor: "dateEdition",
       width: 125,
-      Cell: dateFormat,
+      Cell: (props: any) => dateFormat(props.value),
       hideOnMobile: true,
     },
   ], []);

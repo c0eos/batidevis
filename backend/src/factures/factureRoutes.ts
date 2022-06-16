@@ -1,6 +1,7 @@
 import express from "express";
 import Facture from "./factureModel";
 import { AppError } from "../utils/errors";
+import { FactureSchema } from "../utils/schemas";
 
 const router = express.Router();
 
@@ -32,8 +33,14 @@ router.route("/:id")
         next(err);
       });
   })
-  .put((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .put(async (req, res, next) => {
+    try {
+      const facturedata = await FactureSchema.validate(req.body, { stripUnknown: true });
+      const facture = await Facture.update(req.params.id, facturedata);
+      res.json({ results: facture });
+    } catch (error) {
+      next(error);
+    }
   })
   .delete((req, res, next) => {
     Facture.delete(req.params.id)
@@ -45,9 +52,9 @@ router.route("/:id")
       });
   });
 
-router.route("/:id/details")
+router.route("/:id/lignes")
   .get((req, res, next) => {
-    Facture.getDetails(req.params.id)
+    Facture.getLignes(req.params.id)
       .then((lignes) => {
         res.json({ results: lignes });
       })
@@ -58,8 +65,19 @@ router.route("/:id/details")
   .post((req, res, next) => {
     throw new AppError("Not implemented", 501, true);
   })
-  .put((req, res, next) => {
-    throw new AppError("Not implemented", 501, true);
+  .put(async (req, res, next) => {
+    try {
+      let facture = await Facture.getOneById(req.params.id);
+      const lignesdata = req.body;
+
+      const newLignes = await Facture.updateLignes(req.params.id, lignesdata);
+
+      facture = await Facture.updateTotaux(facture?.code);
+
+      res.json({ results: newLignes });
+    } catch (error) {
+      next(error);
+    }
   })
   .delete((req, res, next) => {
     throw new AppError("Not implemented", 501, true);

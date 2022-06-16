@@ -1,70 +1,125 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { priceFormat } from "../utils/formatters";
+import { FactureSchema, IFacture } from "../utils/schemas";
 import Input from "./Input";
+import Textarea from "./Textarea";
 
-export default function FactureForm({ facture } : {facture:any}) {
+interface Props {
+  facture?: IFacture,
+  titre: string,
+  onSubmit: (facturedata: IFacture) => void,
+}
+
+export default function FactureForm({
+  facture, titre, onSubmit,
+} : Props) {
   const {
     register, handleSubmit, reset, formState: { errors },
   } = useForm({
     defaultValues: facture,
+    mode: "all",
+    resolver: yupResolver(FactureSchema),
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     reset(facture);
   }, [facture]);
 
-  const onSubmit = (data:any) => {
-    console.log(data);
-    console.log(errors);
-    console.log(facture);
+  const onError = (err: any) => {
+    console.log(err);
+  };
+
+  const onEdit = () => {
+    navigate("lignes");
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="max-w-sm mx-auto"
+      onSubmit={handleSubmit(onSubmit, onError)}
+      className="max-w-md px-8 py-4 mx-auto lg:max-w-2xl bg-slate-100"
     >
-      <Input label="Code client" accessor="codeClient" register={register} data={facture} />
-      <Input label="Interlocuteur" register={register} data={facture} />
-      <Input label="Info" register={register} data={facture} />
-      <Input label="Sujet" register={register} data={facture} />
+      <h1 className="text-xl text-center">{titre}</h1>
 
-      <div className="h-10" />
+      <div className="flex justify-around pt-2 mt-2 text-2xl border-t-2">
+        <button type="submit" className="" title="Sauvegarder">
+          <i className="fa-solid fa-floppy-disk" />
+        </button>
 
-      <Input label="Acompte" register={register} data={facture} disabled />
-      <Input label="Etat" register={register} data={facture} disabled />
-      <Input label="flagAcompte" accessor="flagAcompte" register={register} data={facture} disabled />
-      <Input label="flagEscompte" accessor="flagEscompte" register={register} data={facture} disabled />
-      <Input label="netAPayer" accessor="netAPayer" register={register} data={facture} disabled />
-      <Input label="HTNetFin" accessor="HTNetFin" register={register} data={facture} disabled />
-      <Input label="TVAReelle" accessor="TVAReelle" register={register} data={facture} disabled />
-      <Input label="totalDeb" accessor="totalDeb" register={register} data={facture} disabled />
-      <Input label="totalHT" accessor="totalHT" register={register} data={facture} disabled />
-      <Input label="totalHTNet" accessor="totalHTNet" register={register} data={facture} disabled />
-      <Input label="totalPR" accessor="totalPR" register={register} data={facture} disabled />
-      <Input label="totalPV" accessor="totalPV" register={register} data={facture} disabled />
-      <Input label="totalTTC" accessor="totalTTC" register={register} data={facture} disabled />
-      <Input label="totalTVA" accessor="totalTVA" register={register} data={facture} disabled />
-      <Input label="transFacture" accessor="transFacture" register={register} data={facture} disabled />
-      <Input label="dateRG" accessor="dateRG" register={register} data={facture} disabled />
-      <Input label="temps" accessor="temps" register={register} data={facture} disabled />
-      <Input label="numOrdre" accessor="numOrdre" register={register} data={facture} disabled />
+        <button type="button" title="Éditer le contenu" onClick={onEdit}>
+          <i className="fa-solid fa-pen-to-square" />
+        </button>
+      </div>
 
-      <div className="h-10" />
+      <div className="grid grid-cols-1 pt-2 mt-2 border-t-2 lg:grid-cols-3">
+        <div className="mb-6">
+          <h2 className="text-slate-800">Données client</h2>
+          <p className="mt-2 text-sm italic text-slate-600">Personne physique ou entreprise</p>
+        </div>
+        <div className="col-span-2 lg:ml-4">
+          <Input label="Code facture" accessor="code" register={register} data={facture} errors={errors} disabled />
+          <Input label="Code facture associé" accessor="codeDevis" register={register} data={facture} errors={errors} disabled />
+          <Input id="code-client" label="Code client" accessor="codeClient" register={register} data={facture} errors={errors} disabled />
+          <Input label="Interlocuteur" register={register} data={facture} errors={errors} />
+        </div>
+      </div>
 
-      <Input label="Adresse" accessor="adresseTravaux" register={register} data={facture} required />
-      <Input label="Adresse (suite)" accessor="adresseTravaux2" register={register} data={facture} />
-      <Input label="Code postal" accessor="cpTravaux" register={register} data={facture} required />
-      <Input label="Ville" accessor="villeTravaux" register={register} data={facture} required />
+      <div className="grid grid-cols-1 pt-2 mt-8 border-t-2 lg:grid-cols-3">
+        <div className="mb-6">
+          <h2 className="text-slate-800">Travaux</h2>
+          <p className="mt-2 text-sm italic text-slate-600">Adresse et informations complémentaires</p>
+        </div>
+        <div className="col-span-2 lg:ml-4">
+          <Textarea label="Sujet" register={register} data={facture} errors={errors} />
+          <Input label="Adresse" accessor="adresse" register={register} data={facture} errors={errors} />
+          <Input label="Adresse (suite)" accessor="adresseSuite" register={register} data={facture} errors={errors} />
+          <Input label="Code postal" accessor="codePostal" register={register} data={facture} errors={errors} />
+          <Input label="Ville" register={register} data={facture} errors={errors} />
+          <Textarea label="Info" register={register} data={facture} errors={errors} />
+        </div>
+      </div>
 
-      <div className="h-10" />
-      <Input label="Id" register={register} data={facture} disabled />
-      <Input label="Code" register={register} data={facture} disabled />
-      <Input label="Code devis" accessor="codeDevis" register={register} data={facture} disabled />
-      <Input label="Mis à jour" accessor="date" register={register} data={facture} disabled />
-      <Input label="Création" accessor="dateCreation" register={register} data={facture} disabled />
+      <div className="grid grid-cols-1 pt-2 mt-8 border-t-2 lg:grid-cols-3">
+        <div className="mb-6">
+          <h2 className="text-slate-800">Aspect financier</h2>
+          <p className="mt-2 text-sm italic text-slate-600">Totaux et TVA</p>
+        </div>
+        <div className="col-span-2 lg:ml-4">
+          <div className="">
+            <div className="grid grid-cols-2">
+              <div className="font-bold">Total HT</div>
+              <div className="text-right">{`${priceFormat(facture?.totalHT)} €`}</div>
+            </div>
 
-      <input type="submit" value="submit" className="block w-32 mx-auto mt-4 py-2 bg-slate-400" />
+            <div className="grid grid-cols-2">
+              <div className="font-bold">Total TVA</div>
+              <div className="text-right">{`${priceFormat(facture?.totalTVA)} €`}</div>
+            </div>
+
+            <div className="grid grid-cols-2">
+              <div className="font-bold">Total TTC</div>
+              <div className="text-right">{`${priceFormat(facture?.totalTTC)} €`}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {errors?.[""] && (
+      <p
+        className="mt-4 text-center text-red-600"
+      >
+        {
+        // @ts-ignore
+        errors?.[""]?.message
+        }
+      </p>
+      )}
+
     </form>
   );
 }

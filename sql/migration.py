@@ -216,7 +216,7 @@ def devis_ligne():
     )
 
     df.columns = [
-        "codeDevis",
+        "codeDocument",
         "NumLigne",
         "NumBuf",
         "IdSousTotal",
@@ -391,7 +391,7 @@ def factures_ligne():
     )
 
     df.columns = [
-        "codeFacture",
+        "codeDocument",
         "NumLigne",
         "NumBuf",
         "IdSousTotal",

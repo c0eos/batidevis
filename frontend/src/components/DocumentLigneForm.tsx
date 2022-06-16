@@ -1,21 +1,22 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useMemo } from "react";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import { priceFormat } from "../utils/formatters";
-import { DevisLigneSchema, IDevis, IDevisLigne } from "../utils/schemas";
-import DocumentLigne from "./DocumentLigne";
+import {
+  DevisLigneSchema, IDevis, IDevisLigne, IFacture, IFactureLigne,
+} from "../utils/schemas";
 import TableLignes from "./TableLignes";
 import { TextareaCell } from "./TableCells";
 
 interface Props {
-    lignes: IDevisLigne[];
-    devis: IDevis | undefined;
-    onSubmit: (lignesdata: IDevisLigne[]) => void;
+    lignes: IDevisLigne[] | IFactureLigne[];
+    document: IDevis | IFacture | undefined;
+    onSubmit: (lignesdata: any[]) => void;
 }
 
-export default function DocumentLigneForm({ lignes, devis, onSubmit }: Props) {
+export default function DocumentLigneForm({ lignes, document, onSubmit }: Props) {
   const params = useParams();
   const schema = yup.object().shape({
     lignes: yup.array().of(DevisLigneSchema),
@@ -60,7 +61,7 @@ export default function DocumentLigneForm({ lignes, devis, onSubmit }: Props) {
 
   const onAppend = () => {
     const newLigne = {
-      codeDevis: devis?.code,
+      codeDocument: document?.code,
       libelle: "",
       unite: "U",
       qte: 0,
@@ -89,7 +90,7 @@ export default function DocumentLigneForm({ lignes, devis, onSubmit }: Props) {
       width: 125,
     },
     {
-      Header: "qte",
+      Header: "Quantité",
       accessor: "qte",
       width: 125,
       inputProps: {
@@ -99,7 +100,7 @@ export default function DocumentLigneForm({ lignes, devis, onSubmit }: Props) {
       },
     },
     {
-      Header: "pvEuro",
+      Header: "Prix unitaire",
       accessor: "pvEuro",
       width: 125,
       inputProps: {
@@ -109,7 +110,7 @@ export default function DocumentLigneForm({ lignes, devis, onSubmit }: Props) {
       },
     },
     {
-      Header: "tva",
+      Header: "TVA",
       accessor: "tva",
       width: 125,
       inputProps: {

@@ -68,7 +68,7 @@ class Devis {
 
     const lignes = await prisma.devisLigne.findMany({
       where: {
-        codeDevis: {
+        codeDocument: {
           equals: devis.code,
         },
       },
@@ -127,7 +127,7 @@ class Devis {
         SUM(qte * pvEuro) as totalHT,
         SUM(qte * pvEuro * tva / 100 ) as totalTVA
       FROM devisLigne
-      WHERE codeDevis = ${codeDevis}
+      WHERE codeDocument = ${codeDevis}
       GROUP BY tva` as any[];
 
     return tva;
