@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { SelectColumnFilter, Table } from "../../components";
+import { ButtonAjout, SelectColumnFilter, Table } from "../../components";
 import { useAppSelector } from "../../utils/reduxHooks";
 
 export default function ClientsListe() {
@@ -40,6 +40,8 @@ export default function ClientsListe() {
     <div className="mx-4 lg:mx-8">
       <h1 className="text-2xl font-bold text-center">Liste des clients</h1>
       <Table columns={columns} data={clients.items} />
+
+      <ButtonAjout type="client" />
 
     </div>
   );

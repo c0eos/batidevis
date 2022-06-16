@@ -10,10 +10,11 @@ interface ClientProps {
   titre: string;
   mode: "add" | "edit";
   onSubmit: (clientdata: IClient) => void;
+  onDelete?: () => void;
 }
 
 export default function ClientForm({
-  client, titre, mode, onSubmit,
+  client, titre, mode, onSubmit, onDelete,
 }: ClientProps) {
   const {
     register, handleSubmit, reset, formState: { errors },
@@ -34,13 +35,38 @@ export default function ClientForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="max-w-md mx-auto lg:max-w-2xl bg-slate-100 px-8 py-4"
+      className="max-w-md px-8 py-4 mx-auto lg:max-w-2xl bg-slate-100"
     >
-      <h1 className="text-center text-xl">{titre}</h1>
-      <div className="mt-8 pt-2 border-t-2 grid grid-cols-1 lg:grid-cols-3">
+      <h1 className="text-xl text-center">{titre}</h1>
+
+      {errors?.[""] && (
+      <p
+        className="mt-4 text-center text-red-600"
+      >
+        {
+        // @ts-ignore
+        errors?.[""]?.message
+        }
+      </p>
+      )}
+
+      <div className="flex justify-around pt-2 mt-2 text-2xl border-t-2">
+
+        <button type="submit" title="Sauvegarder">
+          <i className="fa-solid fa-floppy-disk" />
+        </button>
+
+        {mode === "edit" && (
+          <button type="button" title="Supprimer" onClick={onDelete}>
+            <i className="hover:text-red-600 fa-solid fa-trash-can" />
+          </button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 pt-2 mt-2 border-t-2 lg:grid-cols-3">
         <div className="mb-6">
           <h2 className="text-slate-800">Personne</h2>
-          <p className="text-sm text-slate-600 mt-2 italic">Personne physique ou entreprise</p>
+          <p className="mt-2 text-sm italic text-slate-600">Personne physique ou entreprise</p>
         </div>
         <div className="col-span-2 lg:ml-4">
           <Input label="Civilité" accessor="civilite" register={register} data={client} errors={errors} placeholder="facultatif" />
@@ -53,12 +79,12 @@ export default function ClientForm({
         </div>
       </div>
 
-      <div className="mt-8 pt-2 border-t-2 grid grid-cols-1 lg:grid-cols-3">
+      <div className="grid grid-cols-1 pt-2 mt-8 border-t-2 lg:grid-cols-3">
         <div className="mb-6">
           <h2 className="text-slate-800">Contact</h2>
-          <p className="text-sm text-slate-600 mt-2 italic">Moyen de contact et adresse</p>
+          <p className="mt-2 text-sm italic text-slate-600">Moyen de contact et adresse</p>
         </div>
-        <div className="col-span-2  lg:ml-4">
+        <div className="col-span-2 lg:ml-4">
           <Input label="Email" register={register} data={client} errors={errors} type="email" autoComplete="hidden" placeholder="au moins 1" />
           <Input label="Téléphone fixe" accessor="telephone" register={register} data={client} errors={errors} type="tel" autoComplete="hidden" placeholder="au moins 1" />
           <Input label="Portable" register={register} data={client} errors={errors} type="tel" autoComplete="hidden" placeholder="au moins 1" />
@@ -69,19 +95,6 @@ export default function ClientForm({
           <Input label="Ville" register={register} data={client} errors={errors} />
         </div>
       </div>
-
-      {errors?.[""] && (
-      <p
-        className="text-red-600 text-center mt-4"
-      >
-        {
-        // @ts-ignore
-        errors?.[""]?.message
-        }
-      </p>
-      )}
-
-      <input type="submit" value="Sauvegarder" className="block w-full lg:w-1/2 mx-auto mt-8 py-2 bg-slate-600 text-white hover:cursor-pointer" />
     </form>
   );
 }

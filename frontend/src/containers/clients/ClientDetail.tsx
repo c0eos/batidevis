@@ -1,6 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getOneClientById, updateOneClientById, getAllClients } from "../../api/clients";
+import {
+  getOneClientById, updateOneClientById, getAllClients, deleteOneClientById,
+} from "../../api/clients";
 import { useAppSelector, useAppDispatch } from "../../utils/reduxHooks";
 import { ClientForm } from "../../components";
 import { IClient } from "../../utils/schemas";
@@ -25,6 +27,20 @@ export default function ClientDetail() {
     try {
       const data = await updateOneClientById(params.clientId, clientdata, user.token);
       setClient(data);
+
+      // mettre à jour la liste des clients
+      const clientsdata = await getAllClients(user.token);
+      dispatch(loadClients(clientsdata));
+      navigate("/clients/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      await deleteOneClientById(params.clientId, user.token);
+
       // mettre à jour la liste des clients
       const clientsdata = await getAllClients(user.token);
       dispatch(loadClients(clientsdata));
@@ -36,7 +52,7 @@ export default function ClientDetail() {
 
   return (
     <div className="">
-      <ClientForm titre="Modification d'un client" client={client} mode="edit" onSubmit={onSubmit} />
+      <ClientForm titre="Modification d'un client" client={client} mode="edit" onSubmit={onSubmit} onDelete={onDelete} />
     </div>
   );
 }

@@ -44,3 +44,15 @@ export function createOneClient(clientdata: IClient, token: string | null): Prom
     .then((response) => response.data.results)
     .catch((err) => { throw err.response.data.error_message ?? err.message; });
 }
+
+export function deleteOneClientById(
+  id: string | undefined,
+  token: string | null,
+): Promise<IClient> {
+  return axios.delete(
+    `${API_URL}/clients/${id}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  )
+    .then((response) => response.data.results)
+    .catch((err) => { throw err.response.data.error_message ?? err.message; });
+}
