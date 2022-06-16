@@ -42,21 +42,23 @@ export default function Search({
   return (
     <div className="relative">
       <div className="">
-        <span className="absolute px-2 py-1">X</span>
+        <span className="absolute pl-1 mt-1 text-gray-500 ">
+          <i className="fa-solid fa-magnifying-glass" />
+        </span>
         <input
           type="text"
           value={value}
           onChange={onChange}
-          className="w-full pl-6 pr-2 py-1"
+          className="w-full py-1 pl-6 pr-2"
         />
       </div>
       {results.length > 0 && (
-      <ul className="absolute bg-white py-2 w-full">
+      <ul className="absolute w-full py-2 bg-white">
         {results.map((option, index) => (
           <li
             key={index}
             onClick={() => localOnSelect(option.item)}
-            className="hover:cursor-pointer hover:border-2 hover:rounded px-2"
+            className="px-2 hover:cursor-pointer hover:border-2 hover:rounded"
           >
             {option.item.nom}
           </li>

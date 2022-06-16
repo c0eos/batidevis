@@ -8,16 +8,19 @@ import Fuse from "fuse.js";
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
 }) {
-  const count = preFilteredRows.length;
-
   return (
-    <input
-      value={filterValue || ""}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
-      }}
-      placeholder={`Chercher dans ${count} lignes`}
-    />
+    <div>
+      <span className="absolute pl-1 text-gray-500">
+        <i className="fa-solid fa-magnifying-glass" />
+      </span>
+      <input
+        className="w-full pl-6"
+        value={filterValue || ""}
+        onChange={(e) => {
+          setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+        }}
+      />
+    </div>
   );
 }
 
@@ -50,6 +53,34 @@ function SelectColumnFilter({
       {options.map((option, i) => (
         <option key={i} value={option}>
           {option}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function SelectBooleanColumnFilter({
+  column: {
+    filterValue, setFilter, preFilteredRows, id,
+  },
+}) {
+  // Calculate the options for filtering
+  // using the preFilteredRows
+  const options = [true, false];
+
+  // Render a multi-select box
+  return (
+    <select
+      value={filterValue}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
+      }}
+      className="w-full px-2 bg-slate-100"
+    >
+      <option value="">Tous</option>
+      {options.map((option, i) => (
+        <option key={i} value={option}>
+          {option ? "Oui" : "Non"}
         </option>
       ))}
     </select>
@@ -92,5 +123,5 @@ function filterGreaterThan(rows, id, filterValue) {
 filterGreaterThan.autoRemove = (val) => typeof val !== "number";
 
 export {
-  DefaultColumnFilter, SelectColumnFilter, fuzzyTextFilterFn,
+  DefaultColumnFilter, SelectColumnFilter, fuzzyTextFilterFn, SelectBooleanColumnFilter,
 };
