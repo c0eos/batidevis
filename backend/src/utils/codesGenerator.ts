@@ -20,7 +20,7 @@ export function generateDocumentCode(type: "D" | "F" | "A", codesExistants: {cod
 
   while (codesExistants.find((c) => c.code === code)) {
     i++;
-    code = `${type}${year}${i.toString().padStart(3, "0")}`;
+    code = `${type}${year}-${i.toString().padStart(3, "0")}`;
   }
 
   return code;
