@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAppSelector } from "../../utils/reduxHooks";
 import { Table } from "../../components";
-import { priceFormat } from "../../utils/cellFormaters";
+import { priceFormat } from "../../utils/formatters";
 
 export default function AcomptesListe() {
   const acomptes = useAppSelector((state) => state.acomptes);
