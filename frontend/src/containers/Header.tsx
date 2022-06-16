@@ -19,27 +19,35 @@ export default function Header() {
         {user.isLoggedIn && (
         <NavLink to="/clients" className={activeStyle}>
           <i className="pr-1 fa-solid fa-user-group" />
-          Clients
+          <span className="hidden md:inline">
+            Clients
+          </span>
         </NavLink>
         )}
         {user.isLoggedIn && (
         <NavLink to="/devis" className={activeStyle}>
           <i className="pr-1 fa-solid fa-file-invoice" />
-          Devis
+          <span className="hidden md:inline">
+            Devis
+          </span>
         </NavLink>
         )}
         {user.isLoggedIn && (
         <NavLink to="/factures" className={activeStyle}>
           <i className="pr-1 fa-solid fa-file-invoice-dollar" />
-          Factures
+          <span className="hidden md:inline">
+            Factures
+          </span>
         </NavLink>
         )}
-        {user.isLoggedIn && (
+        {/* {user.isLoggedIn && (
         <NavLink to="/acomptes" className={activeStyle}>
           <i className="pr-1 fa-solid fa-coins" />
-          Acomptes
+          <span className="hidden md:inline">
+            Acomptes
+          </span>
         </NavLink>
-        )}
+        )} */}
       </div>
 
       <span className="grow" />
@@ -49,13 +57,17 @@ export default function Header() {
       <NavLink to="/settings" className={activeStyle}>
 
         <i className="pr-1 fa-solid fa-gear" />
-        Paramètres
+        <span className="hidden md:inline">
+          Paramètres
+        </span>
       </NavLink>
       )}
       {user.isLoggedIn && (
       <NavLink to="/logout" className={activeStyle}>
         <i className="pr-1 fa-solid fa-right-from-bracket" />
-        Se déconnecter
+        <span className="hidden md:inline">
+          Se déconnecter
+        </span>
       </NavLink>
       )}
     </nav>
