@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  @apply bg-stone-100;
+}
+
+.button-add {
+  background-color: rgb(59, 130, 246);
+  color: white;
+  font-weight: 700;
+  /* effet de profondeur */
+  box-shadow: 1px 1px 4px #666;
+  padding: 8px 16px;
+  border-radius: 4px;
+  /* positionné dans le coin inférieur droit */
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+}
+
+/* couleur plus foncée lors du survol */
+.button-add:hover {
+  background-color: rgb(29, 78, 216);
+}
+
+/* plus d'espace sur grand écran que sur mobile */
+@media screen and (min-width: 1024px) {
+  .button-add {
+    bottom: 32px;
+    right: 32px;
+  }
+}

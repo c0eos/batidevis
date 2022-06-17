@@ -14,7 +14,7 @@ export default function ButtonAjout({ type }:Props) {
   return (
     <button
       type="button"
-      className="absolute px-4 py-2 font-bold text-white bg-blue-500 rounded right-8 bottom-8 hover:bg-blue-700"
+      className="button-add"
       onClick={onClick}
     >
       Ajouter
