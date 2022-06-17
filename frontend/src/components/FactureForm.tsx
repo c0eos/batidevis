@@ -62,7 +62,7 @@ export default function FactureForm({
         </div>
         <div className="col-span-2 lg:ml-4">
           <Input label="Code facture" accessor="code" register={register} data={facture} errors={errors} disabled />
-          <Input label="Code facture associé" accessor="codeDevis" register={register} data={facture} errors={errors} disabled />
+          <Input label="Code devis associé" accessor="codeDevis" register={register} data={facture} errors={errors} disabled />
           <Input id="code-client" label="Code client" accessor="codeClient" register={register} data={facture} errors={errors} disabled />
           <Input label="Interlocuteur" register={register} data={facture} errors={errors} />
         </div>

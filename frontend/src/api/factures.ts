@@ -60,3 +60,16 @@ export function updateAllFactureLignesById(
     .then((response) => response.data.results)
     .catch((err) => { throw err.response.data.error_message ?? err.message; });
 }
+
+export function createOneFactureFromDevisId(
+  devisId: string | undefined,
+  token: string | null,
+): Promise<IFacture> {
+  return axios.post(
+    `${API_URL}/factures/`,
+    { devisId },
+    { headers: { Authorization: `Bearer ${token}` } },
+  )
+    .then((response) => response.data.results)
+    .catch((err) => { throw err.response.data.error_message ?? err.message; });
+}

@@ -1,3 +1,4 @@
+import { DevisLigne } from "@prisma/client";
 import prisma from "../utils/prisma";
 import { AppError } from "../utils/errors";
 import { IFactureLigne } from "../utils/schemas";
@@ -22,11 +23,19 @@ class Facture {
       },
     });
 
+    if (!facture) {
+      throw new AppError("Facture introuvable", 401, true);
+    }
+
     return facture;
   }
 
   static async create(data: any) {
-    throw new AppError("Not implemented", 501, true);
+    const facture = await prisma.facture.create({
+      data,
+    });
+
+    return facture;
   }
 
   static async update(id: string, data: any) {
@@ -75,6 +84,29 @@ class Facture {
     });
 
     return lignes;
+  }
+
+  static async createLignesFromDevis(id: string, data: DevisLigne[]) {
+    const facture = await this.getOneById(id);
+
+    for (const ligne of data) {
+      ligne.codeDocument = facture.code as string;
+      // @ts-ignore
+      delete ligne.id;
+
+      await prisma.factureLigne.upsert({
+        where: {
+          // nouvelles lignes n'ont pas d'id, donc on met -1
+          id: ligne.id || -1,
+        },
+        update: ligne,
+        create: ligne,
+      });
+    }
+
+    const newLignes = await this.getLignes(id);
+
+    return newLignes;
   }
 
   static async updateLignes(id: string, data: IFactureLigne[]) {

@@ -23,6 +23,10 @@ class Devis {
       },
     });
 
+    if (!devis) {
+      throw new AppError("Devis introuvable", 401, true);
+    }
+
     return devis;
   }
 

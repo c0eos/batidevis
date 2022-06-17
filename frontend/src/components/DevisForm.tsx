@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { priceFormat } from "../utils/formatters";
 import { useAppSelector } from "../utils/reduxHooks";
@@ -8,18 +8,18 @@ import { DevisSchema, IClient, IDevis } from "../utils/schemas";
 import Input from "./Input";
 import Textarea from "./Textarea";
 import Search from "./Search";
-import { deleteOneDevisById } from "../api/devis";
 
 interface DevisProps {
   devis?: IDevis,
   titre: string,
   mode: "add" | "edit",
   onSubmit: (devisdata: IDevis) => void,
+  onTransfertFacture?: () => void,
   onDelete?: () => void,
 }
 
 export default function DevisForm({
-  devis, titre, mode, onSubmit, onDelete,
+  devis, titre, mode, onSubmit, onTransfertFacture, onDelete,
 } : DevisProps) {
   const {
     register, handleSubmit, reset, setValue, control, formState: { errors },
@@ -60,15 +60,6 @@ export default function DevisForm({
     navigate("lignes");
   };
 
-  const onTransfert = () => {
-    console.log("transfert");
-    if (devis?.transFacture === true) {
-      console.log("redirect to facture");
-    } else {
-      console.log("create facture");
-    }
-  };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -93,7 +84,7 @@ export default function DevisForm({
         <button
           type="button"
           title={devis?.transFacture ? "Accéder à la facture" : "Tranférer en facture"}
-          onClick={onTransfert}
+          onClick={onTransfertFacture}
         >
           <i className="fa-solid fa-share" />
         </button>
