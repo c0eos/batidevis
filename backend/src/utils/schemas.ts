@@ -61,7 +61,6 @@ const DocumentSchema = BaseSchema
     totalTTC: yup.number(),
     acompte: yup.number(),
     netAPayer: yup.number(),
-    temps: yup.number(),
     flagEscompte: yup.boolean(),
     flagAcompte: yup.boolean(),
   });
@@ -125,7 +124,6 @@ const DevisSchema = DocumentSchema.shape({
 
 const FactureSchema = DocumentSchema.shape({
   codeDevis: string.required(),
-  numOrdre: yup.number().integer().required(),
 });
 
 const AcompteSchema = BaseSchema.shape({
