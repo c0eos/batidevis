@@ -15,9 +15,9 @@ export default function Logout() {
   };
 
   return (
-    <div className="container mx-auto max-w-sm mt-4 bg-slate-200">
-      <h1 className="font-bold text-2xl text-center">Se déconnecter ?</h1>
-      <button type="submit" onClick={handleSubmit} className="block mx-auto bg-slate-400 mt-4 px-4 py-1">Valider</button>
+    <div className="container max-w-sm py-4 mx-auto bg-slate-100">
+      <h1 className="text-2xl font-bold text-center">Se déconnecter ?</h1>
+      <button type="submit" onClick={handleSubmit} className="block px-4 py-1 mx-auto mt-4 bg-slate-400">Valider</button>
     </div>
   );
 }

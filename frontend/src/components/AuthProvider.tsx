@@ -12,7 +12,7 @@ import { loadAcomptes } from "../slices/acomptesSlice";
 import { getAllFactures } from "../api/factures";
 import { loadFactures } from "../slices/facturesSlice";
 
-function RequireAuth({ children }: {children: JSX.Element}) {
+function AuthProvider({ children }: {children: JSX.Element}) {
   // charges les données
   const user = useAppSelector((state) => state.user);
   const clients = useAppSelector((state) => state.clients);
@@ -21,16 +21,6 @@ function RequireAuth({ children }: {children: JSX.Element}) {
   const acomptes = useAppSelector((state) => state.acomptes);
 
   const dispatch = useAppDispatch();
-
-  if (!user.isLoggedIn) {
-    const token = window.localStorage.getItem("token");
-    if (!token) {
-      return (<Navigate to="/login" />);
-    }
-    checkToken(token)
-      .then((userdata) => dispatch(login({ info: userdata, token })))
-      .catch((error) => console.log(error));
-  }
 
   useEffect(() => {
     if (user.isLoggedIn && clients.items.length === 0) {
@@ -54,7 +44,17 @@ function RequireAuth({ children }: {children: JSX.Element}) {
     }
   }, [user.isLoggedIn]);
 
+  if (!user.isLoggedIn) {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      return (<Navigate to="/login" />);
+    }
+    checkToken(token)
+      .then((userdata) => dispatch(login({ info: userdata, token })))
+      .catch((error) => console.log(error));
+  }
+
   return children;
 }
 
-export default RequireAuth;
+export default AuthProvider;

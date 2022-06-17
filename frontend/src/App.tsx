@@ -2,17 +2,18 @@ import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Header from "./containers/Header";
 import { Login, Logout } from "./containers/user";
-import { RequireAuth } from "./components";
+import { AuthProvider } from "./components";
 import { ClientsListe, ClientDetail, ClientAjout } from "./containers/clients";
 import {
   DevisListe, DevisDetail, DevisAjout, DevisLignes,
 } from "./containers/devis";
 import { FacturesListe, FactureDetail, FactureLignes } from "./containers/factures";
 import { AcomptesListe, AcompteDetail } from "./containers/acomptes";
+import Settings from "./containers/Settings";
 
 function App() {
   return (
-    <div className="App">
+    <div className="">
       <Header />
 
       <Routes>
@@ -21,9 +22,9 @@ function App() {
         <Route
           path="/"
           element={(
-            <RequireAuth>
+            <AuthProvider>
               <Outlet />
-            </RequireAuth>
+            </AuthProvider>
           )}
         >
           <Route path="clients/">
@@ -56,6 +57,8 @@ function App() {
             <Route path="client" element={<ClientAjout />} />
             <Route path="devis" element={<DevisAjout />} />
           </Route>
+
+          <Route path="settings" element={<Settings />} />
 
           <Route path="logout/" element={<Logout />} />
 
