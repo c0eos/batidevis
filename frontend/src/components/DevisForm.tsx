@@ -9,7 +9,7 @@ import Input from "./Input";
 import Textarea from "./Textarea";
 import Search from "./Search";
 
-interface DevisProps {
+interface Props {
   devis?: IDevis,
   titre: string,
   mode: "add" | "edit",
@@ -20,9 +20,9 @@ interface DevisProps {
 
 export default function DevisForm({
   devis, titre, mode, onSubmit, onTransfertFacture, onDelete,
-} : DevisProps) {
+} : Props) {
   const {
-    register, handleSubmit, reset, setValue, control, formState: { errors },
+    register, handleSubmit, reset, setValue, formState: { errors },
   } = useForm({
     defaultValues: devis,
     mode: "all",
@@ -30,7 +30,6 @@ export default function DevisForm({
   });
 
   const clients = useAppSelector((state) => state.clients);
-  const user = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import prisma from "../utils/prisma";
 import { AppError } from "../utils/errors";
 import { IDevisLigne } from "../utils/schemas";
@@ -60,15 +59,7 @@ class Devis {
   }
 
   static async getLignes(id: string) {
-    const devis = await prisma.devis.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-    });
-
-    if (!devis) {
-      throw new AppError("Devis introuvable", 401, true);
-    }
+    const devis = await this.getOneById(id);
 
     const lignes = await prisma.devisLigne.findMany({
       where: {
@@ -87,36 +78,34 @@ class Devis {
   }
 
   static async updateLignes(id: string, data: IDevisLigne[]) {
-    const devis = await prisma.devis.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-    });
-
     const currentLignes = await this.getLignes(id);
 
     const dataIds = data.map((ligne) => ligne.id);
 
     const deletedLignes = currentLignes.filter((ligne) => !dataIds.includes(ligne.id));
 
+    const tasks = [];
+
     for (const ligne of deletedLignes) {
-      await prisma.devisLigne.delete({
+      tasks.push(prisma.devisLigne.delete({
         where: {
           id: ligne.id,
         },
-      });
+      }));
     }
 
     for (const ligne of data) {
-      await prisma.devisLigne.upsert({
+      tasks.push(prisma.devisLigne.upsert({
         where: {
           // nouvelles lignes n'ont pas d'id, donc on met -1
           id: ligne.id || -1,
         },
         update: ligne,
         create: ligne,
-      });
+      }));
     }
+
+    await prisma.$transaction(tasks);
 
     const newLignes = await this.getLignes(id);
 
@@ -148,8 +137,8 @@ class Devis {
 
     for (const row of tva) {
       totaux.totalHT += row.totalHT;
-      totaux.totalTVA += row.totalHT * row.tva / 100;
-      totaux.totalTTC += row.totalHT + row.totalHT * row.tva / 100;
+      totaux.totalTVA += row.totalHT * (row.tva / 100);
+      totaux.totalTTC += row.totalHT + row.totalHT * (row.tva / 100);
     }
 
     totaux.totalHT = Math.round(totaux.totalHT * 100) / 100;

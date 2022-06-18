@@ -44,9 +44,9 @@ export default function FacturesListe() {
       Header: "Total TTC",
       accessor: "totalTTC",
       width: 125,
-      Cell: (props: any) => (
+      Cell: ({ value }: any) => (
         <p className="text-right">
-          {priceFormat(props.value)}
+          {priceFormat(value)}
           {" "}
           €
         </p>
@@ -57,7 +57,7 @@ export default function FacturesListe() {
       Header: "Édité le",
       accessor: "dateEdition",
       width: 125,
-      Cell: (props: any) => dateFormat(props.value),
+      Cell: ({ value }: any) => dateFormat(value),
       hideOnMobile: true,
     },
   ], []);

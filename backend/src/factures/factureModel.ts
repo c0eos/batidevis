@@ -89,20 +89,24 @@ class Facture {
   static async createLignesFromDevis(id: string, data: DevisLigne[]) {
     const facture = await this.getOneById(id);
 
+    const tasks = [];
+
     for (const ligne of data) {
       ligne.codeDocument = facture.code as string;
       // @ts-ignore
       delete ligne.id;
 
-      await prisma.factureLigne.upsert({
+      tasks.push(prisma.factureLigne.upsert({
         where: {
           // nouvelles lignes n'ont pas d'id, donc on met -1
           id: ligne.id || -1,
         },
         update: ligne,
         create: ligne,
-      });
+      }));
     }
+
+    await prisma.$transaction(tasks);
 
     const newLignes = await this.getLignes(id);
 
@@ -110,36 +114,34 @@ class Facture {
   }
 
   static async updateLignes(id: string, data: IFactureLigne[]) {
-    const facture = await prisma.facture.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-    });
-
     const currentLignes = await this.getLignes(id);
 
     const dataIds = data.map((ligne) => ligne.id);
 
     const deletedLignes = currentLignes.filter((ligne) => !dataIds.includes(ligne.id));
 
+    const tasks = [];
+
     for (const ligne of deletedLignes) {
-      await prisma.factureLigne.delete({
+      tasks.push(prisma.factureLigne.delete({
         where: {
           id: ligne.id,
         },
-      });
+      }));
     }
 
     for (const ligne of data) {
-      await prisma.factureLigne.upsert({
+      tasks.push(prisma.factureLigne.upsert({
         where: {
           // nouvelles lignes n'ont pas d'id, donc on met -1
           id: ligne.id || -1,
         },
         update: ligne,
         create: ligne,
-      });
+      }));
     }
+
+    await prisma.$transaction(tasks);
 
     const newLignes = await this.getLignes(id);
 
@@ -171,8 +173,8 @@ class Facture {
 
     for (const row of tva) {
       totaux.totalHT += row.totalHT;
-      totaux.totalTVA += row.totalHT * row.tva / 100;
-      totaux.totalTTC += row.totalHT + row.totalHT * row.tva / 100;
+      totaux.totalTVA += row.totalHT * (row.tva / 100);
+      totaux.totalTTC += row.totalHT + row.totalHT * (row.tva / 100);
     }
 
     totaux.totalHT = Math.round(totaux.totalHT * 100) / 100;

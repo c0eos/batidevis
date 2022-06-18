@@ -5,7 +5,7 @@ import { ClientSchema, IClient } from "../utils/schemas";
 import Input from "./Input";
 import Textarea from "./Textarea";
 
-interface ClientProps {
+interface Props {
   client?: IClient;
   titre: string;
   mode: "add" | "edit";
@@ -15,7 +15,7 @@ interface ClientProps {
 
 export default function ClientForm({
   client, titre, mode, onSubmit, onDelete,
-}: ClientProps) {
+}: Props) {
   const {
     register, handleSubmit, reset, formState: { errors },
   } = useForm({

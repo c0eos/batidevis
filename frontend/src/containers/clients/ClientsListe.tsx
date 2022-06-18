@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ButtonAjout, SelectColumnFilter, Table } from "../../components";
+import { ButtonAjout, Table } from "../../components";
 import { useAppSelector } from "../../utils/reduxHooks";
 
 export default function ClientsListe() {

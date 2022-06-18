@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-interface InputProps {
+interface Props {
     label: string;
     accessor?: string;
     register?: any;
@@ -11,7 +11,7 @@ interface InputProps {
 
 export default function Textarea({
   label, accessor, register, data, errors, ...rest
-}: InputProps) {
+}: Props) {
   if (!data) {
     data = {};
   }

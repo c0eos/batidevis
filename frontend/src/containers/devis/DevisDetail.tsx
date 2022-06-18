@@ -5,7 +5,7 @@ import {
 } from "../../api/devis";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { DevisForm } from "../../components";
-import { IClient, IDevis } from "../../utils/schemas";
+import { IDevis } from "../../utils/schemas";
 import { loadDevis } from "../../slices/devisSlice";
 import { createOneFactureFromDevisId, getAllFactures } from "../../api/factures";
 import { loadFactures } from "../../slices/facturesSlice";
@@ -20,16 +20,11 @@ export default function DevisDetail() {
   const factures = useAppSelector((state) => state.factures);
 
   const [devis, setDevis] = useState<IDevis|undefined>();
-  const [client, setClient] = useState<IClient | undefined>();
 
   useEffect(() => {
     if (user.isLoggedIn) {
       getOneDevisById(params.devisId, user.token)
-        .then((devisdata) => { setDevis(devisdata); return devisdata; })
-        .then((devisdata) => {
-          const clientdata = clients.items.find((c) => c.code === devisdata.codeClient);
-          setClient(clientdata);
-        })
+        .then((devisdata) => setDevis(devisdata))
         .catch((err) => console.log(err));
     }
   }, [user]);
@@ -50,7 +45,6 @@ export default function DevisDetail() {
   const onDelete = async () => {
     try {
       await deleteOneDevisById(params.devisId, user.token);
-
       // mettre à jour la liste des devis
       const alldevisdata = await getAllDevis(user.token);
       dispatch(loadDevis(alldevisdata));

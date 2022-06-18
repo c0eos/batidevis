@@ -1,18 +1,15 @@
 // @ts-nocheck
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useMemo, useEffect, useState } from "react";
+import { useMemo } from "react";
 import {
   useTable, useResizeColumns, useBlockLayout,
 } from "react-table";
-import { useNavigate } from "react-router-dom";
 import { InputCell } from "./TableCells";
 
 export default function TableLignes({
-  columns, data, register, errors, onRemove,
+  columns, data, register, errors,
 }: any) {
-  const navigate = useNavigate();
-
   const defaultColumn = useMemo(() => ({
     Cell: InputCell,
     minWidth: 30,
@@ -53,7 +50,7 @@ export default function TableLignes({
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
+            {rows.map((row) => {
               prepareRow(row);
               return (
                 <tr

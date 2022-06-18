@@ -11,18 +11,17 @@ export default function Settings() {
 
   const [users, setUsers] = useState<IUser[]>([]);
 
-  useEffect(() => {
-    if (user.isLoggedIn) {
-      refreshUsers();
-    }
-  }, [user]);
-
   const refreshUsers = () => {
     getAllUsers(user.token)
       .then((users: IUser[]) => setUsers(users))
       .catch((error: any) => console.log(error));
   };
 
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      refreshUsers();
+    }
+  }, [user]);
   const onSubmitUserUpdate = (userdata: IUser) => {
     updateOneUserById(user.info.id, userdata, user.token)
       .catch((error) => console.log(error));

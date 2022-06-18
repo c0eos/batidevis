@@ -36,11 +36,7 @@ router.route("/:id")
   .get((req, res, next) => {
     Devis.getOneById(req.params.id)
       .then((devis) => {
-        if (devis) {
-          res.json({ results: devis });
-        } else {
-          throw new AppError("Devis introuvable", 401, true);
-        }
+        res.json({ results: devis });
       })
       .catch((err) => {
         next(err);
@@ -80,12 +76,12 @@ router.route("/:id/lignes")
   })
   .put(async (req, res, next) => {
     try {
-      let devis = await Devis.getOneById(req.params.id);
+      const devis = await Devis.getOneById(req.params.id);
       const lignesdata = req.body;
 
       const newLignes = await Devis.updateLignes(req.params.id, lignesdata);
 
-      devis = await Devis.updateTotaux(devis?.code);
+      await Devis.updateTotaux(devis?.code);
 
       res.json({ results: newLignes });
     } catch (error) {

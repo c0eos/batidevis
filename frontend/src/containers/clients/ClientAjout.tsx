@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClientForm } from "../../components";
 import { IClient } from "../../utils/schemas";
@@ -8,14 +7,12 @@ import { loadClients } from "../../slices/clientsSlice";
 
 export default function ClientAjout() {
   const user = useAppSelector((state) => state.user);
-  const [client, setClient] = useState<IClient | undefined>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (clientdata: IClient) => {
     try {
-      const data = await createOneClient(clientdata, user.token);
-      setClient(data);
+      await createOneClient(clientdata, user.token);
       // mettre à jour la liste des clients
       const clientsdata = await getAllClients(user.token);
       dispatch(loadClients(clientsdata));

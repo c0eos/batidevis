@@ -6,8 +6,8 @@ import Fuse from "fuse.js";
 
 // Define a default UI for filtering
 function DefaultColumnFilter({
-  column: { filterValue, preFilteredRows, setFilter },
-}) {
+  column: { filterValue, setFilter },
+}:any) {
   return (
     <div>
       <span className="absolute pl-1 text-stone-500">
@@ -30,7 +30,7 @@ function SelectColumnFilter({
   column: {
     filterValue, setFilter, preFilteredRows, id,
   },
-}) {
+}: any) {
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = useMemo(() => {
@@ -61,9 +61,9 @@ function SelectColumnFilter({
 
 function SelectBooleanColumnFilter({
   column: {
-    filterValue, setFilter, preFilteredRows, id,
+    filterValue, setFilter,
   },
-}) {
+}: any) {
   const options = [true, false];
 
   // Render a multi-select box

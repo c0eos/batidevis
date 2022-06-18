@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import { priceFormat } from "../utils/formatters";
 import {
@@ -17,7 +16,6 @@ interface Props {
 }
 
 export default function DocumentLigneForm({ lignes, document, onSubmit }: Props) {
-  const params = useParams();
   const schema = yup.object().shape({
     lignes: yup.array().of(DevisLigneSchema),
   });
@@ -31,7 +29,7 @@ export default function DocumentLigneForm({ lignes, document, onSubmit }: Props)
   });
 
   const {
-    fields, append, prepend, remove, swap, move, insert, update,
+    fields, append, remove,
   } = useFieldArray({
     control,
     // @ts-ignore

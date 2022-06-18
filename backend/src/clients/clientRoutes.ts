@@ -36,11 +36,7 @@ router.route("/:id")
   .get((req, res, next) => {
     Client.getOneById(req.params.id)
       .then((client) => {
-        if (client) {
-          res.json({ results: client });
-        } else {
-          throw new AppError("Client introuvable", 401, true);
-        }
+        res.json({ results: client });
       })
       .catch((err) => {
         next(err);

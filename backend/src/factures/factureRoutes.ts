@@ -2,7 +2,7 @@ import express from "express";
 import Facture from "./factureModel";
 import Devis from "../devis/devisModel";
 import { AppError } from "../utils/errors";
-import { FactureSchema, IFacture } from "../utils/schemas";
+import { FactureSchema } from "../utils/schemas";
 import { generateDocumentCode } from "../utils/codesGenerator";
 
 const router = express.Router();
@@ -55,11 +55,7 @@ router.route("/:id")
   .get((req, res, next) => {
     Facture.getOneById(req.params.id)
       .then((facture) => {
-        if (facture) {
-          res.json({ results: facture });
-        } else {
-          throw new AppError("Facture introuvable", 401, true);
-        }
+        res.json({ results: facture });
       })
       .catch((err) => {
         next(err);

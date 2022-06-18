@@ -15,6 +15,10 @@ class Client {
       },
     });
 
+    if (!client) {
+      throw new AppError("Client introuvable", 401, true);
+    }
+
     return client;
   }
 

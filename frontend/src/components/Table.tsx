@@ -1,9 +1,9 @@
 // @ts-nocheck
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import {
-  useTable, usePagination, useFilters, useResizeColumns, useFlexLayout, useBlockLayout, useAbsoluteLayout,
+  useTable, usePagination, useFilters, useResizeColumns, useBlockLayout,
 } from "react-table";
 import { useNavigate } from "react-router-dom";
 import { DefaultColumnFilter, fuzzyTextFilterFn } from "./TableFilters";
@@ -98,13 +98,13 @@ export default function Table({ columns, data, title }: any) {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {page.map((row: any, i: Number) => {
+              {page.map((row: any) => {
                 prepareRow(row);
                 return (
                   <tr
                     {...row.getRowProps()}
                     className="py-2 even:bg-white odd:bg-stone-100 hover:bg-stone-200 hover:rounded hover:cursor-pointer"
-                    onDoubleClick={(e) => {
+                    onDoubleClick={() => {
                       navigate(`${row.original.id}`);
                     }}
                   >

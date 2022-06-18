@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAllDevisLignesById, getOneDevisById, updateAllDevisLignesById } from "../../api/devis";
+import { getAllDevisLignesById, updateAllDevisLignesById } from "../../api/devis";
 import { useAppSelector } from "../../utils/reduxHooks";
 import { IDevis, IDevisLigne } from "../../utils/schemas";
 import { DocumentLigneForm } from "../../components";

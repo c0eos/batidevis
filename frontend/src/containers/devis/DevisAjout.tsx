@@ -1,17 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOneDevis, getAllDevis } from "../../api/devis";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { DevisForm } from "../../components";
-import { IClient, IDevis } from "../../utils/schemas";
+import { IDevis } from "../../utils/schemas";
 import { loadDevis } from "../../slices/devisSlice";
 
 export default function DevisAjout() {
-  const params = useParams();
   const user = useAppSelector((state) => state.user);
-  const clients = useAppSelector((state) => state.clients);
   const [devis, setDevis] = useState<IDevis | undefined>();
-  const [client, setClient] = useState<IClient | undefined>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

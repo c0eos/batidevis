@@ -62,7 +62,7 @@ app.listen(PORT, () => {
   logger.info(`Backend démarré sur le port ${PORT}`);
 });
 
-process.on("unhandledRejection", (reason, p) => {
+process.on("unhandledRejection", (reason) => {
   // Promise rejection non gérée, on lance une erreur
   throw reason;
 });

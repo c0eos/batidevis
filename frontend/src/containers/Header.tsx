@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <nav className="flex flex-row bg-white border-b-4 border-amber-700">
-      <img src={logo} className="pl-2 pr-4 my-auto max-h-12" />
+      <img src={logo} alt="Logo" className="pl-2 pr-4 my-auto max-h-12" />
 
       <div className="py-4 grow">
         {user.isLoggedIn && (
