@@ -10,11 +10,11 @@ function DefaultColumnFilter({
 }) {
   return (
     <div>
-      <span className="absolute pl-1 text-gray-500">
+      <span className="absolute pl-1 text-stone-500">
         <i className="fa-solid fa-magnifying-glass" />
       </span>
       <input
-        className="w-full pl-6"
+        className="w-full pl-6 bg-stone-50 border-[1px] rounded-sm"
         value={filterValue || ""}
         onChange={(e) => {
           setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
@@ -64,8 +64,6 @@ function SelectBooleanColumnFilter({
     filterValue, setFilter, preFilteredRows, id,
   },
 }) {
-  // Calculate the options for filtering
-  // using the preFilteredRows
   const options = [true, false];
 
   // Render a multi-select box
@@ -75,7 +73,7 @@ function SelectBooleanColumnFilter({
       onChange={(e) => {
         setFilter(e.target.value || undefined);
       }}
-      className="w-full px-2 bg-slate-100"
+      className="w-full px-2 bg-stone-100"
     >
       <option value="">Tous</option>
       {options.map((option, i) => (
@@ -87,19 +85,11 @@ function SelectBooleanColumnFilter({
   );
 }
 
-// function fuzzyTextFilterFn(rows, id, filterValue) {
-//   return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
-// }
-
-// Let the table remove the filter if the string is empty
-// fuzzyTextFilterFn.autoRemove = (val) => !val;
-
 function fuzzyTextFilterFn(rows, id, filterValue) {
-  const options = rows.map((row) => row.values);
   const fuse = new Fuse(rows, {
     useExtendedSearch: true,
-    minMatchCharLength: 2,
-    findAllMatches: true,
+    minMatchCharLength: 3,
+    // findAllMatches: true,
     keys: [`values.${id[0]}`],
   });
   const result = fuse.search(filterValue);
@@ -107,20 +97,6 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
   return result.map((row) => row.item);
 }
 fuzzyTextFilterFn.autoRemove = (val) => !val;
-
-// Define a custom filter filter function!
-function filterGreaterThan(rows, id, filterValue) {
-  return rows.filter((row) => {
-    const rowValue = row.values[id];
-    return rowValue >= filterValue;
-  });
-}
-
-// This is an autoRemove method on the filter function that
-// when given the new filter value and returns true, the filter
-// will be automatically removed. Normally this is just an undefined
-// check, but here, we want to remove the filter if it's not a number
-filterGreaterThan.autoRemove = (val) => typeof val !== "number";
 
 export {
   DefaultColumnFilter, SelectColumnFilter, fuzzyTextFilterFn, SelectBooleanColumnFilter,

@@ -43,7 +43,7 @@ export default function UserForm({
       <input
         type="email"
         placeholder="Email"
-        className="block w-full px-2 py-1"
+        className="block w-full px-2 py-1 border-[1px] rounded-sm bg-stone-50 placeholder:text-sm placeholder:italic placeholder:text-stone-400"
         {...register("email" as never)}
       />
       {errors?.password && (
@@ -56,10 +56,10 @@ export default function UserForm({
       <input
         type="password"
         placeholder="Mot de passe"
-        className="block w-full px-2 py-1 mt-2"
+        className="block w-full px-2 py-1 mt-2 border-[1px] rounded-sm bg-stone-50 placeholder:text-sm placeholder:italic placeholder:text-stone-400"
         {...register("password" as never)}
       />
-      <button type="submit" className="block w-full py-1 mt-4 bg-slate-300">Envoyer</button>
+      <button type="submit" className="block w-full py-1 mt-4 bg-stone-300 hover:bg-stone-400 rounded">Envoyer</button>
     </form>
   );
 }

@@ -37,12 +37,9 @@ export default function ClientsListe() {
   ], []);
 
   return (
-    <div className="mx-4 lg:mx-8">
-      <h1 className="text-2xl font-bold text-center">Liste des clients</h1>
-      <Table columns={columns} data={clients.items} />
-
+    <div>
+      <Table columns={columns} data={clients.items} title="Liste des clients" />
       <ButtonAjout type="client" />
-
     </div>
   );
 }

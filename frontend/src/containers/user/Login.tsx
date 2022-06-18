@@ -18,7 +18,7 @@ export default function Login() {
   };
 
   return (
-    <div className="container max-w-sm px-4 mx-auto bg-slate-100">
+    <div className="container max-w-sm px-4 mx-auto bg-white rounded shadow my-4">
       <UserForm onSubmit={onSubmit} title="Se connecter" />
     </div>
   );

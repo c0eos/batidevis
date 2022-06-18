@@ -39,7 +39,7 @@ export default function AcompteForm({ acompte } : {acompte:any}) {
       <Input label="Total TTC" accessor="totalTTC" register={register} data={acompte} disabled />
       <Input label="Total TVA" accessor="totalTVA" register={register} data={acompte} disabled />
 
-      <input type="submit" value="submit" className="block w-32 mx-auto mt-4 py-2 bg-slate-400" />
+      <input type="submit" value="submit" className="block w-32 mx-auto mt-4 py-2 bg-stone-300" />
     </form>
   );
 }

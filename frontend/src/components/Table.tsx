@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { DefaultColumnFilter, fuzzyTextFilterFn } from "./TableFilters";
 
-export default function Table({ columns, data }: any) {
+export default function Table({ columns, data, title }: any) {
   const navigate = useNavigate();
 
   const filterTypes = useMemo(() => ({
@@ -77,93 +77,98 @@ export default function Table({ columns, data }: any) {
   }, []);
 
   return (
-    <div>
-      <div className="mx-auto overflow-x-auto">
-        <table {...getTableProps()} className="max-w-full mx-auto w-fit">
-          <thead>
-            {headerGroups.map((headerGroup: any) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
-                  <th {...column.getHeaderProps()} className="align-top">
-                    {column.render("Header")}
-                    <div className="px-0.5">
-                      {column.canFilter ? column.render("Filter") : null}
+    <div className="mx-4 lg:mx-8">
+      {title && <h1 className="text-2xl mt-2 lg:mt-4 mb-2 font-bold text-center">{title}</h1>}
+      <div className="w-fit max-w-full mx-auto bg-white py-4 px-2 rounded shadow">
+        <div className="mx-auto overflow-x-auto">
+          <table {...getTableProps()} className="max-w-full mx-auto w-fit">
+            <thead>
+              {headerGroups.map((headerGroup: any) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column: any) => (
+                    <th {...column.getHeaderProps()} className="align-top">
+                      {column.render("Header")}
+                      <div className="px-0.5">
+                        {column.canFilter ? column.render("Filter") : null}
 
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row: any, i: Number) => {
-              prepareRow(row);
-              return (
-                <tr
-                  {...row.getRowProps()}
-                  className="py-2 even:bg-white odd:bg-slate-50 hover:bg-slate-200 hover:rounded hover:cursor-pointer"
-                  onDoubleClick={(e) => {
-                    navigate(`${row.original.id}`);
-                  }}
-                >
-                  {row.cells.map((cell: any) => (
-                    <td
-                      {...cell.getCellProps()}
-                      className="px-4 overflow-hidden whitespace-nowrap"
-                    >
-                      { cell.render("Cell")}
-                    </td>
+                      </div>
+                    </th>
                   ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {page.map((row: any, i: Number) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    {...row.getRowProps()}
+                    className="py-2 even:bg-white odd:bg-stone-100 hover:bg-stone-200 hover:rounded hover:cursor-pointer"
+                    onDoubleClick={(e) => {
+                      navigate(`${row.original.id}`);
+                    }}
+                  >
+                    {row.cells.map((cell: any) => (
+                      <td
+                        {...cell.getCellProps()}
+                        className="px-4 overflow-hidden whitespace-nowrap"
+                      >
+                        { cell.render("Cell")}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* pagination */}
+
+        <div className="mx-auto mt-4 max-w-fit">
+          <button
+            type="button"
+            title="Première page"
+            onClick={() => gotoPage(0)}
+            disabled={!canPreviousPage}
+            className="px-1 disabled:text-stone-300"
+          >
+            <i className="fa-solid fa-angles-left" />
+          </button>
+          <button
+            type="button"
+            title="Page précédente"
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+            className="px-1 disabled:text-stone-300"
+          >
+            <i className="fa-solid fa-angle-left" />
+          </button>
+          <span className="px-4">
+            {`Page ${pageIndex + 1}/${pageOptions.length}`}
+          </span>
+          <button
+            type="button"
+            title="Page suivante"
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+            className="px-1 disabled:text-stone-300"
+          >
+            <i className="fa-solid fa-angle-right" />
+          </button>
+          <button
+            type="button"
+            title="Dernière page"
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+            className="px-1 disabled:text-stone-300"
+          >
+            <i className="fa-solid fa-angles-right" />
+          </button>
+        </div>
+
       </div>
 
-      {/* pagination */}
-
-      <div className="mx-auto mt-4 max-w-fit">
-        <button
-          type="button"
-          title="Première page"
-          onClick={() => gotoPage(0)}
-          disabled={!canPreviousPage}
-          className="px-1 disabled:text-slate-300"
-        >
-          <i className="fa-solid fa-angles-left" />
-        </button>
-        <button
-          type="button"
-          title="Page précédente"
-          onClick={() => previousPage()}
-          disabled={!canPreviousPage}
-          className="px-1 disabled:text-slate-300"
-        >
-          <i className="fa-solid fa-angle-left" />
-        </button>
-        <span className="px-4">
-          {`Page ${pageIndex + 1}/${pageOptions.length}`}
-        </span>
-        <button
-          type="button"
-          title="Page suivante"
-          onClick={() => nextPage()}
-          disabled={!canNextPage}
-          className="px-1 disabled:text-slate-300"
-        >
-          <i className="fa-solid fa-angle-right" />
-        </button>
-        <button
-          type="button"
-          title="Dernière page"
-          onClick={() => gotoPage(pageCount - 1)}
-          disabled={!canNextPage}
-          className="px-1 disabled:text-slate-300"
-        >
-          <i className="fa-solid fa-angles-right" />
-        </button>
-      </div>
     </div>
   );
 }

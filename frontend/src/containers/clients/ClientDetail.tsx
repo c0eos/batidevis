@@ -51,7 +51,7 @@ export default function ClientDetail() {
   };
 
   return (
-    <div className="">
+    <div>
       <ClientForm titre="Modification d'un client" client={client} mode="edit" onSubmit={onSubmit} onDelete={onDelete} />
     </div>
   );

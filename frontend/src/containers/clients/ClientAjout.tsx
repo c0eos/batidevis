@@ -26,7 +26,7 @@ export default function ClientAjout() {
   };
 
   return (
-    <div className="">
+    <div>
       <ClientForm titre="Ajout d'un client" mode="add" onSubmit={onSubmit} />
     </div>
   );

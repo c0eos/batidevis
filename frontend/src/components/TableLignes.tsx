@@ -58,7 +58,7 @@ export default function TableLignes({
               return (
                 <tr
                   {...row.getRowProps()}
-                  className="even:bg-white odd:bg-slate-50 hover:bg-slate-200 hover:rounded"
+                  className="even:bg-white odd:bg-stone-50 hover:bg-stone-200 hover:rounded"
                 >
                   {row.cells.map((cell) => <td {...cell.getCellProps()}>{cell.render("Cell")}</td>)}
                 </tr>

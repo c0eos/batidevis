@@ -74,12 +74,9 @@ export default function DevisListe() {
   ], []);
 
   return (
-    <div className="mx-4 lg:mx-8">
-      <h1 className="text-2xl font-bold text-center">Liste des devis</h1>
-      <Table columns={columns} data={devis.items} />
-
+    <div>
+      <Table columns={columns} data={devis.items} title="Liste des devis" />
       <ButtonAjout type="devis" />
-
     </div>
   );
 }

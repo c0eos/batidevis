@@ -41,7 +41,7 @@ export default function Textarea({
         {...register(accessor)}
         id={accessor}
         key={accessor}
-        className="block w-full border-[1px] mb-4 last:mb-0 px-2 py-1 disabled:bg-slate-200 focus:outline-blue-300"
+        className="block w-full border-[1px] rounded-sm mb-4 last:mb-0 px-2 py-1 placeholder:text-sm placeholder:italic placeholder:text-stone-400 bg-stone-50 disabled:bg-stone-300"
         rows={3}
         {...rest}
       />

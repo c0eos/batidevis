@@ -8,9 +8,9 @@ export default function Header() {
   const activeStyle = ({ isActive } : {isActive:boolean}) => {
     const basestyle = "px-4 py-4";
     if (isActive) {
-      return `${basestyle} text-black font-bold`;
+      return `${basestyle} font-bold`;
     }
-    return `${basestyle} text-gray-500`;
+    return `${basestyle} text-stone-500`;
   };
 
   return (

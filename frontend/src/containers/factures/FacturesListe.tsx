@@ -63,10 +63,8 @@ export default function FacturesListe() {
   ], []);
 
   return (
-    <div className="mx-4 lg:mx-8">
-      <h1 className="text-2xl font-bold text-center">Liste des factures</h1>
-      <Table columns={columns} data={factures.items} />
-
+    <div>
+      <Table columns={columns} data={factures.items} title="Liste des factures" />
     </div>
   );
 }

@@ -148,35 +148,41 @@ export default function DocumentLigneForm({ lignes, document, onSubmit }: Props)
   ], []);
 
   return (
-    <form onSubmit={handleSubmit(localOnSubmit, onError)}>
+    <div className="mx-4 lg:mx-0 my-4">
 
-      <div className="flex justify-around max-w-xs mx-auto mt-4 text-2xl">
-        <button
-          type="submit"
-          title="Sauvegarder"
-        >
-          <i className="fa-solid fa-floppy-disk" />
-        </button>
+      <form
+        onSubmit={handleSubmit(localOnSubmit, onError)}
+        className="max-w-full px-4 lg:px-8 py-4 mx-auto w-fit bg-white shadow rounded"
+      >
+        <h1 className="text-xl font-bold text-center">{`Édition du document ${document?.code}`}</h1>
 
-        <button
-          type="button"
-          title="Insérer une ligne"
-          className=""
-          onClick={onAppend}
-        >
-          <i className="fa-solid fa-plus" />
-        </button>
-      </div>
+        <div className="flex justify-around max-w-xs mx-auto mt-4 text-2xl py-2">
+          <button
+            type="submit"
+            title="Sauvegarder"
+          >
+            <i className="fa-solid fa-floppy-disk" />
+          </button>
 
-      <TableLignes
-        data={controlledFields}
-        columns={columns}
-        register={register}
-        errors={errors}
-        onRemove={onRemove}
-      />
+          <button
+            type="button"
+            title="Insérer une ligne"
+            className=""
+            onClick={onAppend}
+          >
+            <i className="fa-solid fa-plus" />
+          </button>
+        </div>
 
-    </form>
+        <TableLignes
+          data={controlledFields}
+          columns={columns}
+          register={register}
+          errors={errors}
+          onRemove={onRemove}
+        />
 
+      </form>
+    </div>
   );
 }
