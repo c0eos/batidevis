@@ -145,11 +145,6 @@ const FactureLigneSchema = LigneSchema.shape({
   pvOrigine: yup.number(),
 });
 
-const TVASchema = yup.object().shape({
-  id: yup.number().integer().positive(),
-  taux: yup.number().required(),
-});
-
 // interfaces a partir des schemas yup
 
 interface IUser extends yup.InferType<typeof UserSchema> {}
@@ -159,7 +154,6 @@ interface IDevisLigne extends yup.InferType<typeof DevisLigneSchema> {}
 interface IFacture extends yup.InferType<typeof FactureSchema> {}
 interface IFactureLigne extends yup.InferType<typeof FactureLigneSchema> {}
 interface IAcompte extends yup.InferType<typeof AcompteSchema> {}
-interface ITVA extends yup.InferType<typeof TVASchema> {}
 
 export {
   UserSchema,
@@ -169,7 +163,6 @@ export {
   FactureSchema,
   FactureLigneSchema,
   AcompteSchema,
-  TVASchema,
 };
 
 export type {
@@ -180,5 +173,4 @@ export type {
   IFacture,
   IFactureLigne,
   IAcompte,
-  ITVA,
 };

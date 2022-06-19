@@ -189,8 +189,3 @@ model Acompte {
   codeFacture  String?
   facture      Facture? @relation(fields: [codeFacture], references: [code])
 }
-
-model TVA {
-  id   Int   @id @default(autoincrement())
-  taux Float @default(0.0)
-}

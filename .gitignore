@@ -6,5 +6,7 @@
 .vscode/
 **/*.sqlite
 **/*.db
+!backend/Entrep.db
 **/dist
 sql/convert to iso8601.sql
+*.old
